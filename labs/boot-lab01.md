@@ -7,7 +7,7 @@
 
 ## Criando o projeto
 - Acesse o site Spring Initializr: http://start.spring.io/
-- Selecione o tipo Maven Project
+- Selecione o tipo Maven Project.
 - Selecione o empacotamento como JAR
 - Selecione a linguagem como Java
 - Adicione a dependência Web
@@ -17,18 +17,18 @@
 
 ## Executando o projeto via IDE
 - Abra a classe Application e execute como uma aplicação Java 
--- Run As -> Java Application
+  - Run As -> Java Application
 - Você pode rodar também utilizando o Spring Boot Dashboard (STS)
 
 ## Executando o projeto via Maven plugin
 - Acesse um terminal ou via IDE e execute o seguinte Maven goal
--- mvn spring-boot:run
+  - `mvn spring-boot:run`
 
 ## Executando o projeto via Java
 - Realize a compilação e o empacotamento do projeto via Maven
--- mvn install
+  - `mvn install`
 - Acesse o diretório /target gerado e execute o JAR produzido
--- java -jar [your project]-0.0.1-SNAPSHOT.jar
+  - `java -jar [your project]-0.0.1-SNAPSHOT.jar`
 
 ## OPCIONAL: Modifique o container Web embutido pela aplicação
 - Modifique o `pom.xml` da aplicação para modificar o container default `Tomcat` pelo `Undertow` 
