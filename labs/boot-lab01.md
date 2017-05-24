@@ -30,7 +30,7 @@
 - Acesse o diretório /target gerado e execute o JAR produzido
   - `java -jar [your project]-0.0.1-SNAPSHOT.jar`
 
-## OPCIONAL: Modifique o container Web embutido pela aplicação
+## [OPCIONAL]: Modifique o container Web embutido pela aplicação
 - Modifique o `pom.xml` da aplicação para modificar o container default `Tomcat` pelo `Undertow` 
 ```xml
 <dependency>
@@ -51,7 +51,7 @@
 ```
 - Execute novamente a aplicação
 
-## OPCIONAL: Executando o projeto em um container via WAR package file
+## [OPCIONAL]: Executando o projeto em um container via WAR package file
 - Modifique o `pom.xml` da aplicação para realizar deployment via WAR file
 ```xml
 <project>
@@ -86,4 +86,4 @@ public class Application extends SpringBootServletInitializer {
 ```
 - Realize o deployment em um container Web (ex: Tomcat)
   - Você precisará realizar o download, instalação e configuração do container Web
-  - http://tomcat.apache.org/download-80.cgi
+    - http://tomcat.apache.org/download-80.cgi
