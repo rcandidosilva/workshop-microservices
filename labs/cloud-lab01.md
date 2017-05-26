@@ -10,23 +10,23 @@
 - Adicione a dependência do Spring Cloud no `pom.xml`
 ```xml
     <dependencyManagement>
-		    <dependencies>
-				    <dependency>
-						    <groupId>org.springframework.cloud</groupId>
-						    <artifactId>spring-cloud-dependencies</artifactId>
-						    <version>Dalston.RELEASE</version>
-						    <type>pom</type>
-						    <scope>import</scope>
-				    </dependency>
-		    </dependencies>
+        <dependencies>
+	    <dependency>
+	        <groupId>org.springframework.cloud</groupId>
+		<artifactId>spring-cloud-dependencies</artifactId>
+		<version>Dalston.RELEASE</version>
+		<type>pom</type>
+		<scope>import</scope>
+	    </dependency>
+	</dependencies>
     </dependencyManagement>
 ```
 - Adicione a dependência `spring-cloud-config-server` no seu projeto
 ```xml
-<dependency>
-	<groupId>org.springframework.cloud</groupId>
-	<artifactId>spring-cloud-config-server</artifactId>
-</dependency>
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-config-server</artifactId>
+    </dependency>
 ```
 - Adicione a anotação `@EnableConfigServer` na classe `Application`
 - Crie um novo repositório no Git para guardar as configurações da sua aplicação
@@ -45,22 +45,22 @@
 - Adicione a dependência do Spring Cloud no `pom.xml`
 ```xml
     <dependencyManagement>
-		    <dependencies>
-				    <dependency>
-						    <groupId>org.springframework.cloud</groupId>
-						    <artifactId>spring-cloud-dependencies</artifactId>
-						    <version>Dalston.RELEASE</version>
-						    <type>pom</type>
-						    <scope>import</scope>
-				    </dependency>
-		    </dependencies>
+        <dependencies>
+	    <dependency>
+	        <groupId>org.springframework.cloud</groupId>
+		<artifactId>spring-cloud-dependencies</artifactId>
+		<version>Dalston.RELEASE</version>
+		<type>pom</type>
+		<scope>import</scope>
+	     </dependency>
+	 </dependencies>
     </dependencyManagement>
 ```
 - Adicione a dependência `spring-cloud-starter-config` no seu projeto
 ```xml
     <dependency>
-	      <groupId>org.springframework.cloud</groupId>
-	      <artifactId>spring-cloud-starter-config</artifactId>
+        <groupId>org.springframework.cloud</groupId>
+	<artifactId>spring-cloud-starter-config</artifactId>
     </dependency>
 ```
 - Crie o arquivo `bootstrap.properties` no diretório `src/main/resources` da aplicação
