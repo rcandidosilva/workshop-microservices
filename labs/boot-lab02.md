@@ -11,6 +11,7 @@
 - Realize a injeção de dependência do objeto `Environment` no Bean da sua aplicação
 - Acesse alguma outra propriedade definida por meio do objeto `Environment` injetado
 - Execute a aplicação imprimindo o valor das propriedades configuradas
+  - Se possível, utilize o mecanismo de `Logging` para imprimir as propriedades.
 
 ## Utilize diferentes Profiles
 - Utilizando o projeto anteriormente definido, defina diferentes arquivos de propriedades para diferentes perfils de aplicação (ex: dev, prod)
@@ -53,5 +54,6 @@
     </dependency>
 ```
 - Execute a aplicação
-- Com a aplicação rodando, realize uma modificação em algum arquivo da aplicação, por exemplo adicionando um comentário ou um espaçamento em uma classe.
+- Com a aplicação rodando, realize uma modificação em algum arquivo da aplicação, por exemplo adicionando um comentário, um espaçamento em uma classe, etc.
 - Observe que dependendo da mudança realizada, o DevTools irá reiniciar automaticamente sua aplicação. 
+- Instale o plug-in do LiveReload no browser e teste esse comportamento.
