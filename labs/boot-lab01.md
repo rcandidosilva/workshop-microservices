@@ -4,8 +4,7 @@
 - Criar e executar uma primeira aplicação com Spring Boot
 
 ## Tarefas
-
-## Criando o projeto
+### Criando o projeto
 - Acesse o site Spring Initializr: http://start.spring.io/
 - Selecione o tipo Maven Project.
 - Selecione o empacotamento como JAR
@@ -15,22 +14,22 @@
 - Descompacte o projeto gerado em um diretório
 - Importe o projeto na IDE (Import -> Existing Maven Projects)
 
-## Executando o projeto via IDE
+### Executando o projeto via IDE
 - Abra a classe Application e execute como uma aplicação Java 
   - Run As -> Java Application
 - Você pode rodar também utilizando o Spring Boot Dashboard (STS)
 
-## Executando o projeto via Maven plugin
+### Executando o projeto via Maven plugin
 - Acesse um terminal ou via IDE e execute o seguinte Maven goal
   - `mvn spring-boot:run`
 
-## Executando o projeto via Java
+### Executando o projeto via Java
 - Realize a compilação e o empacotamento do projeto via Maven
   - `mvn install`
 - Acesse o diretório /target gerado e execute o JAR produzido
   - `java -jar [your project]-0.0.1-SNAPSHOT.jar`
 
-## [OPCIONAL]: Modifique o container Web embutido pela aplicação
+### [OPCIONAL]: Modifique o container Web embutido pela aplicação
 - Modifique o `pom.xml` da aplicação para modificar o container default `Tomcat` pelo `Undertow` 
 ```xml
 <dependency>
@@ -51,7 +50,7 @@
 ```
 - Execute novamente a aplicação
 
-## [OPCIONAL]: Executando o projeto em um container via WAR package file
+### [OPCIONAL]: Executando o projeto em um container via WAR package file
 - Modifique o `pom.xml` da aplicação para realizar deployment via WAR file
 ```xml
 <project>
