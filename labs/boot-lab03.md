@@ -1,7 +1,7 @@
 # Laboratório 3
 
 ## Objetivos
-- Testando uma aplicação Spring Boot
+- Testando uma aplicação com Spring Boot
 
 ## Tarefas
 ### Implemente um Spring Boot test
@@ -22,19 +22,19 @@
 
 ### Implemente um Spring Boot test para JSON
 - Utilize o projeto anteriormente criado
-- Implemente uma nova classe para representar um objeto `Usuario`
+- Implemente uma nova classe para representar um objeto `Aluno`
 ```java
-class Usuario {
+class Aluno {
   String nome;
-  Integer idade;
+  Integer matricula;
   String email;
   // getters/setters
 }
 ```
 - Defina uma nova classe de teste utilizando a anotação `@SpringBootTest`
-- Realize a injeção do `JacksonTester` para o objeto `Usuario`
+- Realize a injeção do `JacksonTester` para o objeto `Aluno`
 ```java
-JacksonTester<Usuario> json;
+JacksonTester<Aluno> json;
 ```
-- Implemente o teste de serialização JSON para o objeto `Usuario`, conforme exemplo demonstrado (slides)
+- Implemente o teste de serialização JSON para o objeto `Aluno`, conforme exemplo demonstrado (slides)
 - Execute a classe de teste com sucesso
