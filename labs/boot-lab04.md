@@ -40,6 +40,6 @@ class Aluno {
 ### Implemente uma classe de teste para @Controller
 - Utilize o projeto defindo anteriormente
 - Implemente uma classe de teste para o controller de alunos
-  - Utilize a configuração `@WebMvcTest` para facilitar a implementação do unit test
+  - Utilize a configuração `@WebMvcTest` para facilitar a implementação do unit test
 - Injete o objeto `MockMvc` para simular as requisições HTTP send realizadas no controller
 - Execute a classe de teste com sucesso
