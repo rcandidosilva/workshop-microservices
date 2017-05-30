@@ -4,16 +4,16 @@
 - Explorando recursos do Spring Boot
 
 ## Tarefas
-## Manipule propriedades utilizando @Value e Spring Environment
+### Manipule propriedades utilizando @Value e Spring Environment
 - Crie um novo projeto Spring Boot
 - Defina algumas propridades customizadas no arquivo `application.properties`
 - Defina um novo Bean na sua aplicação e utilize a anotação `@Value` para injetar e propriedade configurada
 - Realize a injeção de dependência do objeto `Environment` no Bean da sua aplicação
 - Acesse alguma outra propriedade definida por meio do objeto `Environment` injetado
 - Execute a aplicação imprimindo o valor das propriedades configuradas
-  - Se possível, utilize o mecanismo de `Logging` para imprimir as propriedades.
+  - Se possível, utilize o mecanismo de `Logging` para imprimir as propriedades.
 
-## Utilize diferentes Profiles
+### Utilize diferentes Profiles
 - Utilizando o projeto anteriormente definido, defina diferentes arquivos de propriedades para diferentes perfils de aplicação (ex: dev, prod)
   - `application-dev.properties`
   - `application-prod.properties`
@@ -22,7 +22,7 @@
 - Execute novamente a aplicação informando um diferente perfil de execução
   - `java -Dspring.profiles.active=dev -jar application.jar`
 
-## Configure o Actuator
+### Configure o Actuator
 - Adicione a dependência `spring-boot-starter-actuator` no seu projeto
 ```xml
     <dependency>
@@ -44,7 +44,7 @@
   - `management.security.enabled = false`
 - Reinicie a aplicação e tente acessar novamente os endpoints protegidos
 
-## Configure o DevTools
+### Configure o DevTools
 - Adicione a dependência `spring-boot-dev-tools` no seu projeto
 ```xml
     <dependency>
