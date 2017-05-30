@@ -17,8 +17,7 @@ class Aluno {
 ```
 - Implemente um `@RestController` com os endpoints RESTful para gerenciar as ações de `listar`, `criar`, `atualizar` e `excluir`
 - Execute e teste a aplicação
-  - DICA: Utilize um cliente REST para poder simular as chamadas aos endpoints RESTful
-    - Postman: https://www.getpostman.com/
+  - DICA: Utilize um cliente REST para poder simular as chamadas aos endpoints RESTful (Postman: https://www.getpostman.com)
 
 ### Manipule a negociação de conteúdo com REST
 - Utilize o projeto definido anteriormente
@@ -83,5 +82,5 @@ public class SwaggerConfig {
 }
 ```
 - Documente algums endpoints RESTful que foram implementados utilizando as Swagger annotations
-  - `@ApiOperation`, `@ApiResponse`, `@ApiParam`, etc
+  - `@ApiOperation`, `@ApiResponse`, `@ApiParam`, etc
 - Execute a aplicação e verifique a documentação publicada
