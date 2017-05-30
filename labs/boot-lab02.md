@@ -20,7 +20,7 @@
 - Defina valores diferentes para as propriedades definidas em cada arquivo
 - Execute a aplicação e verifique o valor das propriedades definidas
 - Execute novamente a aplicação informando um diferente perfil de execução
-  - `java -Dspring.profiles.active=dev -jar application.jar`
+  - `java -Dspring.profiles.active=dev -jar application.jar`
 
 ### Configure o Actuator
 - Adicione a dependência `spring-boot-starter-actuator` no seu projeto
