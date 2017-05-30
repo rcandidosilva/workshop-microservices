@@ -15,8 +15,8 @@
 
 ### Utilize diferentes Profiles
 - Utilizando o projeto anteriormente definido, defina diferentes arquivos de propriedades para diferentes perfils de aplicação (ex: dev, prod)
-  - `application-dev.properties`
-  - `application-prod.properties`
+  - `application-dev.properties`
+  - `application-prod.properties`
 - Defina valores diferentes para as propriedades definidas em cada arquivo
 - Execute a aplicação e verifique o valor das propriedades definidas
 - Execute novamente a aplicação informando um diferente perfil de execução
