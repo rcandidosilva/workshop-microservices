@@ -25,6 +25,7 @@
 - Implemente uma nova classe para representar um objeto `Aluno`
 ```java
 class Aluno {
+  Long id;
   String nome;
   Integer matricula;
   String email;
