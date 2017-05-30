@@ -17,7 +17,7 @@
 - Utilize o projeto anteriormente criado
 - Defina uma nova classe de teste utilizando a anotação `@SpringBootTest`
 - Realize a injeção do objeto mock da calculadora utilizando `@MockBean`
-- Implemente os métodos de teste unitário mockando as funções da calculadora
+- Implemente os métodos de teste unitário "mockando" as funções da calculadora
 - Execute a classe de teste com sucesso
 
 ## Implemente um Spring Boot test para JSON
@@ -33,5 +33,8 @@ class Usuario {
 ```
 - Defina uma nova classe de teste utilizando a anotação `@SpringBootTest`
 - Realize a injeção do `JacksonTester` para o objeto `Usuario`
+```java
+JacksonTester<Usuario> json;
+```
 - Implemente o teste de serialização JSON para o objeto `Usuario`, conforme exemplo demonstrado (slides)
 - Execute a classe de teste com sucesso
