@@ -9,6 +9,7 @@
 - Implemente um classe para representar o objeto `Aluno`
 ```java
 class Aluno {
+  Long id;
   String nome;
   Integer matricula;
   String email;
