@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>CRUD - Alunos</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />    
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
+      th:href="@{/webjars/bootstrap/3.3.4/css/bootstrap.min.css}"
+      rel="stylesheet" media="screen" />
+</head>
+<body>
+	<h1>Novo Aluno</h1>
+	<div>
+		<form th:object="${aluno}" th:action="@{save}" action="#" method="post">
+			<input type="text" th:field="*{id}" class="form-control"
+				placeholder="ID" />
+			<div style="clear: both; display: block; height: 10px;"></div>		
+			<input type="text" th:field="*{nome}" class="form-control"
+				placeholder="Nome" />
+			<div style="clear: both; display: block; height: 10px;"></div>
+			<input type="text" th:field="*{matricula}" class="form-control"
+				placeholder="Matricula" />
+			<div style="clear: both; display: block; height: 10px;"></div>
+			<input type="text" th:field="*{email}" class="form-control"
+				placeholder="Email" />
+			<div style="clear: both; display: block; height: 10px;"></div>
+			<input type="submit" class="btn btn-success" value="Save"></input>
+		</form>
+	</div>
+</body>
+</html>
