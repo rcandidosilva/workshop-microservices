@@ -53,6 +53,21 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
+		<!--  OPTIONAL: 
+			
+			Add Codehaus Cargo dependency and directly run war artifact on Jetty servlet container
+			
+			<dependency>
+				<groupId>org.codehaus.cargo</groupId>
+				<artifactId>cargo-maven2-plugin</artifactId>
+				<version>1.6.3</version>
+			</dependency>
+			
+			mvn clean verify org.codehaus.cargo:cargo-maven2-plugin:run 
+			
+			https://codehaus-cargo.github.io/cargo/Maven2+Plugin+Getting+Started.html
+		-->
 	</dependencies>
 
 	<build>
