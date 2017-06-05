@@ -1,5 +1,6 @@
 package boot.lab06;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -81,5 +82,18 @@ public class AlunoRestController {
 		} else {
 			return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
 		}
+	}
+	
+	@GetMapping("/{nome}")
+	public ResponseEntity<List<AlunoResource>> findByNome(@PathVariable String nome) {
+		return new ResponseEntity<>(assembler.toResources(repository.findByNomeContaining(nome)), HttpStatus.OK);
+	}
+	
+	@GetMapping("/nascimento/mes/corrente")
+	public ResponseEntity<List<AlunoResource>> findByDataNascimentoAtMesCorrente() {
+		int mesCorrente = Calendar.getInstance().get(Calendar.MONTH) + 1;
+		return new ResponseEntity<>(
+				assembler.toResources(repository.findByDataNascimentoAtMesCorrente(mesCorrente)), 
+				HttpStatus.OK);
 	}
 }
