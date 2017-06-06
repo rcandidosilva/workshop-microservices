@@ -1,9 +1,11 @@
 package boot.lab05;
 
+import java.io.Serializable;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class Aluno {
+public class Aluno implements Serializable {
 
 	Long id;
 	String nome;

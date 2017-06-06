@@ -13,7 +13,8 @@ public class AlunoResourceAssembler extends ResourceAssemblerSupport<Aluno, Alun
 
 	@Override
 	public AlunoResource toResource(Aluno aluno) {
-		return new AlunoResource(aluno, linkTo(methodOn(AlunoRestController.class).get(aluno.getId())).withSelfRel());
+		return new AlunoResource(aluno, 
+				linkTo(methodOn(AlunoRestController.class).get(aluno.getId())).withSelfRel());
 	}
 	
 	@Override

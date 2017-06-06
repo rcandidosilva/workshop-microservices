@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/alunos")
 public class AlunoRestController {
@@ -36,11 +38,13 @@ public class AlunoRestController {
 		list.add(new Aluno(5l, "Diana", 55555,"diana@doll.com"));		
 	}
 	
+	@ApiOperation("Retorna a lista de alunos")
 	@GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 	public ResponseEntity<List<AlunoResource>> getAll() {
 		return new ResponseEntity<>(assembler.toResources(list), HttpStatus.OK);
 	}
 	
+	@ApiOperation("Retorna as informações do aluno pelo id")
 	@GetMapping("/{id}")
 	public ResponseEntity<AlunoResource> get(@PathVariable Long id) {
 		OptionalInt index = IntStream.range(0, list.size())
@@ -53,6 +57,7 @@ public class AlunoRestController {
 		}
 	}
 	
+	@ApiOperation("Cria um novo aluno")
 	@PostMapping
 	public ResponseEntity<AlunoResource> create(@RequestBody Aluno aluno) {
 		if (list.add(aluno)) {
@@ -62,6 +67,7 @@ public class AlunoRestController {
 		}
 	}
 	
+	@ApiOperation("Atualiza as informações do aluno pelo id")
 	@PutMapping("/{id}")
 	public ResponseEntity<AlunoResource> update(@PathVariable Long id, @RequestBody Aluno aluno) {
 		OptionalInt index = IntStream.range(0, list.size())
@@ -74,6 +80,7 @@ public class AlunoRestController {
 		}
 	}
 	
+	@ApiOperation("Remove um determinado aluno pelo id")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<AlunoResource> delete(@PathVariable Long id) {
 		OptionalInt index = IntStream.range(0, list.size()).filter(i -> list.get(i).getId().equals(id)).findFirst();
