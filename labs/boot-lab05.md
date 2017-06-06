@@ -82,6 +82,22 @@ public class SwaggerConfig {
     }
 }
 ```
+- Customize a seguinte configuração na classe `WebConfig`
+```java
+@Configuration
+public class WebConfig extends WebMvcConfigurerAdapter {
+	
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("swagger-ui.html")
+			.addResourceLocations("classpath:/META-INF/resources/");
+
+       registry.addResourceHandler("/webjars/**")
+       		.addResourceLocations("classpath:/META-INF/resources/webjars/");
+	}
+  ...
+}
+```
 - Documente algums endpoints RESTful que foram implementados utilizando as Swagger annotations
   - `@ApiOperation`, `@ApiResponse`, `@ApiParam`, etc
 - Execute a aplicação e verifique a documentação publicada
