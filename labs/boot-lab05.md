@@ -71,7 +71,7 @@ public class Aluno {
   <dependency>
       <groupId>io.springfox</groupId>
       <artifactId>springfox-swagger-ui</artifactId>
-      <version>2.4.0</version>
+      <version>2.6.1</version>
   </dependency>
 ```
 - Habilite a configuração do Swagger na aplicação Spring Boot
@@ -87,22 +87,6 @@ public class SwaggerConfig {
           .paths(PathSelectors.any())                          
           .build();                                           
     }
-}
-```
-- Customize a seguinte configuração na classe `WebConfig`
-```java
-@Configuration
-public class WebConfig extends WebMvcConfigurerAdapter {
-	
-	@Override
-	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("swagger-ui.html")
-			.addResourceLocations("classpath:/META-INF/resources/");
-
-       registry.addResourceHandler("/webjars/**")
-       		.addResourceLocations("classpath:/META-INF/resources/webjars/");
-	}
-  ...
 }
 ```
 - Documente algums endpoints RESTful que foram implementados utilizando as Swagger annotations
