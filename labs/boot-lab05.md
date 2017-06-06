@@ -29,6 +29,13 @@ class Aluno {
                 method = RequestMethod.GET, 
                 produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 ```
+- Adicione o suporte a renderização (parser) XML no bean de `Aluno`
+```java
+@XmlRootElement
+public class Aluno {
+  ...
+}
+```
 - Execute e teste a aplicação negociando o conteúdo desejado
 
 ### Configure o comportamento HATEOAS na API REST
