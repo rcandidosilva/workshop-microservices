@@ -1,5 +1,8 @@
 package boot.lab05;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class Aluno {
 
 	Long id;
