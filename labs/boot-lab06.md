@@ -53,6 +53,8 @@ spring.h2.console.enabled=true
 
 ### Configure e utilize o ProjectLombok
 - Utilize o projeto definido anteriormente
+- Instale o plug-in do ProjectLombok na IDE
+  - https://projectlombok.org/setup/eclipse
 - Configure a dependência do ProjectLombok
 
 ```xml
