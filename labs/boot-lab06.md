@@ -37,9 +37,10 @@ class Aluno {
       <scope>runtime</scope>
   </dependency>
 ```
-- Ative o Web console de administração do H2 adicionando a seguinte propriedade no `application.properties`
+- Ative o Web console de administração do H2, e a URL para conexão adicionando as seguintes propriedades no `application.properties`
 ```
 spring.h2.console.enabled=true
+spring.datasource.url=jdbc:h2:mem:alunodb
 ```
 - Execute e teste a aplicação
 
