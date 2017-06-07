@@ -31,11 +31,11 @@ class Aluno {
 - Modifique os métodos do REST controller para persistir e/ou recuperar os dados do aluno
 - Adicione a dependência do banco de dados H2 
 ```xml
-  <dependency>
-      <groupId>org.hsqldb</groupId>
-      <artifactId>hsqldb</artifactId>
-      <scope>runtime</scope>
-  </dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
 ```
 - Ative o Web console de administração do H2, e a URL para conexão adicionando as seguintes propriedades no `application.properties`
 ```
