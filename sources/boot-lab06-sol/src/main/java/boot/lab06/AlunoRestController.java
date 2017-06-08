@@ -84,7 +84,7 @@ public class AlunoRestController {
 		}
 	}
 	
-	@GetMapping("/{nome}")
+	@GetMapping("/nome/{nome}")
 	public ResponseEntity<List<AlunoResource>> findByNome(@PathVariable String nome) {
 		return new ResponseEntity<>(assembler.toResources(repository.findByNomeContaining(nome)), HttpStatus.OK);
 	}
