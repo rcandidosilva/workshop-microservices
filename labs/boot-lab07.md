@@ -14,7 +14,7 @@
   </dependency>
 ```
 - Realize a instalação do MongoDB no seu ambiente local
-  - Windows: https://docs.mongodb.com/manual/tutorial/install-mongodb-enterprise-on-windows/
+  - Windows: https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/
   - Linux: https://docs.mongodb.com/manual/administration/install-enterprise-linux/
   - OSX: https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/
   - MLab: https://mlab.com/
