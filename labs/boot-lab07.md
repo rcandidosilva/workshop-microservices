@@ -14,8 +14,11 @@
   </dependency>
 ```
 - Realize a instalação do MongoDB no seu ambiente local
-  - https://docs.mongodb.com/manual/installation/ (Instalação local)
-  - https://mlab.com/ (Mongo cloud service)
+  - Windows: https://docs.mongodb.com/manual/tutorial/install-mongodb-enterprise-on-windows/
+  - Linux: https://docs.mongodb.com/manual/administration/install-enterprise-linux/
+  - OSX: https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/
+  - MLab: https://mlab.com/
+  - Docker: https://hub.docker.com/_/mongo/ 
 - Implemente uma classe com mapeamentos MongoDB para definir informações de auditoria
 ```java
 @Document
