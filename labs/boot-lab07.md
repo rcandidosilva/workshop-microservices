@@ -13,6 +13,9 @@
       <artifactId>spring-boot-starter-data-mongodb</artifactId>
   </dependency>
 ```
+- Realize a instalação do MongoDB no seu ambiente local
+  - https://docs.mongodb.com/manual/installation/ (Instalação local)
+  - https://mlab.com/ (Mongo cloud service)
 - Implemente uma classe com mapeamentos MongoDB para definir informações de auditoria
 ```java
 @Document
