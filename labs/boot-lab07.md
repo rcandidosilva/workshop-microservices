@@ -45,7 +45,7 @@ class Auditoria {
 - Implemente um novo endpoint REST para executar a nova consulta por usuario definida
 - Execute e teste a aplicação 
 
-### Implemente uma classe de teste para o repositório JPA
+### Implemente uma classe de teste para o repositório NoSQL
 - Utilize o projeto defindo anteriormente
 - Implemente uma classe de teste para o `AuditoriaRepository`
 - Utilize a configuração `@SpringBootTest` para a implementação do unit test
