@@ -17,8 +17,8 @@
 ```xml
   <dependency>
       <groupId>de.flapdoodle.embed</groupId>
-			<artifactId>de.flapdoodle.embed.mongo</artifactId>
-			<scope>runtime</scope>
+      <artifactId>de.flapdoodle.embed.mongo</artifactId>
+      <scope>runtime</scope>
   </dependency>
 ```
 - Implemente uma classe com mapeamentos MongoDB para definir informações de auditoria
