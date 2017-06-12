@@ -13,12 +13,14 @@
       <artifactId>spring-boot-starter-data-mongodb</artifactId>
   </dependency>
 ```
-- Realize a instalação do MongoDB no seu ambiente local
-  - Windows: https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/
-  - Linux: https://docs.mongodb.com/manual/administration/install-enterprise-linux/
-  - OSX: https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/
-  - MLab: https://mlab.com/
-  - Docker: https://hub.docker.com/_/mongo/ 
+- Adicione a dependêndencia do embedded MongoDB na aplicação
+```xml
+  <dependency>
+      <groupId>de.flapdoodle.embed</groupId>
+			<artifactId>de.flapdoodle.embed.mongo</artifactId>
+			<scope>runtime</scope>
+  </dependency>
+```
 - Implemente uma classe com mapeamentos MongoDB para definir informações de auditoria
 ```java
 @Document
