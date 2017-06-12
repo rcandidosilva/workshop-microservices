@@ -15,6 +15,8 @@
 ```
 - Habilite o processo batch na aplicação Spring Boot utilizando `@EnableBatchProcessing`
 - Implemente uma classe `Reader`, `Processor` e `Writer` para importar dados de alunos de um arquivo CSV
+  - DICA: Utilize como referência para implementação, o seguinte exemplo:
+    - http://www.javainuse.com/spring/bootbatch
 ```
 nome,matricula,email,data nascimento
 Rodrigo,111111,rodrigo@email.com,29/01/1982
@@ -22,8 +24,6 @@ Joao,222222,joao@email.com,03/05/1976
 Maria,333333,maria@email.com,04/06/1985
 Jose,444444,jose@email.com,08/01/1988
 ```
-  - DICA: Utilize como referência para implementação, o seguinte exemplo:
-    - http://www.javainuse.com/spring/bootbatch
 - Configure os beans de `step` e o `job` na aplicação para o processo de importação
 - Defina um REST endpoint para executar o processo de importação  
 - Execute e teste a aplicação
