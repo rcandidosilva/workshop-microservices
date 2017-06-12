@@ -13,7 +13,7 @@
       <artifactId>spring-boot-starter-data-mongodb</artifactId>
   </dependency>
 ```
-- Adicione a dependêndencia do embedded MongoDB na aplicação
+- Adicione a dependência do embedded MongoDB na aplicação
 ```xml
   <dependency>
       <groupId>de.flapdoodle.embed</groupId>
