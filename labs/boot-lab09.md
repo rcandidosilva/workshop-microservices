@@ -23,7 +23,7 @@ security.user.password=t0ps3cr3t
 ### Configure diferentes usuários e roles para acessar a aplicação
 - Utilize o projeto definido anteriormente
 - Defina uma nova configuração de segurança para habilitar uma lista de usuários disponíveis para autenticação
-  - DICA: Utilize como modelo de configuração o exemplo abaixo:
+  - Utilize como modelo de configuração o exemplo abaixo:
 ```java
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -39,7 +39,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 ### Utilize diferentes privilégios na autorização dos endpoints da aplicação
 - Utilize o projeto defindo anteriormente
 - Adicione algumas restrições de segurança via configuração centralizada
-  - DICA: Utilize como modelo de configuração o exemplo abaixo:
+  - Utilize como modelo de configuração o exemplo abaixo:
 ```java
 @Configuration
 public class ApplicationConfigurerAdapter extends WebSecurityConfigurerAdapter {

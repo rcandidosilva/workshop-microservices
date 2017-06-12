@@ -4,52 +4,68 @@
 - Explorando recursos adicionais no Spring Boot
 
 ## Tarefas
-### Exponha as funções do repositório como endpoints REST 
-- Utilize o projeto criado no exercício sobre Spring Data JPA, ou crie um novo projeto
-- Configure a dependência do Spring Data JPA, se necessário
+### Defina um batch job para importar dados de alunos de um arquivo CSV
+- Utilize o projeto do exercício anterior
+- Configure a dependência do projeto Spring Batch
 ```xml
   <dependency>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-data-jpa</artifactId>
+      <artifactId>spring-boot-starter-batch</artifactId>
   </dependency>
 ```
-- Configure a dependência do Spring Data REST 
-```xml
-  <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-data-rest</artifactId>
-  </dependency>
-```
-- Implemente uma nova entidade para definir as informações da `Disciplina`
-```java
-@Entity
-class Disciplina {
-  @Id @GeneratedValue(strategy = GenerationType.AUTO)
-  Long id;
-  String nome;
-  Integer cargaHoraria;
-  Date dataInicio;
-  // getters/setters
-}
-```
-- Implemente o repositório `DisciplinaRepository` extends do `JpaRepository`
-- Adicione a anotação `@RepositoryRestResource` configurando um novo REST path, se desejado
+- Habilite o processo batch na aplicação Spring Boot utilizando `@EnableBatchProcessing`
+- Implemente uma classe `Reader`, `Processor` e `Writer` para importar dados de alunos de um arquivo CSV
+- Configure os beans de `step` e o `job` na aplicação para o processo de importação
+- Defina um REST endpoint para executar o processo de importação  
 - Execute e teste a aplicação
 
-### Implemente consultas customizadas no repositório NoSQL
+### Ative o mecanismo de cache na aplicação
 - Utilize o projeto definido anteriormente
-- Defina uma nova consulta para retornar as disciplinas com a data de início maior que a data atual
-- Configure a anotação `@RestResource` para expor e customizar a publicação do REST endpoint de consulta
-- Execute e teste a aplicação 
-
-### Habilite o HAL browser na aplicação
-- Utilize o projeto defindo anteriormente
-- Configure a dependência do HAL browser na aplicação
+- Configure a dependência do projeto Spring Cache
 ```xml
   <dependency>
-      <groupId>org.springframework.data</groupId>
-      <artifactId>spring-data-rest-hal-browser</artifactId>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-cache</artifactId>
   </dependency>
 ```
+- Habilite o sistema de cache utilizando a anotação `@EnableCaching`
+- Utilize cache em alguma consulta da aplicação com `@Cacheable`
+- Execute e teste a aplicação
+
+### Implemente um WebSocket para um chat entre alunos
+- Utilize o projeto defindo anteriormente
+- Configure a dependência do projeto Spring WebSocket
+```xml
+  <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-websocket</artifactId>
+  </dependency>
+```
+- Habilite e configure o WebSocket broker na aplicação
+```java
+@Configuration
+@EnableWebSocketMessageBroker
+public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
+    @Override
+    public void configureMessageBroker(MessageBrokerRegistry config) {
+        config.enableSimpleBroker("/topic");
+        config.setApplicationDestinationPrefixes("/app");
+    }
+
+    @Override
+    public void registerStompEndpoints(StompEndpointRegistry registry) {
+        registry.addEndpoint("/chat").withSockJS();
+    }
+}
+```
+- Implemente um controller endpoint para recebimento e envio das mensagens de chat
+```java
+@MessageMapping("/chat")
+@SendTo("/topic/messages")
+public OutputMessage send(Message message) throws Exception {
+    String time = new SimpleDateFormat("HH:mm").format(new Date());
+    return new OutputMessage(message.getFrom(), message.getText(), time);
+}
+```
+- Implemente uma aplicação WebSocket cliente para chat entre alunos
 - Execute e teste a aplicação 
-  - http://localhost:8080
