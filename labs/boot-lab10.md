@@ -77,6 +77,6 @@ public OutputMessage send(Message message) throws Exception {
 }
 ```
 - Implemente uma aplicação WebSocket cliente para chat entre alunos
-  - DICA: Utilize como referência para implementação o seguinte exemplo:
+  - DICA: Utilize como referência para implementação o seguinte exemplo:
     - http://www.baeldung.com/websockets-spring
 - Execute e teste a aplicação 
