@@ -36,7 +36,7 @@ class Disciplina {
 - Adicione a anotação `@RepositoryRestResource` configurando um novo REST path, se desejado
 - Execute e teste a aplicação
 
-### Implemente consultas customizadas no repositório NoSQL
+### Implemente consultas customizadas no repositório
 - Utilize o projeto definido anteriormente
 - Defina uma nova consulta para retornar as disciplinas com a data de início maior que a data atual
 - Configure a anotação `@RestResource` para expor e customizar a publicação do REST endpoint de consulta
