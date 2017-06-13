@@ -10,7 +10,7 @@ import org.springframework.data.rest.core.annotation.RestResource;
 @RepositoryRestResource
 public interface DisciplinaRepository extends JpaRepository<Disciplina, Long> {
 
-	@RestResource
+	@RestResource(path = "/datainicio/after/current")
 	@Query("select d from Disciplina d where d.dataInicio > CURRENT_DATE")
 	List<Disciplina> findByDataInicioAfterCurrent();
 	
