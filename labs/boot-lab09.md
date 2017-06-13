@@ -42,15 +42,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   - Utilize como modelo de configuração o exemplo abaixo:
 ```java
 @Configuration
-public class ApplicationConfigurerAdapter extends WebSecurityConfigurerAdapter {
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   @Override
-  protected void configure(HttpSecurity http) throws Exception {
-    http.antMatcher("/foo/**")
-      .authorizeRequests()
-        .antMatchers("/foo/bar").hasRole("BAR")
-        .antMatchers("/foo/spam").hasRole("SPAM")
-        .anyRequest().isAuthenticated();
-  }
+	protected void configure(HttpSecurity http) throws Exception {
+		http.authorizeRequests()
+			.antMatchers("/foo/**").hasAnyRole("USER")
+			.antMatchers("/bar/**").hasAnyRole("MANAGER")
+			.anyRequest().fullyAuthenticated()
+			.and().httpBasic().and().csrf().disable();
+	}
 }
 ```
 - Habilite a configuração para uso de anotações de segurança nos métodos da aplicação
