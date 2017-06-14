@@ -10,4 +10,4 @@ spring:
     config:
       server:
         git:
-          uri: file:///Users/rodrigo/Documents/VOffice/Microservices/workshop-microservices/sources/cloud-lab01-sol/config-repo
+          uri: file:///Users/rodrigo/Desktop/config-repo
