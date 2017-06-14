@@ -1,24 +1,24 @@
 # Spring Cloud - Laboratório 01
 
 ## Objetivos
-- Utilizando os recursos do Spring Cloud Config
+- Centralizando a configuração com Spring Cloud Config
 
 ## Tarefas
 
 ### Configure o Config Server
 - Crie uma nova aplicação Spring Boot
-- Adicione a dependência do Spring Cloud no `pom.xml`
+- Configure o suporte da plataforma Spring Cloud no `pom.xml`
 ```xml
     <dependencyManagement>
         <dependencies>
-	    <dependency>
-	        <groupId>org.springframework.cloud</groupId>
-		<artifactId>spring-cloud-dependencies</artifactId>
-		<version>Dalston.RELEASE</version>
-		<type>pom</type>
-		<scope>import</scope>
-	    </dependency>
-	</dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>Dalston.SR1</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
     </dependencyManagement>
 ```
 - Adicione a dependência `spring-cloud-config-server` no seu projeto
@@ -29,16 +29,48 @@
     </dependency>
 ```
 - Adicione a anotação `@EnableConfigServer` na classe `Application`
-- Crie um novo repositório no Git para guardar as configurações da sua aplicação
-- Configure o acesso ao repositório Git no `application.properties` da aplicação Spring Boot criada
-  - Adicione a propriedade `spring.cloud.config.server.git.url` com o valor `http://git/repo`
-	- Configure a porta do a aplicação `server.port` para 8888
-- Adicione os seguintes arquivos de configuração para sua aplicação no repositório Git criado
-  - `application.yml`
-	- `cloud-lab01.yml`
+- Crie um novo repositório no Git local para guardar as configurações da sua aplicação
+```
+$ cd $HOME
+$ mkdir config-repo
+$ cd config-repo
+$ git init .
+```
+- Configure o acesso ao repositório Git no `application.yml` da aplicação Spring Boot criada
+```
+server:
+  port: 8888
+
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: file://local/git/config-repo
+```
+- Adicione os seguintes arquivos de configuração no repositório Git criado
+  - `application.yml`
+```
+server:
+  port: ${PORT:${SERVER_PORT:0}}
+
+info:
+  id: ${spring.application.name}
+
+logging:
+  level: debug
+```
+  - `cloud-lab01.yml`
+```
+server:
+  port: ${PORT:8081}
+  
+logging:
+  level: debug  
+```
 - Execute a aplicação e acesse os seguintes endereços
   - http://localhost:8888/env
-	- http://localhost:8888/cloud-lab01/default
+  - http://localhost:8888/cloud-lab01/default
 
 ### Configure o Config Client
 - Crie um nova aplicação Spring Boot
