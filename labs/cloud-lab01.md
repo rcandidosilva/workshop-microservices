@@ -127,10 +127,14 @@ spring:
 $ git add .
 $ git commit -m "Changes at cloud-lab01"
 ```
-- Defina um novo Bean na sua aplicação e utilize a anotação `@Value` para injetar e propriedade configurada
-- Realize a injeção de dependência do objeto `Environment` no Bean da sua aplicação
-- Acesse alguma outra propriedade definida por meio do objeto `Environment` injetado
-- Execute a aplicação imprimindo o valor das propriedades configuradas 
+- Defina um novo REST controller na sua aplicação e crie um endpoint REST para imprimir as propriedades configuradas 
+  - Não se esqueça de definir `@RefreshScope` como escopo do controller
+- Utilize a anotação `@Value` e\ou objeto `Environment` para acessar as propriedades configuradas
+- Execute e teste a aplicação visualizando o valor das propriedades configuradas
+- Com a aplicação rodando, modifique alguma propriedade no repositório Git
+- Realize um HTTP POST no `/refresh` endpoint da aplicação cliente definida
+  - POST http://localhost:8081/refresh
+- Execute novamente o REST endpoint definido e identifique as propriedades modificadas
 
 ### Manipule diferentes profiles
 - Utilize os projetos definidos anteriormente
