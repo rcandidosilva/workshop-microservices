@@ -25,7 +25,6 @@ Maria,333333,maria@email.com,04/06/1985
 Jose,444444,jose@email.com,08/01/1988
 ```
 - Configure os beans de `step` e o `job` na aplicação para o processo de importação
-- Defina um REST endpoint para executar o processo de importação  
 - Execute e teste a aplicação
 
 ### Ative o mecanismo de cache na aplicação
