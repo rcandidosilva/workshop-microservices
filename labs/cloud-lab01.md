@@ -49,7 +49,6 @@ spring:
           uri: file://local/git/config-repo
 ```
 - Adicione os seguintes arquivos de configuração no repositório Git criado
-**application.yml**
 ```
 server:
   port: ${PORT:${SERVER_PORT:0}}
@@ -60,7 +59,7 @@ info:
 logging:
   level: debug
 ```
-**cloud-lab01.yml**
+**application.yml**
 ```
 server:
   port: ${PORT:8081}
@@ -68,6 +67,7 @@ server:
 logging:
   level: debug  
 ```
+**cloud-lab01.yml**
 - Não se esqueça de adicionar e comitar os novos arquivos no repositório Git
 ```
 $ git add .
@@ -112,8 +112,18 @@ spring:
 ```
 - Execute a aplicação e verifique a propriedade sendo demonstrada
 
-### [OPCIONAL]: Trabalhando com Spring Config e Profiles
-- TODO
+### Utilize propriedades externas configuradas
+- Utilize o projeto cliente definido anteriormente
+- Modifique o arquivo `cloud-lab01.yml` definido no repositório Git adicionando algumas propriedades customizadas
+- Não se esqueça de comitar o arquivo modificado no repositório Git
+```
+$ git add .
+$ git commit -m "Changes at cloud-lab01"
+```
+- Defina um novo Bean na sua aplicação e utilize a anotação `@Value` para injetar e propriedade configurada
+- Realize a injeção de dependência do objeto `Environment` no Bean da sua aplicação
+- Acesse alguma outra propriedade definida por meio do objeto `Environment` injetado
+- Execute a aplicação imprimindo o valor das propriedades configuradas 
 
 ## Perguntas
 - Note que o cliente necessita apenas de algumas dependências do Spring Cloud e da configuração da URI do Config Server. Não é necessário código customizado para acesso.
