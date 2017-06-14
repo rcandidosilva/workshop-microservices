@@ -145,4 +145,4 @@ spring:
 ## Perguntas
 - Note que o cliente necessita apenas de algumas dependências do Spring Cloud e da configuração da URI do Config Server. Não é necessário código customizado para acesso.
 - O que acontece se o Config Server ficar indisponível quando a aplicação cliente iniciar?
-- O que acontece se é modificada alguma propriedade da aplicação no repositório Git de configurações? 
+- O que acontece se é modificada alguma propriedade da aplicação no repositório Git? 
