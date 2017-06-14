@@ -49,7 +49,7 @@ spring:
           uri: file://local/git/config-repo
 ```
 - Adicione os seguintes arquivos de configuração no repositório Git criado
-  - `application.yml`
+**application.yml**
 ```
 server:
   port: ${PORT:${SERVER_PORT:0}}
@@ -60,13 +60,18 @@ info:
 logging:
   level: debug
 ```
-  - `cloud-lab01.yml`
+**cloud-lab01.yml**
 ```
 server:
   port: ${PORT:8081}
   
 logging:
   level: debug  
+```
+- Não se esqueça de adicionar e comitar os novos arquivos no repositório Git
+```
+$ git add .
+$ git commit -m "Initial commit"
 ```
 - Execute a aplicação e acesse os seguintes endereços
   - http://localhost:8888/env
