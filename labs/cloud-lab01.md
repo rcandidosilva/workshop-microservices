@@ -48,9 +48,10 @@ spring:
         git:
           uri: file://local/git/config-repo
 ```
-- Adicione os seguintes arquivos de configuração no repositório Git criado
-  - `application.yml`
-  - `cloud-lab01.yml`
+- Adicione os seguintes arquivos de configuração no repositório Git criado.
+  - `application.yml`
+  - `cloud-lab01.yml`
+  
 ```
 server:
   port: ${PORT:${SERVER_PORT:0}}
@@ -138,8 +139,8 @@ server:
 spring:
   profiles: dev
 ```
-- Execute a aplicação informando um diferente perfil de execução
-  - `java -Dspring.profiles.active=dev -jar application.jar`
+- Execute a aplicação informando um diferente perfil de execução.
+  - `java -Dspring.profiles.active=dev -jar application.jar`
 
 ## Perguntas
 - Note que o cliente necessita apenas de algumas dependências do Spring Cloud e da configuração da URI do Config Server. Não é necessário código customizado para acesso.
