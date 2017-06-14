@@ -1,4 +1,4 @@
-# Spring Cloud - Laboratório 01
+# Laboratório 01
 
 ## Objetivos
 - Centralizando a configuração com Spring Cloud Config
