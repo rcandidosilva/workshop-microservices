@@ -1,0 +1,27 @@
+server:
+  port: ${PORT:8081}
+  
+logging:
+  level: debug
+
+app:
+  config:
+    property:
+      string: String Property
+      long: 100
+      boolean: true
+      random: ${random.long}
+      env: Environment Property
+
+---
+spring:
+  profiles: dev
+
+app:
+  config:
+    property:
+      string: DEV - String Property
+      long: 200
+      boolean: false
+      random: ${random.long}
+      env: DEV - Environment Property
