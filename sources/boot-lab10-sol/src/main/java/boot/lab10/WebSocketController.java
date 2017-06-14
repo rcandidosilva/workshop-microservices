@@ -5,10 +5,10 @@ import java.util.Date;
 
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
 
-@RestController
-public class WebSocketRestController {
+@Controller
+public class WebSocketController {
 
 	SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
 	
