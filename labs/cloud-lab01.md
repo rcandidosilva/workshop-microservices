@@ -1,24 +1,24 @@
-# Spring Cloud - Laboratório 01
+# Laboratório 01
 
 ## Objetivos
-- Utilizando os recursos do Spring Cloud Config
+- Centralizando a configuração com Spring Cloud Config
 
 ## Tarefas
 
 ### Configure o Config Server
 - Crie uma nova aplicação Spring Boot
-- Adicione a dependência do Spring Cloud no `pom.xml`
+- Configure o suporte da plataforma Spring Cloud no `pom.xml`
 ```xml
     <dependencyManagement>
         <dependencies>
-	    <dependency>
-	        <groupId>org.springframework.cloud</groupId>
-		<artifactId>spring-cloud-dependencies</artifactId>
-		<version>Dalston.RELEASE</version>
-		<type>pom</type>
-		<scope>import</scope>
-	    </dependency>
-	</dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>Dalston.SR1</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
     </dependencyManagement>
 ```
 - Adicione a dependência `spring-cloud-config-server` no seu projeto
@@ -29,31 +29,71 @@
     </dependency>
 ```
 - Adicione a anotação `@EnableConfigServer` na classe `Application`
-- Crie um novo repositório no Git para guardar as configurações da sua aplicação
-- Configure o acesso ao repositório Git no `application.properties` da aplicação Spring Boot criada
-  - Adicione a propriedade `spring.cloud.config.server.git.url` com o valor `http://git/repo`
-	- Configure a porta do a aplicação `server.port` para 8888
-- Adicione os seguintes arquivos de configuração para sua aplicação no repositório Git criado
+- Crie um novo repositório no Git local para guardar as configurações da sua aplicação
+```
+$ cd $HOME
+$ mkdir config-repo
+$ cd config-repo
+$ git init .
+```
+- Configure o acesso ao repositório Git no `application.yml` da aplicação Spring Boot criada
+```
+server:
+  port: 8888
+
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: file://local/git/config-repo
+```
+- Adicione os seguintes arquivos de configuração no repositório Git criado.
   - `application.yml`
-	- `cloud-lab01.yml`
+  - `cloud-lab01.yml`
+  
+```
+server:
+  port: ${PORT:${SERVER_PORT:0}}
+
+info:
+  id: ${spring.application.name}
+
+logging:
+  level: debug
+```
+**application.yml**
+```
+server:
+  port: ${PORT:8081}
+  
+logging:
+  level: debug  
+```
+**cloud-lab01.yml**
+- Não se esqueça de adicionar e comitar os novos arquivos no repositório Git
+```
+$ git add .
+$ git commit -m "Initial commit"
+```
 - Execute a aplicação e acesse os seguintes endereços
   - http://localhost:8888/env
-	- http://localhost:8888/cloud-lab01/default
+  - http://localhost:8888/cloud-lab01/default
 
 ### Configure o Config Client
 - Crie um nova aplicação Spring Boot
-- Adicione a dependência do Spring Cloud no `pom.xml`
+- Configure o suporte da plataforma Spring Cloud no `pom.xml`
 ```xml
     <dependencyManagement>
         <dependencies>
-	    <dependency>
-	        <groupId>org.springframework.cloud</groupId>
-		<artifactId>spring-cloud-dependencies</artifactId>
-		<version>Dalston.RELEASE</version>
-		<type>pom</type>
-		<scope>import</scope>
-	     </dependency>
-	 </dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>Dalston.SR1</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
     </dependencyManagement>
 ```
 - Adicione a dependência `spring-cloud-starter-config` no seu projeto
@@ -63,19 +103,46 @@
 	<artifactId>spring-cloud-starter-config</artifactId>
     </dependency>
 ```
-- Crie o arquivo `bootstrap.properties` no diretório `src/main/resources` da aplicação
+- Crie o arquivo `bootstrap.yml` no diretório `src/main/resources` da aplicação
 - Configure as seguintes propriedades no arquivo Boostrap
 ```
-  spring.application.name=cloud-lab01
-  spring.cloud.config.uri=http://localhost:8888
+spring:
+  application:
+    name: cloud-lab01
+  cloud:
+    config:
+      uri: http://localhost:8888
 ```
-- Adicione um REST controller para recuperar valores de propriedades configuradas
-- Execute a aplicação e verifique a propriedade sendo demonstrada
+- Execute e teste a aplicação
 
-### [OPCIONAL]: Trabalhando com Spring Config e Profiles
-- TODO
+### Utilize propriedades externas configuradas
+- Utilize o projeto cliente definido anteriormente
+- Modifique o arquivo `cloud-lab01.yml` definido no repositório Git adicionando algumas propriedades customizadas
+- Não se esqueça de comitar o arquivo modificado no repositório Git
+```
+$ git add .
+$ git commit -m "Changes at cloud-lab01"
+```
+- Defina um novo Bean na sua aplicação e utilize a anotação `@Value` para injetar e propriedade configurada
+- Realize a injeção de dependência do objeto `Environment` no Bean da sua aplicação
+- Acesse alguma outra propriedade definida por meio do objeto `Environment` injetado
+- Execute a aplicação imprimindo o valor das propriedades configuradas 
+
+### Manipule diferentes profiles
+- Utilize os projetos definidos anteriormente
+- Modifique o arquivo `cloud-lab01.yml` incluindo diferentes profiles, e definido valores diferentes nas propriedades customizadas para cada profile definido
+```
+server:
+  port: ${PORT:8081}
+  
+---
+spring:
+  profiles: dev
+```
+- Execute a aplicação informando um diferente perfil de execução.
+  - `java -Dspring.profiles.active=dev -jar application.jar`
 
 ## Perguntas
 - Note que o cliente necessita apenas de algumas dependências do Spring Cloud e da configuração da URI do Config Server. Não é necessário código customizado para acesso.
 - O que acontece se o Config Server ficar indisponível quando a aplicação cliente iniciar?
-- O que acontece se é modificada alguma propriedade da aplicação no repositório Git de configurações? 
+- O que acontece se é modificada alguma propriedade da aplicação no repositório Git? 
