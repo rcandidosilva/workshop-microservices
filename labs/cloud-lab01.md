@@ -41,6 +41,10 @@ $ git init .
 server:
   port: 8888
 
+management:
+  security:
+    enabled: false
+
 spring:
   cloud:
     config:
