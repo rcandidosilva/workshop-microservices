@@ -79,18 +79,18 @@ $ git commit -m "Initial commit"
 
 ### Configure o Config Client
 - Crie um nova aplicação Spring Boot
-- Adicione a dependência do Spring Cloud no `pom.xml`
+- Configure o suporte da plataforma Spring Cloud no `pom.xml`
 ```xml
     <dependencyManagement>
         <dependencies>
-	    <dependency>
-	        <groupId>org.springframework.cloud</groupId>
-		<artifactId>spring-cloud-dependencies</artifactId>
-		<version>Dalston.RELEASE</version>
-		<type>pom</type>
-		<scope>import</scope>
-	     </dependency>
-	 </dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>Dalston.SR1</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
     </dependencyManagement>
 ```
 - Adicione a dependência `spring-cloud-starter-config` no seu projeto
@@ -100,13 +100,16 @@ $ git commit -m "Initial commit"
 	<artifactId>spring-cloud-starter-config</artifactId>
     </dependency>
 ```
-- Crie o arquivo `bootstrap.properties` no diretório `src/main/resources` da aplicação
+- Crie o arquivo `bootstrap.yml` no diretório `src/main/resources` da aplicação
 - Configure as seguintes propriedades no arquivo Boostrap
 ```
-  spring.application.name=cloud-lab01
-  spring.cloud.config.uri=http://localhost:8888
+spring:
+  application:
+    name: cloud-lab01
+  cloud:
+    config:
+      uri: http://localhost:8888
 ```
-- Adicione um REST controller para recuperar valores de propriedades configuradas
 - Execute a aplicação e verifique a propriedade sendo demonstrada
 
 ### [OPCIONAL]: Trabalhando com Spring Config e Profiles
