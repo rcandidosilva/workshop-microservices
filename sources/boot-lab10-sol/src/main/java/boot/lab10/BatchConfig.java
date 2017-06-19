@@ -17,9 +17,9 @@ public class BatchConfig {
 
 	@Autowired
 	StepBuilderFactory stepBuilderFactory;
-
+	
 	@Bean
-	public Job processJob(Step jobStep) {
+	public Job processJob(Step jobStep) {		
 		return jobBuilderFactory.get("processJob")
 				.incrementer(new RunIdIncrementer())
 				.flow(jobStep).end().build();
@@ -28,7 +28,7 @@ public class BatchConfig {
 	@Bean
 	public Step jobStep(AlunoReader alunoReader, 
 			AlunoProcessor alunoProcessor, AlunoWriter alunoWriter) {
-		return stepBuilderFactory.get("orderStep1").<String, Aluno> chunk(10)
+		return stepBuilderFactory.get("alunoImportStep").<String, Aluno> chunk(10)
 				.reader(alunoReader).processor(alunoProcessor)
 				.writer(alunoWriter).build();
 	}
