@@ -51,7 +51,7 @@ spring:
 
 ### Ajuste a configuração do Config Client
 - Utilize o projeto definido no exercício anterior
-- Adicione a dependência `spring-cloud-starter-config` no seu projeto
+- Adicione a dependência `spring-cloud-starter-bus-amqp` no seu projeto
 ```xml
     <dependency>
         <groupId>org.springframework.cloud</groupId>
@@ -72,17 +72,18 @@ spring:
 ```
 - Execute e teste a aplicação
 
-### Modique propriedades e teste as mudanças replicadas
-- Utilize os projetos definidos anteriormente
-- Modifique o arquivo `cloud-lab01.yml` no repositório Git modificando algumas propriedades customizadas
-- Não se esqueça de comitar o arquivo modificado no repositório Git
+### Modique propriedades e teste as mudanças replicadas via WebHook /monitor
+- Utilize os projetos modificados anteriormente
+- Execute os projetos config server e client, caso não estejam em execução
+- Modifique o arquivo `cloud-lab01.yml` no repositório Git modificando as propriedades customizadas
+- Não se esqueça de comitar o arquivo no repositório Git
 ```
 $ git add .
 $ git commit -m "Changes at cloud-lab01"
 ```
-- Execute o REST endpoint definido visualizando as propriedades configuradas. As propriedades foram atualizadas?
+- Execute o REST endpoint imprimindo as propriedades configuradas. As propriedades foram atualizadas com sucesso?
 - Simule um `WebHook Git push` para quando um arquivo é modificado no repositório Git
 ```
 curl -v -X POST "http://localhost:8100/monitor" -H "Content-Type: application/json" -H "X-Event-Key: repo:push" -H "X-Hook-UUID: webhook-uuid" -d '{"push": {"changes": []} }'
 ```
-- Execute novamente o REST endpoint definido e verifique se as propriedades modificadas
+- Execute novamente o REST endpoint e verifique se as propriedades modificadas
