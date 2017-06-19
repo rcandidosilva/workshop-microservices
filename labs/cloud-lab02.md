@@ -22,10 +22,10 @@
   - Windows
     - https://www.rabbitmq.com/install-windows.html
   - Linux
-    - apt-get install rabbitmq-server
-    - yum install rabbitmq-server
-  - Mac OS
-    - brew install rabbitmq
+    - `apt-get install rabbitmq-server`
+    - `yum install rabbitmq-server`
+  - Mac OS
+    - `brew install rabbitmq`
 - Configure o suporte ao barramento no config server
 ```
 server:
@@ -81,7 +81,8 @@ spring:
 $ git add .
 $ git commit -m "Changes at cloud-lab01"
 ```
-- Execute o REST endpoint imprimindo as propriedades configuradas. As propriedades foram atualizadas com sucesso?
+- Execute o REST endpoint imprimindo as propriedades configuradas
+  - As propriedades foram atualizadas com sucesso?
 - Simule um `WebHook Git push` para quando um arquivo é modificado no repositório Git
 ```
 curl -v -X POST "http://localhost:8100/monitor" -H "Content-Type: application/json" -H "X-Event-Key: repo:push" -H "X-Hook-UUID: webhook-uuid" -d '{"push": {"changes": []} }'
