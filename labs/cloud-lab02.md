@@ -22,10 +22,10 @@
   - Windows
     - https://www.rabbitmq.com/install-windows.html
   - Linux
-    - `apt-get install rabbitmq-server`
-    - `yum install rabbitmq-server`
+    - `apt-get install rabbitmq-server`
+    - `yum install rabbitmq-server` 
   - Mac OS
-    - `brew install rabbitmq`
+    - brew install rabbitmq
 - Configure o suporte ao barramento no config server
 ```
 server:
