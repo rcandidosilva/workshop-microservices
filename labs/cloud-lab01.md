@@ -122,7 +122,7 @@ spring:
 ### Utilize propriedades externas configuradas
 - Utilize o projeto cliente definido anteriormente
 - Adicione a dependência do `spring-boot-starter-actuator`
-```
+```xml
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-actuator</artifactId>
