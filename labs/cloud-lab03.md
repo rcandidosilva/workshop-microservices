@@ -131,7 +131,7 @@ class DisciplinaDTO {
 ```
 - Implemente um REST endpoint para consultar e retornar o DTO da disciplina e alunos
 - Realize uma localização no Eureka para buscar os alunos por meio do serviço `aluno-service` registrado anteriormente
-  - DICA: Verifique o exemplo nos slides para realizar uma localização de serviços no Eureka. Você pode implementar essa localização utilizando o objeto `DiscoveryClient` e/ou via `RestTemplate`
+  - DICA: Verifique o exemplo nos slides para realizar uma localização de serviços no Eureka. Você pode implementar essa localização utilizando o objeto `DiscoveryClient` e/ou via `RestTemplate`
 - Execute e teste a aplicação
 - Experimente subir mais de uma instância do serviço de alunos e verifique-os registrados no Eureka server
 - Execute novamente a aplicação e observe qual a(s) instância(s) que são localizadas durante a execução
