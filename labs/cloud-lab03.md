@@ -46,8 +46,19 @@ eureka:
 - Execute a aplicação e acesse o Eureka Dashboard Web
   - http://localhost:8761
 
-### Configure o Eureka Client
-- Crie um nova aplicação Spring Boot
+### Registre um Eureka Client
+- Crie um nova aplicação Spring Boot para representar um serviço de alunos
+- Implemente uma classe para representar o objeto `Aluno`
+```java
+class Aluno {
+  Long id;
+  String nome;
+  Integer matricula;
+  String email;
+  // getters/setters
+}
+```
+- Implemente um `JPA repository`, e expõa o repositório como um REST controller
 - Configure o suporte da plataforma Spring Cloud no `pom.xml`
 ```xml
     <dependencyManagement>
@@ -73,7 +84,7 @@ eureka:
 ```
 spring:
   application:
-    name: spring-cloud-eureka-client
+    name: aluno-service
 
 eureka:
   client:
@@ -85,5 +96,46 @@ eureka:
 - Execute e teste a aplicação, verificando o registro do cliente no Eureka server
   - http://localhost:8761
 
+### Localize e utilize um serviço via Eureka
+- Crie um nova aplicação Spring Boot para representar um serviço de disciplinas
+- Configure o suporte da plataforma Spring Cloud no `pom.xml`
+```xml
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>Dalston.SR1</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+```
+- Adicione a dependência `spring-cloud-starter-eureka` no seu projeto
+```xml
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+	      <artifactId>spring-cloud-starter-eureka</artifactId>
+    </dependency>
+```
+- Implemente um objeto DTO para representar as informações da `Disciplina` e alunos matriculados
+```java
+class DisciplinaDTO {
+  String nome;
+  Integer cargaHoraria;
+  Date dataInicio;
+  List<String> alunosMatriculados;
+  // getters/setters
+}
+```
+- Implemente um REST endpoint para consultar e retornar o DTO da disciplina e alunos
+- Realize uma localização no Eureka para buscar os alunos por meio do serviço `aluno-service` registrado anteriormente
+  - DICA: Verifique o exemplo nos slides para realizar uma localização de serviços no Eureka. Você pode implementar essa localização utilizando o objeto `DiscoveryClient` e/ou via `RestTemplate`
+- Execute e teste a aplicação
+- Experimente subir mais de uma instância do serviço de alunos e verifique-os registrados no Eureka server
+- Execute novamente a aplicação e observe qual a(s) instância(s) que são localizadas durante a execução
+
 ### Integre os projetos no Config Server
+- Utilize o projeto e repositório Git do config server definido no exercício anterior
 - 
