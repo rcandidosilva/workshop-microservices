@@ -96,7 +96,7 @@ eureka:
 - Execute e teste a aplicação, verificando o registro do cliente no Eureka server
   - http://localhost:8761
 
-### Localize e utilize um serviço via Eureka
+### Localize um serviço via Eureka
 - Crie um nova aplicação Spring Boot para representar um serviço de disciplinas
 - Configure o suporte da plataforma Spring Cloud no `pom.xml`
 ```xml
@@ -136,6 +136,22 @@ class DisciplinaDTO {
 - Experimente subir mais de uma instância do serviço de alunos e verifique-os registrados no Eureka server
 - Execute novamente a aplicação e observe qual a(s) instância(s) que são localizadas durante a execução
 
-### Integre os projetos no Config Server
-- Utilize o projeto e repositório Git do config server definido no exercício anterior
-- 
+### Integre os projetos via Config Server
+- Utilize o projeto e repositório Git do config server definido nos exercícios anteriores
+- Crie e configure os arquivos `eureka-service.yml`, `aluno-service.yml` e `disciplina-service.yml`
+- Não se esqueça de adiciona-los e comitá-los no repositório Git
+```
+$ git add .
+$ git commit -m "Added files for cloud-lab03"
+```
+- Altere os projetos Spring Boot criados anteriormente, excluindo os arquivos `application.yml` e criando os arquivos `bootstrap.yml`
+```
+spring:
+  application:
+    name: [service-name]
+  cloud:
+    config:
+      uri: http://localhost:8888
+```
+- Execute o config server e reinicie todos os demais serviços
+- Teste e analise o comportamento da aplicação
