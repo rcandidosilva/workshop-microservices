@@ -85,6 +85,6 @@ $ git commit -m "Changes at cloud-lab01"
   - As propriedades foram atualizadas com sucesso?
 - Simule um `WebHook Git push` para quando um arquivo é modificado no repositório Git
 ```
-curl -v -X POST "http://localhost:8100/monitor" -H "Content-Type: application/json" -H "X-Event-Key: repo:push" -H "X-Hook-UUID: webhook-uuid" -d '{"push": {"changes": []} }'
+curl -v -X POST "http://localhost:8888/monitor" -H "Content-Type: application/json" -H "X-Event-Key: repo:push" -H "X-Hook-UUID: webhook-uuid" -d '{"push": {"changes": []} }'
 ```
 - Execute novamente o REST endpoint e verifique se as propriedades modificadas
