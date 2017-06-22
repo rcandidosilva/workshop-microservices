@@ -80,6 +80,17 @@ class Aluno {
 	      <artifactId>spring-cloud-starter-eureka</artifactId>
     </dependency>
 ```
+- Adicione a anotação `@EnableDiscoveryClient` no classe de aplicação do Spring Boot
+```java
+@EnableDiscoveryClient
+@SpringBootApplication
+public class EurekaClientApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(EurekaClientApplication.class, args);
+    }
+}
+```
 - Configure a conexão entre o cliente e o Eureka server no arquivo `application.yml`
 ```
 spring:
