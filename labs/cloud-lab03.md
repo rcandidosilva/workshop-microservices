@@ -84,10 +84,10 @@ class Aluno {
 ```java
 @EnableDiscoveryClient
 @SpringBootApplication
-public class EurekaClientApplication {
+public class AlunoApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(EurekaClientApplication.class, args);
+        SpringApplication.run(AlunoApplication.class, args);
     }
 }
 ```
