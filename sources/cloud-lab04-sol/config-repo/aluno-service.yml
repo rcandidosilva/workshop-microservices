@@ -7,3 +7,17 @@ eureka:
       defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
   instance:
     preferIpAddress: true
+    
+---
+spring:
+  profiles: ribbon-only
+
+server:
+  port: ${PORT:8080}
+
+disciplina-service:
+  ribbon:
+    eureka:
+      enabled: false
+    listOfServers: localhost:8081,localhost:18081
+    ServerListRefreshInterval: 15000

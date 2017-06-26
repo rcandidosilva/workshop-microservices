@@ -1,6 +1,5 @@
 package cloud.disciplina;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,17 +25,22 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RequestMapping("/disciplinas")
 public class DisciplinaRestController {
 
+	@Autowired
+	DisciplinaRepository repository;
+	
 	@Autowired 
 	DiscoveryClient discoveryClient;
 	
 	@Autowired
 	ObjectMapper objectMapper;
 	
-	@GetMapping
+	@GetMapping("/{id}")
 	@SuppressWarnings("all")
-	public DisciplinaDTO getDisciplina() throws Exception {
+	public DisciplinaDTO getDisciplina(@PathVariable Long id) throws Exception {
+		
 		List<ServiceInstance> alunosService = discoveryClient.getInstances("aluno-service");
 		ServiceInstance instance = alunosService.get(0);
+		
 		HttpGet getRequest = new HttpGet(instance.getUri() + "/alunos");
 		HttpClientBuilder builder = HttpClientBuilder.create();
 		HttpClient client = builder.build();
@@ -44,10 +49,14 @@ public class DisciplinaRestController {
 		Map mapContent = objectMapper.readValue(content, HashMap.class);
 		List<Map> alunos = (List) PropertyUtils.getProperty(mapContent, "_embedded.alunos");
 		List<String> nomes = alunos.stream().map(m -> m.get("nome").toString()).collect(Collectors.toList());
+		
+		Disciplina disciplina = repository.findOne(id);
+	
 		return DisciplinaDTO.builder()
-				.nome("Microservices")
-				.cargaHoraria(80)
-				.dataInicio(new Date())
+				.id(disciplina.getId())
+				.nome(disciplina.getNome())
+				.cargaHoraria(disciplina.getCargaHoraria())
+				.dataInicio(disciplina.getDataInicio())
 				.alunosMatriculados(nomes).build();
 	}
 	

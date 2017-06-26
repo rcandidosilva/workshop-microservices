@@ -5,149 +5,85 @@
 
 ## Tarefas
 
-### Configure o Eureka Server
+### Implemente Ribbon client (sem o Eureka server)
 - Utilize os projetos definidos no exercício anterior
-- Adicione a dependência `spring-cloud-starter-ribbon` no seu projeto
+- Adicione a dependência `spring-cloud-starter-ribbon` no projeto do `aluno-service`
 ```xml
   <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-starter-ribbon</artifactId>
   </dependency>
 ```
-- Configure as definições do serviço Eureka no `application.yml` da aplicação Spring Boot criada
+- Adicione a configuração para o Ribbon client acessar o `disciplina-service` nas propriedades do serviço de `Aluno`
+  - DICA: Defina um novo profile `ribbon-only` para usar esta configuração
 ```
+---
+spring:
+  profiles: ribbon-only
+
 server:
-  port: 8761
+  port: ${PORT:8080}
 
-eureka:
-  instance:
-    hostname: localhost
-  client:
-    registerWithEureka: false
-    fetchRegistry: false
-    serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+disciplina-service:
+  ribbon:
+    eureka:
+      enabled: false
+    listOfServers: localhost:8081,localhost:18081,localhost:28081
+    ServerListRefreshInterval: 15000
 ```
-- Execute a aplicação e acesse o Eureka Dashboard Web
-  - http://localhost:8761
-
-### Registre um Eureka Client
-- Crie um nova aplicação Spring Boot para representar um serviço de alunos
-- Implemente uma classe para representar o objeto `Aluno`
+- Configure um bean `RestTemplate` com a anotação `@LoadBalanced` na aplicação
 ```java
-class Aluno {
-  Long id;
+  @LoadBalanced @Bean
+  RestTemplate restTemplate(){
+      return new RestTemplate();
+  }
+```
+- Implemente um objeto DTO para representar as informações do `Aluno` e das disciplinas matriculadas
+```java
+class AlunoDTO {
   String nome;
-  Integer matricula;
   String email;
+  Integer matricula;
+  List<String> disciplinas;
   // getters/setters
 }
 ```
-- Implemente um `JPA repository`, e expõa o repositório como um REST controller
-- Configure o suporte da plataforma Spring Cloud no `pom.xml`
-```xml
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>Dalston.SR1</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-```
-- Adicione a dependência `spring-cloud-starter-eureka` no seu projeto
-```xml
-    <dependency>
-        <groupId>org.springframework.cloud</groupId>
-	      <artifactId>spring-cloud-starter-eureka</artifactId>
-    </dependency>
-```
-- Adicione a anotação `@EnableDiscoveryClient` no classe de aplicação do Spring Boot
+- Implemente um REST endpoint para consultar e retornar o DTO da aluno com as disciplinas
+- Para acessar o serviço de disciplinas, utilize o `RestTemplate` configurado anteriormente
 ```java
-@EnableDiscoveryClient
-@SpringBootApplication
-public class AlunoApplication {
-
-    public static void main(String[] args) {
-        SpringApplication.run(AlunoApplication.class, args);
-    }
-}
+    @Autowired RestTemplate
+    //...
+    this.restTemplate.getForObject(
+          "http://disciplina-service/disciplinas", List.class)
 ```
-- Configure a conexão entre o cliente e o Eureka server no arquivo `application.yml`
-```
-spring:
-  application:
-    name: aluno-service
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
-  instance:
-    preferIpAddress: true
-```
-- Execute e teste a aplicação, verificando o registro do cliente no Eureka server
-  - http://localhost:8761
-
-### Localize um serviço via Eureka
-- Crie um nova aplicação Spring Boot para representar um serviço de disciplinas
-- Configure o suporte da plataforma Spring Cloud no `pom.xml`
-```xml
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>Dalston.SR1</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-```
-- Adicione a dependência `spring-cloud-starter-eureka` no seu projeto
-```xml
-    <dependency>
-        <groupId>org.springframework.cloud</groupId>
-	      <artifactId>spring-cloud-starter-eureka</artifactId>
-    </dependency>
-```
-- Implemente um objeto DTO para representar as informações da `Disciplina` e alunos matriculados
-```java
-class DisciplinaDTO {
-  String nome;
-  Integer cargaHoraria;
-  Date dataInicio;
-  List<String> alunosMatriculados;
-  // getters/setters
-}
-```
-- Implemente um REST endpoint para consultar e retornar o DTO da disciplina e alunos
-- Realize uma localização no Eureka para buscar os alunos por meio do serviço `aluno-service` registrado anteriormente
-  - DICA: Verifique o exemplo nos slides para realizar uma localização de serviços no Eureka utilizando o objeto `DiscoveryClient`
-- Execute e teste a aplicação
-- Experimente subir mais de uma instância do serviço de alunos e verifique-os registrados no Eureka server
+- Execute e teste a aplicação com apenas uma instância do `disciplina-service`
+- Experimente subir mais de uma instância do `disciplina-service` e teste a aplicação
+  - DICA: Para subir mais de uma instância utilize a variável de ambiente `-Dserver.port`
+    - 'spring-boot:run -Dserver.port=18081'
 - Execute novamente a aplicação e observe qual a(s) instância(s) que são localizadas durante a execução
+  - DICA: Ative o `spring.jpa.show-sql` para facilitar a identificação de qual instância está sendo executada
+- Experimente derrubar uma instância do `disciplina-service` durante a execução e teste o mecanismo de tolerância à falhas
+  - A configuração Ribbon client conseguiu identificar e recuperar essa falha?
 
-### Integre os projetos via Config Server
-- Utilize o projeto e repositório Git do config server definido nos exercícios anteriores
-- Crie e configure os arquivos `eureka-service.yml`, `aluno-service.yml` e `disciplina-service.yml`
-- Não se esqueça de adiciona-los e comitá-los no repositório Git
+### Implemente Ribbon client (com o Eureka server)
+- Utilize os projetos definidos no exercício anterior
+- Adicione a dependência `spring-cloud-starter-ribbon` no projeto do `disciplina-service`
+```xml
+  <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-ribbon</artifactId>
+  </dependency>
 ```
-$ git add .
-$ git commit -m "Added files for cloud-lab03"
+- Configure um bean `RestTemplate` com a anotação `@LoadBalanced` na aplicação, caso não esteja configurado
+```java
+  @LoadBalanced @Bean
+  RestTemplate restTemplate(){
+      return new RestTemplate();
+  }
 ```
-- Altere os projetos Spring Boot criados anteriormente, excluindo os arquivos `application.yml` e criando os arquivos `bootstrap.yml`
-```
-spring:
-  application:
-    name: [service-name]
-  cloud:
-    config:
-      uri: http://localhost:8888
-```
-- Execute o config server e reinicie todos os demais serviços
-- Teste e analise o comportamento da aplicação
+- Verifique se os projetos `disciplina-service` e `aluno-service` estão registrando-se corretamente no Eureka Server
+- Modifique a implementação do REST endpoint para retornar o `DisciplinaDTO` para buscar os alunos via `RestTemplate`
+  - Neste caso, não deve-se utilizar a configuração `ribbon.listOfServers` nas propriedades do serviço de `Disciplina`
+  - Essa lista deverá ser retornada dinâmicamente do registro no Eureka Server
+- Execute e teste a aplicação
+  - Realize os mesmos testes de execução com múltiplas instâncias e tolerância à falhas realizado no exercício anterior
