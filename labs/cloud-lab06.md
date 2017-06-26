@@ -25,8 +25,33 @@
   }
 ```
 - Implemente uma Feign interface para recuperar as disciplinas no projeto `aluno-service`
+```java
+  @FeignClient("disciplina-service")
+  public interface DisciplinaClient {
+
+	    @RequestMapping(value = "/disciplinas", method = RequestMethod.GET)
+	    Resources<DisciplinaDTO> getAllDisciplinas();
+
+	    @RequestMapping(value = "/disciplinas/{id}", method = RequestMethod.GET)
+	    DisciplinaDTO getDisciplina(@PathVariable("id") Long id);
+
+  }
+```
+- Refatore o REST endpoint para retornar o `AlunoDTO` com as disciplinas utilizando o Feign client definido
 - Implemente uma Feign interface para recuperar os alunos no projeto `disciplina-service`
-- Implemente um REST endpoint para consultar e retornar o DTO da aluno com as disciplinas
+```java
+  @FeignClient("aluno-service")
+  public interface AlunoClient {
+
+	    @RequestMapping(value = "/alunos", method = RequestMethod.GET)
+	    Resources<AlunoDTO> getAllAlunos();
+
+	    @RequestMapping(value = "/alunos/{id}", method = RequestMethod.GET)
+	    AlunoDTO getAluno(@PathVariable("id") Long id);
+
+  }
+```
+- Refatore o REST endpoint para retornar a `DisciplinaDTO` com os alunos utilizando o Feign client definido
 - Execute e teste a aplicação
 
 ### Customize as configurações do Feign na aplicação
@@ -38,3 +63,28 @@
       // TODO configurations
   }
 ```
+- Configure um nível de log `FULL` como padrão para os Feign clients
+```java
+  @Bean
+  Logger.Level feignLoggerLevel() {
+      return Logger.Level.FULL;
+  }
+```
+- Habilite também um nível de log específico (DEBUG) para o Feign client `DisciplinaClient`
+```
+logging.level.cloud.aluno.DisciplinaClient: DEBUG
+```
+- Configure um novo comportamento para timeout de conexões para as requisições
+```java
+  int FIVE_SECONDS = 5000; // milliseconds
+  @Bean
+  public Request.Options options() {
+      return new Request.Options(FIVE_SECONDS, FIVE_SECONDS);
+  }
+```
+- Habilite também a compressão da requisição e resposta à ser realizada
+```
+feign.compression.request.enabled=true
+feign.compression.response.enabled=true
+```
+- Execute e teste a aplicação
