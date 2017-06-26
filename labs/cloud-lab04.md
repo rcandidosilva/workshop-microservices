@@ -9,6 +9,7 @@
 - Utilize os projetos definidos no exercício anterior
 - Adicione as configurações de suporte à replicação para réplica `peer1 ` e réplica `peer2` na configuração do Eureka Server
 ```
+...
 ---
 spring:
   profiles: peer1
