@@ -1,4 +1,4 @@
-# Laboratório 05
+# Laboratório 06
 
 ## Objetivos
 - Implementando clientes REST com Netflix Feign

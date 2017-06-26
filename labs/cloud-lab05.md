@@ -31,6 +31,24 @@ disciplina-service:
     listOfServers: localhost:8081,localhost:18081,localhost:28081
     ServerListRefreshInterval: 15000
 ```
+- Defina uma classe para configuração do Ribbon client a ser utilizado
+```java
+  @Configuration
+  public class GroupRibbonConfiguration {
+
+      @Autowired IClientConfig ribbonClientConfig;
+
+      @Bean
+      public IPing ribbonPing(IClientConfig config) {
+          return new PingUrl();
+      }
+
+      @Bean
+      public IRule ribbonRule(IClientConfig config) {
+          return new AvailabilityFilteringRule();
+      }
+  }
+```
 - Configure um bean `RestTemplate` com a anotação `@LoadBalanced` na aplicação
 ```java
   @LoadBalanced @Bean
