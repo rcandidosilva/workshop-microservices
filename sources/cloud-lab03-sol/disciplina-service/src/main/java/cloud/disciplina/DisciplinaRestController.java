@@ -1,4 +1,4 @@
-package cloud.lab03;
+package cloud.disciplina;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -36,6 +36,7 @@ public class DisciplinaRestController {
 	public DisciplinaDTO getDisciplina() throws Exception {
 		List<ServiceInstance> alunosService = discoveryClient.getInstances("aluno-service");
 		ServiceInstance instance = alunosService.get(0);
+		
 		HttpGet getRequest = new HttpGet(instance.getUri() + "/alunos");
 		HttpClientBuilder builder = HttpClientBuilder.create();
 		HttpClient client = builder.build();
@@ -43,7 +44,10 @@ public class DisciplinaRestController {
 		String content = EntityUtils.toString(response.getEntity(), "UTF-8");
 		Map mapContent = objectMapper.readValue(content, HashMap.class);
 		List<Map> alunos = (List) PropertyUtils.getProperty(mapContent, "_embedded.alunos");
-		List<String> nomes = alunos.stream().map(m -> m.get("nome").toString()).collect(Collectors.toList());
+		List<String> nomes = alunos.stream()
+				.map(m -> m.get("nome").toString())
+				.collect(Collectors.toList());
+		
 		return DisciplinaDTO.builder()
 				.nome("Microservices")
 				.cargaHoraria(80)

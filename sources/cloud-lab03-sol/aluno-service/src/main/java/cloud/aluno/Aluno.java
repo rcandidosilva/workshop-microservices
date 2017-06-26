@@ -1,4 +1,4 @@
-package cloud.lab03;
+package cloud.aluno;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

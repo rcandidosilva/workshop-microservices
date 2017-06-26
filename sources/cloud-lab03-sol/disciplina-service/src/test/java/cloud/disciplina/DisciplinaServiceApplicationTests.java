@@ -1,4 +1,4 @@
-package cloud.lab03;
+package cloud.disciplina;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class AlunoServiceApplicationTests {
+public class DisciplinaServiceApplicationTests {
 
 	@Test
 	public void contextLoads() {

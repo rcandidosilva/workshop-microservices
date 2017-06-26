@@ -1,4 +1,4 @@
-package cloud.lab03;
+package cloud.disciplina;
 
 import java.util.Date;
 import java.util.List;

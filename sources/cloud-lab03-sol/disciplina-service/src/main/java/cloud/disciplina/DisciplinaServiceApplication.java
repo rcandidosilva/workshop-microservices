@@ -1,4 +1,4 @@
-package cloud.lab03;
+package cloud.disciplina;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

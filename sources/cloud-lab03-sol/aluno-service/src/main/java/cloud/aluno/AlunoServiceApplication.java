@@ -1,4 +1,4 @@
-package cloud.lab03;
+package cloud.aluno;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
