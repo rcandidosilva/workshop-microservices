@@ -17,6 +17,7 @@
 - Adicione a configuração para o Ribbon client acessar o `disciplina-service` nas propriedades do serviço de `Aluno`
   - DICA: Defina um novo profile `ribbon-only` para usar esta configuração
 ```
+...
 ---
 spring:
   profiles: ribbon-only
