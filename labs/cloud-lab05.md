@@ -1,7 +1,7 @@
 # Laboratório 05
 
 ## Objetivos
-- Implementando balanceamento de carga com Netflix Ribbon
+- Implementando balanceamento de carga e tolerância à falhas com Netflix Ribbon
 
 ## Tarefas
 
