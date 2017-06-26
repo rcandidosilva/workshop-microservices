@@ -34,7 +34,7 @@ disciplina-service:
 - Defina uma classe para configuração do Ribbon client a ser utilizado
 ```java
   @Configuration
-  public class GroupRibbonConfiguration {
+  public class RibbonConfiguration {
 
       @Autowired IClientConfig ribbonClientConfig;
 
