@@ -59,7 +59,7 @@ class AlunoDTO {
 - Execute e teste a aplicação com apenas uma instância do `disciplina-service`
 - Experimente subir mais de uma instância do `disciplina-service` e teste a aplicação
   - DICA: Para subir mais de uma instância utilize a variável de ambiente `-Dserver.port`
-    - 'spring-boot:run -Dserver.port=18081'
+    - `spring-boot:run -Dserver.port=18081`
 - Execute novamente a aplicação e observe qual a(s) instância(s) que são localizadas durante a execução
   - DICA: Ative o `spring.jpa.show-sql` para facilitar a identificação de qual instância está sendo executada
 - Experimente derrubar uma instância do `disciplina-service` durante a execução e teste o mecanismo de tolerância à falhas
