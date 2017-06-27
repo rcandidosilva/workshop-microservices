@@ -9,6 +9,7 @@
 - Utilize os projetos definidos no exercício anterior
 - Adicione as configurações de suporte à replicação para réplica `peer1 ` e réplica `peer2` na configuração do Eureka Server
 ```
+...
 ---
 spring:
   profiles: peer1
@@ -51,6 +52,7 @@ eureka:
     - `/etc/hosts`
 - Execute as duas réplicas Eureka e verifique a conexão sendo realizada via console
   - Não se esqueça de rodar cada réplica com seu profile específico definido (`peer1`, `peer2`)
+    - `mvn spring-boot:run -Dspring.profiles.active=[profile]`
 
 ### Registre o(s) Eureka Client(s) em uma instância diferente do Eureka Server
 - Utilize os projetos definidos anteriormente

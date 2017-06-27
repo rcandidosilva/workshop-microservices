@@ -17,6 +17,7 @@
 - Adicione a configuração para o Ribbon client acessar o `disciplina-service` nas propriedades do serviço de `Aluno`
   - DICA: Defina um novo profile `ribbon-only` para usar esta configuração
 ```
+...
 ---
 spring:
   profiles: ribbon-only
@@ -33,7 +34,6 @@ disciplina-service:
 ```
 - Defina uma classe para configuração do Ribbon client a ser utilizado
 ```java
-  @Configuration
   public class RibbonConfiguration {
 
       @Autowired IClientConfig ribbonClientConfig;
@@ -49,6 +49,15 @@ disciplina-service:
       }
   }
 ```
+- Adicione a configuração do `@RibbonClient` no REST controller da aplicação, ou no local aonde será utilizado o serviço destino
+```java
+@RestController
+@RibbonClient(name = "disciplina-service", configuration = RibbonConfiguration.class)
+public class AlunoRestController {
+  // ...
+}
+```
+
 - Configure um bean `RestTemplate` com a anotação `@LoadBalanced` na aplicação
 ```java
   @LoadBalanced @Bean
@@ -66,7 +75,7 @@ class AlunoDTO {
   // getters/setters
 }
 ```
-- Implemente um REST endpoint para consultar e retornar o DTO da aluno com as disciplinas
+- Implemente um REST endpoint para consultar e retornar o DTO do aluno com as disciplinas
 - Para acessar o serviço de disciplinas, utilize o `RestTemplate` configurado anteriormente
 ```java
     @Autowired RestTemplate
