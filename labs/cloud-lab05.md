@@ -81,9 +81,8 @@ class AlunoDTO {
 ```java
     @Autowired RestTemplate
     //...
-    ResponseEntity<List> disciplinas = restTemplate.getForEntity(
-				"http://disciplina-service/disciplinas/nomes",
-				List.class);
+    restTemplate.getForEntity("http://disciplina-service/disciplinas/nomes",
+        List.class);
 ```
 - Execute e teste a aplicação com apenas uma instância do `disciplina-service`
 - Experimente subir mais de uma instância do `disciplina-service` e teste a aplicação
