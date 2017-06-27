@@ -11,16 +11,17 @@ import com.netflix.loadbalancer.PingUrl;
 
 public class RibbonConfiguration {
 
-	@Autowired IClientConfig ribbonClientConfig;
-	
-    @Bean
-    public IPing ribbonPing(IClientConfig config) {
-        return new PingUrl();
-    }
+	@Autowired
+	IClientConfig ribbonClientConfig;
 
-    @Bean
-    public IRule ribbonRule(IClientConfig config) {
-        return new AvailabilityFilteringRule();
-    }
-    
+	@Bean
+	public IPing ribbonPing(IClientConfig config) {
+		return new PingUrl();
+	}
+
+	@Bean
+	public IRule ribbonRule(IClientConfig config) {
+		return new AvailabilityFilteringRule();
+	}
+
 }
