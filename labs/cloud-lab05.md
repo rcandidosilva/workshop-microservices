@@ -32,7 +32,7 @@ disciplina-service:
     listOfServers: localhost:8081,localhost:18081,localhost:28081
     ServerListRefreshInterval: 15000
 ```
-- Para desabilitar totalmente o Eureka Server, será necessário comentar a anotação `@EnabledDiscoveryClient` na aplicação do `aluno-service`
+- Para desabilitar totalmente o Eureka Server no `aluno-service`, será necessário comentar a anotação `@EnabledDiscoveryClient` na aplicação
 - Defina uma classe para configuração do Ribbon client a ser utilizado
 ```java
   public class RibbonConfiguration {
@@ -111,6 +111,7 @@ class AlunoDTO {
   }
 ```
 - Verifique se os projetos `disciplina-service` e `aluno-service` estão registrando-se corretamente no Eureka Server
+  - DICA: Habilite novamente o `@EnableDiscoveryClient` no `aluno-service`, caso tenha desabilitado no exercício anterior
 - Modifique a implementação do REST endpoint para retornar o `DisciplinaDTO` para buscar os alunos via `RestTemplate`
   - Neste caso, não deve-se utilizar a configuração `ribbon.listOfServers` nas propriedades do serviço de `Disciplina`
   - Essa lista deverá ser retornada dinâmicamente do registro no Eureka Server
