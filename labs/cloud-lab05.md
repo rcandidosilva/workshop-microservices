@@ -49,6 +49,15 @@ disciplina-service:
       }
   }
 ```
+- Adicione a configuração do `@RibbonClient` no REST controller da aplicação, ou no local aonde será utilizado o serviço destino
+```java
+@RestController
+@RibbonClient(name = "disciplina-service", configuration = RibbonConfiguration.class)
+public class AlunoRestController {
+  // ...
+}
+```
+
 - Configure um bean `RestTemplate` com a anotação `@LoadBalanced` na aplicação
 ```java
   @LoadBalanced @Bean
@@ -67,14 +76,6 @@ class AlunoDTO {
 }
 ```
 - Implemente um REST endpoint para consultar e retornar o DTO do aluno com as disciplinas
-- Não se esqueça de adicionar a configuração do `@RibbonClient` no REST controller da aplicação
-```java
-@RestController
-@RibbonClient(name = "disciplina-service", configuration = RibbonConfiguration.class)
-public class AlunoRestController {
-  // ...
-}
-```
 - Para acessar o serviço de disciplinas, utilize o `RestTemplate` configurado anteriormente
 ```java
     @Autowired RestTemplate
