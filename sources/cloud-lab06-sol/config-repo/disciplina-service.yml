@@ -1,6 +1,10 @@
 server:
   port: ${PORT:8081}
 
+spring:
+  jpa:
+    show-sql: true
+
 eureka:
   client:
     serviceUrl:

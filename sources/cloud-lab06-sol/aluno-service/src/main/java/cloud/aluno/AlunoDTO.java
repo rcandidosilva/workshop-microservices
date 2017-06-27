@@ -1,4 +1,4 @@
-package cloud.disciplina;
+package cloud.aluno;
 
 import java.util.List;
 

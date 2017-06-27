@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @FeignClient("disciplina-service")
 public interface DisciplinaClient {
-	
+
 	@RequestMapping(value = "/disciplinas", method = RequestMethod.GET)
-	Resources<DisciplinaDTO> getAllDisciplinas();
-	
-	@RequestMapping(value = "/disciplinas/{id}", method = RequestMethod.GET)
-	DisciplinaDTO getDisciplina(@PathVariable("id") Long id);
+    Resources<DisciplinaDTO> getAllDisciplinas();
+
+    @RequestMapping(value = "/disciplinas/{id}/dto", method = RequestMethod.GET)
+    DisciplinaDTO getDisciplina(@PathVariable("id") Long id);
 	
 }

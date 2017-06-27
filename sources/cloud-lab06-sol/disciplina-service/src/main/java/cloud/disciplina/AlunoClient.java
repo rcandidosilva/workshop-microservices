@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public interface AlunoClient {
 
 	@RequestMapping(value = "/alunos", method = RequestMethod.GET)
-	Resources<AlunoDTO> getAllAlunos();
-	
-	@RequestMapping(value = "/alunos/{id}", method = RequestMethod.GET)
-	AlunoDTO getAluno(@PathVariable("id") Long id);
+    Resources<AlunoDTO> getAllAlunos();
+
+    @RequestMapping(value = "/alunos/{id}/dto", method = RequestMethod.GET)
+    AlunoDTO getAluno(@PathVariable("id") Long id);
 	
 }
