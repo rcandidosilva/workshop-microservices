@@ -68,9 +68,11 @@
       return Logger.Level.FULL;
   }
 ```
-- Habilite também um nível de log específico (DEBUG) para o Feign client `DisciplinaClient`
+- Habilite também um nível de log específico para o Feign client `DisciplinaClient`
 ```
-logging.level.cloud.aluno.DisciplinaClient: DEBUG
+logging:
+  level:
+    cloud.aluno.DisciplinaClient: DEBUG
 ```
 - Configure um novo comportamento para timeout de conexões para as requisições
 ```java
@@ -82,7 +84,11 @@ logging.level.cloud.aluno.DisciplinaClient: DEBUG
 ```
 - Habilite também a compressão da requisição e resposta à ser realizada
 ```
-feign.compression.request.enabled=true
-feign.compression.response.enabled=true
+feign:
+  compression:
+    request:
+      enabled: true
+    response:
+      enabled: true  
 ```
 - Execute e teste a aplicação
