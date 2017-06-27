@@ -32,7 +32,7 @@
       @RequestMapping(value = "/disciplinas", method = RequestMethod.GET)
       Resources<DisciplinaDTO> getAllDisciplinas();
 
-      @RequestMapping(value = "/disciplinas/{id}", method = RequestMethod.GET)
+      @RequestMapping(value = "/disciplinas/{id}/dto", method = RequestMethod.GET)
       DisciplinaDTO getDisciplina(@PathVariable("id") Long id);
   }
 ```
