@@ -38,6 +38,17 @@
 ```
 - Refatore o REST endpoint para retornar o `AlunoDTO` com as disciplinas utilizando o Feign client definido
 - Implemente uma Feign interface para recuperar os alunos no projeto `disciplina-service`
+```java
+  @FeignClient("aluno-service")
+  public interface AlunoClient {
+
+      @RequestMapping(value = "/alunos", method = RequestMethod.GET)
+      Resources<AlunoDTO> getAllAlunos();
+
+      @RequestMapping(value = "/alunos/{id}/dto", method = RequestMethod.GET)
+      AlunoDTO getAluno(@PathVariable("id") Long id);	
+  }
+```
 - Refatore o REST endpoint para retornar a `DisciplinaDTO` com os alunos utilizando o Feign client definido
 - Execute e teste a aplicação
 
