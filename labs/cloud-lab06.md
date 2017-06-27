@@ -54,10 +54,10 @@
 
 ### Customize as configurações do Feign na aplicação
 - Utilize os projetos definidos anteriormente
-- Defina uma classe de customização de configurações Feign `CustomFeignConfiguration`
+- Defina uma classe de customização de configurações Feign `FeignConfiguration`
 ```java
   @Configuration
-  public class CustomFeignConfiguration {  
+  public class FeignConfiguration {  
       // TODO configurations
   }
 ```
