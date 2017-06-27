@@ -22,3 +22,4 @@ disciplina-service:
     eureka:
       enabled: false
     listOfServers: localhost:8081,localhost:18081,localhost:28081
+    ServerListRefreshInterval: 15000
