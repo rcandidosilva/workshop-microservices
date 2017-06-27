@@ -34,7 +34,6 @@ disciplina-service:
 ```
 - Defina uma classe para configuração do Ribbon client a ser utilizado
 ```java
-  @Configuration
   public class RibbonConfiguration {
 
       @Autowired IClientConfig ribbonClientConfig;
@@ -68,6 +67,14 @@ class AlunoDTO {
 }
 ```
 - Implemente um REST endpoint para consultar e retornar o DTO do aluno com as disciplinas
+- Não se esqueça de adicionar a configuração do `@RibbonClient` no REST controller da aplicação
+```java
+@RestController
+@RibbonClient(name = "disciplina-service", configuration = RibbonConfiguration.class)
+public class AlunoRestController {
+  // ...
+}
+```
 - Para acessar o serviço de disciplinas, utilize o `RestTemplate` configurado anteriormente
 ```java
     @Autowired RestTemplate
