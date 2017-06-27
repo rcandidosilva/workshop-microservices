@@ -28,8 +28,9 @@ A arquitetura de micro-serviços já vêm em constante ascensão há um tempo. A
   - Ribbon - Balanceamento de carga
   - Feign - REST client 
   - Hystrix - Circuit Breakers
-  - Zuul - API Gateway
   - Security - OAuth2 e JWT
+  - Zuul - API Gateway
+
 
 ## Resultado Esperado
 Ao final deste treinamento, é esperado que você:
