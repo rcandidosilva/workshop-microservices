@@ -67,7 +67,7 @@ class AlunoDTO {
   // getters/setters
 }
 ```
-- Implemente um REST endpoint para consultar e retornar o DTO da aluno com as disciplinas
+- Implemente um REST endpoint para consultar e retornar o DTO do aluno com as disciplinas
 - Para acessar o serviço de disciplinas, utilize o `RestTemplate` configurado anteriormente
 ```java
     @Autowired RestTemplate
