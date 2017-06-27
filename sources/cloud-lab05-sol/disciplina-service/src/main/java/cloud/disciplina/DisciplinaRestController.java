@@ -72,7 +72,7 @@ public class DisciplinaRestController {
 	@SuppressWarnings("all")
 	public DisciplinaDTO getDisciplina(@PathVariable Long id) throws Exception {
 		
-		ResponseEntity<List> disciplinas = restTemplate.getForEntity(
+		ResponseEntity<List> alunos = restTemplate.getForEntity(
 				"http://aluno-service/alunos",
 				List.class);
 		
@@ -83,7 +83,7 @@ public class DisciplinaRestController {
 				.nome(disciplina.getNome())
 				.cargaHoraria(disciplina.getCargaHoraria())
 				.dataInicio(disciplina.getDataInicio())
-				.alunosMatriculados((List<String>) disciplinas.getBody()).build();
+				.alunosMatriculados((List<String>) alunos.getBody()).build();
 	}	
 	
 }
