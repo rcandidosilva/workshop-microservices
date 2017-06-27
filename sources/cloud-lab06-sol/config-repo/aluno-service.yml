@@ -7,6 +7,17 @@ eureka:
       defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
   instance:
     preferIpAddress: true
+
+logging:
+  level:
+    cloud.aluno.DisciplinaClient: DEBUG   
+   
+feign:
+  compression:
+    request:
+      enabled: true
+    response:
+      enabled: true    
     
 ---
 spring:
