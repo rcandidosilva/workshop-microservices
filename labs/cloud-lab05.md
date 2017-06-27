@@ -32,6 +32,7 @@ disciplina-service:
     listOfServers: localhost:8081,localhost:18081,localhost:28081
     ServerListRefreshInterval: 15000
 ```
+- Para desabilitar totalmente o Eureka Server, será necessário comentar a anotação `@EnabledDiscoveryClient` na aplicação do `aluno-service`
 - Defina uma classe para configuração do Ribbon client a ser utilizado
 ```java
   public class RibbonConfiguration {
@@ -80,8 +81,9 @@ class AlunoDTO {
 ```java
     @Autowired RestTemplate
     //...
-    this.restTemplate.getForObject(
-          "http://disciplina-service/disciplinas", List.class)
+    ResponseEntity<List> disciplinas = restTemplate.getForEntity(
+				"http://disciplina-service/disciplinas/nomes",
+				List.class);
 ```
 - Execute e teste a aplicação com apenas uma instância do `disciplina-service`
 - Experimente subir mais de uma instância do `disciplina-service` e teste a aplicação
