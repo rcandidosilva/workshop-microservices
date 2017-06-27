@@ -14,3 +14,8 @@
 - Utilize os projetos definidos anteriormente
 - ...
 - Execute e teste a aplicação
+
+### Otimize o monitoramento dos circuit breakers com Turbine Stream
+- Utilize os projetos definidos anteriormente
+- ...
+- Execute e teste a aplicação
