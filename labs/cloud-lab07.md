@@ -61,6 +61,11 @@
 ```
 - Injete o objeto `DisciplinaServiceProxy` no REST controller, e utilize para acessar os nomes das disciplinas
 - Execute e teste a aplicação
+  - Tente realizar mais de 5 chamadas consecutivas ao circuito definido
+  - Verifique se o circuito foi aberto acessando o `/health` status do serviço
+    - http://localhost:8080/health
+    - Caso não apareça as informações, tente desabilitar a proteção de segurança via `management.security.enabled` = false     
+  
 
 ### Implemente um circuit breaker via Feign Hystrix fallback
 - Utilize os projetos definidos anteriormente
