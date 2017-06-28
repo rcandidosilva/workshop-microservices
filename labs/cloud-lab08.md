@@ -97,14 +97,17 @@ turbine:
 
 ### Otimize o monitoramento dos circuit breakers com Turbine Stream
 - Utilize os projetos definidos anteriormente
-- Adicione a dependência `spring-cloud-starter-turbine-stream` no projeto do `hystrix-dashboard`
+- Crie um novo projeto Spring Boot para representar o Turbine Stream
+  - Apenas adicione a dependência do `spring-cloud-starter-config`
+    - Não adicione nenhuma outra dependência (ex: `spring-cloud-starter-eureka`)
+- Adicione a dependência `spring-cloud-starter-turbine-stream` neste novo projeto
 ```xml
     <dependency>
         <groupId>org.springframework.cloud</groupId>
         <artifactId>spring-cloud-starter-turbine-stream</artifactId>
     </dependency>
 ```
-- Adicione também a dependência `spring-cloud-starter-stream-rabbit` no projeto do `hystrix-dashboard`
+- Adicione também a dependência `spring-cloud-starter-stream-rabbit` neste projeto
 ```xml
     <dependency>
         <groupId>org.springframework.cloud</groupId>
@@ -121,7 +124,21 @@ public class Application {
     }
 }
 ```
-- Nos projetos dos micro-serviços clientes, será necessário adicionar as dependências do `spring-cloud-netflix-hystrix-stream` e `spring-cloud-starter-stream-rabbit`
+- Adicione a configuração do serviço Turbine Stream no Config Server
+```
+server:
+  port: ${PORT:8989}
+```
+- Não se esqueça de configurar o `bootstrap.yml` na aplicação para se conectar com o Config Server
+```
+spring:
+  application:
+    name: turbine-stream
+  cloud:
+    config:
+      uri: http://localhost:8888  
+```
+- Nos projetos dos serviços clientes, será necessário adicionar as dependências do `spring-cloud-netflix-hystrix-stream` e `spring-cloud-starter-stream-rabbit`
 ```xml
   <dependency>
       <groupId>org.springframework.cloud</groupId>
@@ -141,3 +158,7 @@ public class Application {
   - Mac OS
     - `brew install rabbitmq`
 - Execute e teste a aplicação
+  - http://localhost:7979/hystrix
+  - Para verificar o stream funcionando será necessário configurar a URL do Turbine Stream no Hystrix DashBoard
+    - http://localhost:8989
+  - Verifique também as mensagens sendo enviadas e processadas na fila do `RabbitMQ`
