@@ -41,6 +41,24 @@
       // ...
   }
 ```
+- Configure as seguintes propriedades para o Hystrix Command utilizando anotação `@HystrixProperty`
+  - `execution.isolation.strategy` = THREAD
+  - `circuitBreaker.requestVolumeThreshold` = 5
+  - `requestCache.enabled` = false
+- Configure também as seguintes propriedades para o comportamento do Hystrix thread pool
+  - `coreSize` = 5
+  - `maximumSize` = 5
+```java
+@HystrixCommand(fallbackMethod = "getNomesDisciplinasFallback",
+  commandProperties = {
+      @HystrixProperty(name="execution.isolation.strategy", value="THREAD"),
+      @HystrixProperty(name="circuitBreaker.requestVolumeThreshold", value="5"),
+      @HystrixProperty(name="requestCache.enabled", value="false"),
+  },threadPoolProperties = {
+      @HystrixProperty(name="coreSize", value="5"),
+      @HystrixProperty(name="maximumSize", value="5")
+  })
+```
 - Injete o objeto `DisciplinaServiceProxy` no REST controller, e utilize para acessar os nomes das disciplinas
 - Execute e teste a aplicação
 
@@ -82,5 +100,26 @@
 feign:
   hystrix:
     enabled: true
+```
+- Configure as seguintes propriedades para o Hystrix Command nas propriedades do Config Server
+  - `execution.isolation.strategy` = SEMAPHORE
+  - `execution.isolation.semaphore.maxConcurrentRequests` = 5
+  - `fallback.isolation.semaphore.maxConcurrentRequests` = 5
+  - `circuitBreaker.requestVolumeThreshold` = 5
+```
+hystrix:
+  command:
+    AlunoClient#getAllAlunos():
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          semaphore:
+            maxConcurrentRequests: 5
+      fallback:
+        isolation:
+          semaphore:
+            maxConcurrentRequests: 5
+      circuitBreaker:
+        requestVolumeThreshold: 5
 ```
 - Execute e teste a aplicação
