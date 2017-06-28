@@ -42,7 +42,7 @@ public class Application {
 - Adicione a configuração do novo serviço Hystrix Dashboard no Config Server
 ```
 server:
-  port: ${PORT:8989}
+  port: ${PORT:7979}
 
 eureka:
   client:
@@ -61,9 +61,11 @@ spring:
       uri: http://localhost:8888  
 ```
 - Execute e teste a aplicação
-  - http://localhost:8989/hystrix
+  - http://localhost:7979/hystrix
   - Para monitorar circuitos de algum serviço, é necessário adicionar a seguinte URL na tela de configuração
-    - http://localhost:8080/hystrix.stream
+    - http://localhost:8080/hystrix.stream (`aluno-service`)
+    - http://localhost:8081/hystrix.stream (`disciplina-service`)
+  - É necessário realizar alguns acessos aos circuitos para ativar o monitoramento
 
 ### Monitore todos os circuit breakers via Turbine
 - Utilize os projetos definidos anteriormente
@@ -91,9 +93,9 @@ turbine:
   clusterNameExpression: "'default'"    
 ```
 - Execute e teste a aplicação
-  - http://localhost:8989/hystrix
+  - http://localhost:7979/hystrix
   - Utilize a seguinte URL na configuração do dashboard para monitorar todos os circuitos dos serviços no cluster
-    - http://localhost:8989/turbine.stream
+    - http://localhost:7979/turbine.stream
 
 ### Otimize o monitoramento dos circuit breakers com Turbine Stream
 - Utilize os projetos definidos anteriormente
