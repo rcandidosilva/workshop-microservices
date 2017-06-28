@@ -1,10 +1,6 @@
 server:
   port: ${PORT:8081}
 
-spring:
-  jpa:
-    show-sql: true
-
 eureka:
   client:
     serviceUrl:
@@ -14,4 +10,19 @@ eureka:
     
 feign:
   hystrix:
-    enabled: true    
+    enabled: true
+    
+hystrix:
+  command:
+    AlunoClient#getAllAlunos():
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          semaphore:
+            maxConcurrentRequests: 5
+      fallback:
+        isolation:
+          semaphore:
+            maxConcurrentRequests: 5
+      circuitBreaker:
+        requestVolumeThreshold: 5
