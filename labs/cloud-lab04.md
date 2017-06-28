@@ -70,6 +70,6 @@ eureka:
     preferIpAddress: true
 ```
 - Execute a aplicação utilizando a variável de ambiente `EUREKA_URI` para informar a réplica do Eureka Server à ser registrado
-  - `spring-boot:run -DEUREKA_SERVER=http://peer1:8762/eureka`
-  - `spring-boot:run -DEUREKA_SERVER=http://peer2:8763/eureka`
+  - `spring-boot:run -DEUREKA_URI=http://peer1:8762/eureka`
+  - `spring-boot:run -DEUREKA_URI=http://peer2:8763/eureka`
 - Verifique se a aplicação foi registrada corretamente na réplica definida e se a mesma foi replicada para a outra instância do cluster Eureka definido
