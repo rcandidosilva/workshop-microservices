@@ -14,7 +14,7 @@
       <artifactId>spring-cloud-starter-feign</artifactId>
   </dependency>
 ```
-- Ative a configuração do Feign utilizando a anotação `@EnableFeignClients` na aplicação
+- Ative a configuração do Feign utilizando a anotação `@EnableFeignClients` nas aplicações
 ```java
   @EnableFeignClients
   @SpringBootApplication
@@ -24,7 +24,7 @@
       }
   }
 ```
-- Implemente uma Feign interface para recuperar as disciplinas no projeto `aluno-service`
+- Implemente uma Feign interface para recuperar as disciplinas no projeto do `aluno-service`
 ```java
   @FeignClient("disciplina-service")
   public interface DisciplinaClient {
@@ -36,8 +36,8 @@
       DisciplinaDTO getDisciplina(@PathVariable("id") Long id);
   }
 ```
-- Refatore o REST endpoint para retornar o `AlunoDTO` com as disciplinas utilizando o Feign client definido
-- Implemente uma Feign interface para recuperar os alunos no projeto `disciplina-service`
+- Refatore o REST endpoint para retornar o `AlunoDTO` com as disciplinas utilizando o client Feign definido
+- Implemente uma interface Feign para recuperar os alunos no projeto `disciplina-service`
 ```java
   @FeignClient("aluno-service")
   public interface AlunoClient {
@@ -46,10 +46,10 @@
       Resources<AlunoDTO> getAllAlunos();
 
       @RequestMapping(value = "/alunos/{id}/dto", method = RequestMethod.GET)
-      AlunoDTO getAluno(@PathVariable("id") Long id);	
+      AlunoDTO getAluno(@PathVariable("id") Long id);
   }
 ```
-- Refatore o REST endpoint para retornar a `DisciplinaDTO` com os alunos utilizando o Feign client definido
+- Refatore o REST endpoint para retornar a `DisciplinaDTO` com os alunos utilizando o client Feign definido
 - Execute e teste a aplicação
 
 ### Customize as configurações do Feign na aplicação
@@ -58,7 +58,7 @@
 ```java
   @Configuration
   public class FeignConfiguration {  
-      // TODO configurations
+      // ...
   }
 ```
 - Configure um nível de log `FULL` como padrão para os Feign clients
@@ -68,13 +68,13 @@
       return Logger.Level.FULL;
   }
 ```
-- Habilite também um nível de log específico para o Feign client `DisciplinaClient`
+- Habilite também um nível de log específico somente para o client Feign `DisciplinaClient`
 ```
 logging:
   level:
     cloud.aluno.DisciplinaClient: DEBUG
 ```
-- Configure um novo comportamento para timeout de conexões para as requisições
+- Configure um novo comportamento para timeout de conexões das requisições
 ```java
   int FIVE_SECONDS = 5000; // milliseconds
   @Bean
