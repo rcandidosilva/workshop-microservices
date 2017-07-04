@@ -40,7 +40,6 @@ public class Application {
 }
 ```
 - Adicione a configuração do novo serviço Hystrix Dashboard no Config Server
-  - Não se esqueça de adicionar a dependência do `spring-cloud-starter-config`
 ```
 server:
   port: ${PORT:7979}
@@ -61,6 +60,7 @@ spring:
     config:
       uri: http://localhost:8888  
 ```
+- Adicione também a dependência do `spring-cloud-starter-config` 
 - Execute e teste a aplicação
   - http://localhost:7979/hystrix
   - Para monitorar circuitos de algum serviço, é necessário adicionar a seguinte URL na tela de configuração
