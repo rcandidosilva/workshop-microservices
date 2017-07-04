@@ -60,7 +60,7 @@ spring:
     config:
       uri: http://localhost:8888  
 ```
-- Adicione também a dependência do `spring-cloud-starter-config` 
+- Adicione também a dependência do `spring-cloud-starter-config` no projeto
 - Execute e teste a aplicação
   - http://localhost:7979/hystrix
   - Para monitorar circuitos de algum serviço, é necessário adicionar a seguinte URL na tela de configuração
