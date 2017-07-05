@@ -40,5 +40,6 @@ public class AlunoRestController {
 				.disciplinas(nomesDisciplinas)
 				.build();
 	}
+
 	
 }
