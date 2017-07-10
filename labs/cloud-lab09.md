@@ -181,7 +181,7 @@ spring:
 ```
 - Execute e teste a aplicação
   - Execute a seguinte requisição HTTP POST
-    - ```http://client-credentials:secret@localhost:9999/oauth/token?grant_type=client_credentials```
+    - `http://client-credentials:secret@localhost:9999/oauth/token?grant_type=client_credentials`
   - Verifique como resultado o OAuth2 `access_token` retornado
 
 ### Teste o fluxo Authorization Code via protocolo OAuth2
@@ -201,8 +201,7 @@ spring:
 - Execute e teste a aplicação
   - Abra um web browser e accesse a seguinte URL
     - `http://localhost:9999/oauth/authorize?response_type=code&client_id=client-auth-code&scope=oauth2&redirect_uri=http://callback`
-  - Verifique a tela de login sendo retornada e digite uma credencial válida
-    - user: `barry` / pass: `t0ps3cr3t`
+  - Verifique a tela de login sendo retornada e digite uma credencial válida (user: barry / pass: t0ps3cr3t)
   - Observe a URL de callback sendo retornada com um código de autorização OAuth2 `code` retornado
     - Exemplo: `http://callback/?code=WVewpf`
   - Execute a seguinte requisição HTTP POST
@@ -227,4 +226,3 @@ spring:
   - Abra um web browser e acesse a seguinte URL
     - `http://localhost:9999/oauth/authorize?response_type=token&client_id=client-implicit&redirect_uri=http://callback`
   - Verifique como resultado o OAuth2 `access_token` sendo retornado implicitamente na URL de callback
-    - `http://callback/#access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJiYXJyeSIsInNjb3BlIjpbIm9hdXRoMiJdLCJvcmdhbml6YXRpb24iOiJiYXJyeTE0OTk2NTQyNjY5NDkiLCJleHAiOjE0OTk2OTc0NjYsImF1dGhvcml0aWVzIjpbIlJPTEVfVVNFUiJdLCJqdGkiOiIxOTNhY2M0NC0xNjRlLTRkN2YtODkzNi03YWQzZjhjNzEzYjMiLCJjbGllbnRfaWQiOiJjbGllbnQtaW1wbGljaXQifQ.ib-up13wDlPf60tU4V1dbkPA14VdGy7Z_3FAh4eIyow&token_type=bearer&expires_in=43200&scope=oauth2&organization=barry1499654266949&jti=193acc44-164e-4d7f-8936-7ad3f8c713b3`
