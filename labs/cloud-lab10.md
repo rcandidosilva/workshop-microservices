@@ -83,5 +83,43 @@
 
 ### Manipule chaves assimétricas com JWT
 - Utilize os projetos definidos anteriormente
-- ...
+- Gere a chave privada utilizando a ferramenta `keytool`
+```
+keytool -genkeypair -alias mytest
+                    -keyalg RSA
+                    -keypass mypass
+                    -keystore mytest.jks
+                    -storepass mypass
+```
+- Exporte a chave pública a partir da chave privada gerada anteriormente
+```
+keytool -list -rfc --keystore mytest.jks | openssl x509 -inform pem -pubkey
+```
+- Configure a chave privada no serviço de autorização OAuth2
+```java
+  @Bean
+  public JwtAccessTokenConverter accessTokenConverter() {
+      JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+      KeyStoreKeyFactory keyStoreKeyFactory =
+        new KeyStoreKeyFactory(new ClassPathResource("mytest.jks"), "mypass".toCharArray());
+      converter.setKeyPair(keyStoreKeyFactory.getKeyPair("mytest"));
+      return converter;
+  }
+```
+- Configure a chave pública no serviço de recursos OAuth2
+```java
+  @Bean
+  public JwtAccessTokenConverter accessTokenConverter() {
+      JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+      Resource resource = new ClassPathResource("public.txt");
+      String publicKey = null;
+      try {
+          publicKey = IOUtils.toString(resource.getInputStream());
+      } catch (final IOException e) {
+          throw new RuntimeException(e);
+      }
+      converter.setVerifierKey(publicKey);
+      return converter;
+  }
+```
 - Execute e teste a aplicação
