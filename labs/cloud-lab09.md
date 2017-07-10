@@ -70,12 +70,12 @@
       }
 
       @Autowired
-    	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-    		  auth.inMemoryAuthentication()
-    			    .withUser("barry").password("t0ps3cr3t").roles("USER").and()
-    			    .withUser("larry").password("t0ps3cr3t").roles("USER", "MANAGER").and()
-    			    .withUser("root").password("t0ps3cr3t").roles("USER", "MANAGER", "ADMIN");
-    	}      
+      public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+          auth.inMemoryAuthentication()
+              .withUser("barry").password("t0ps3cr3t").roles("USER").and()
+              .withUser("larry").password("t0ps3cr3t").roles("USER", "MANAGER").and()
+              .withUser("root").password("t0ps3cr3t").roles("USER", "MANAGER", "ADMIN");
+      }      
 
       @Override
     	public void configure(HttpSecurity http) throws Exception {
@@ -92,14 +92,13 @@
   @EnableResourceServer
   public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
-	    @Override
-	    public void configure(HttpSecurity http) throws Exception {
-		      http.authorizeRequests()
-			        .antMatchers("/users/ping").permitAll()
-			        .antMatchers("/users/current").authenticated()
-			        .anyRequest().authenticated();
-	    }
-
+     @Override
+     public void configure(HttpSecurity http) throws Exception {
+         http.authorizeRequests()
+             .antMatchers("/users/ping").permitAll()
+             .antMatchers("/users/current").authenticated()
+             .anyRequest().authenticated();
+     }
   }
 ```
 - Implemente também um REST controller para retornar as informações dos usuários
@@ -108,15 +107,15 @@
   @RequestMapping("/users")
   public class UserRestController {
 
-	    @RequestMapping("/current")
-	    public Principal current(Principal principal) {
-		      return principal;
-	    }
+      @RequestMapping("/current")
+      public Principal current(Principal principal) {
+          return principal;
+      }
 
-	    @RequestMapping("/ping")
-	    public ResponseEntity<String> ping() {
-		      return ResponseEntity.ok("ping: " + System.currentTimeMillis());
-	    }
+      @RequestMapping("/ping")
+      public ResponseEntity<String> ping() {
+          return ResponseEntity.ok("ping: " + System.currentTimeMillis());
+      }
   }
 ```
 - Adicione a configuração do novo serviço de segurança `security-server` no Config Server
