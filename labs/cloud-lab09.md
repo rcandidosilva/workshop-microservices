@@ -34,13 +34,14 @@
       <artifactId>spring-security-oauth2</artifactId>
   </dependency>
 ```
-- Configure o servidor de autorização OAuth2 utilizando a anotação `@EnableAuthorizationServer`
+- Configure o serviço de autorização OAuth2 utilizando a anotação `@EnableAuthorizationServer`
 ```java
   @Configuration
   @EnableAuthorizationServer
   public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
       @Autowired
-      private AuthenticationManager authenticationManager;
+      @Qualifier("authenticationManagerBean")
+      AuthenticationManager authenticationManager;
 
       @Override
       public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
@@ -62,23 +63,60 @@
 ```java
   @Configuration
   public class SecurityConfig extends WebSecurityConfigurerAdapter {
+      @Bean
+      @Override
+      public AuthenticationManager authenticationManagerBean() throws Exception {
+          return super.authenticationManagerBean();
+      }
 
       @Autowired
-      private AuthenticationManager authenticationManager;
+    	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+    		  auth.inMemoryAuthentication()
+    			    .withUser("barry").password("t0ps3cr3t").roles("USER").and()
+    			    .withUser("larry").password("t0ps3cr3t").roles("USER", "MANAGER").and()
+    			    .withUser("root").password("t0ps3cr3t").roles("USER", "MANAGER", "ADMIN");
+    	}      
 
       @Override
-      protected void configure(HttpSecurity http) throws Exception {
-          http.requestMatchers().antMatchers("/login", "/oauth/authorize")
-            .and().authorizeRequests()
-              .anyRequest().authenticated().and()
-              .formLogin().permitAll();
-      }
+    	public void configure(HttpSecurity http) throws Exception {
+          http.csrf().disable()
+            	.requestMatchers().antMatchers("/login", "/oauth/authorize").and()
+            		.authorizeRequests().anyRequest().authenticated().and()
+            		.formLogin().permitAll();
+    	}
+  }
+```
+- Configure o serviço de recursos OAuth2 utilizando a anotação `@EnableResourceServer`
+```java
+  @Configuration
+  @EnableResourceServer
+  public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
-      @Override
-      protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-          auth.inMemoryAuthentication()
-            .withUser("barry").password("t0ps3cr3t").roles("USER");
-      }
+	    @Override
+	    public void configure(HttpSecurity http) throws Exception {
+		      http.authorizeRequests()
+			        .antMatchers("/users/ping").permitAll()
+			        .antMatchers("/users/current").authenticated()
+			        .anyRequest().authenticated();
+	    }
+
+  }
+```
+- Implemente também um REST controller para retornar as informações dos usuários
+```java
+  @RestController
+  @RequestMapping("/users")
+  public class UserRestController {
+
+	    @RequestMapping("/current")
+	    public Principal current(Principal principal) {
+		      return principal;
+	    }
+
+	    @RequestMapping("/ping")
+	    public ResponseEntity<String> ping() {
+		      return ResponseEntity.ok("ping: " + System.currentTimeMillis());
+	    }
   }
 ```
 - Adicione a configuração do novo serviço de segurança `security-server` no Config Server
@@ -92,6 +130,10 @@ eureka:
       defaultZone: ${EUREKA_URI:http://localhost:9999/eureka}
   instance:
     preferIpAddress: true
+
+security:
+  basic:
+    enabled: false    
 ```
 - Não se esqueça de configurar o `bootstrap.yml` na aplicação para se conectar com o Config Server
 ```
@@ -119,6 +161,9 @@ spring:
   }
 ```
 - Execute e teste a aplicação
+  - Execute a seguinte requisição HTTP POST
+    - `http://client-password:secret@localhost:9999/oauth/token?grant_type=password&username=barry&password=t0ps3cr3t`
+  - Verifique como resultado o OAuth2 `access_token` retornado
 
 ### Teste o fluxo Client Credentials via protocolo OAuth2
 - Utilize os projetos definidos anteriormente
@@ -127,7 +172,7 @@ spring:
   @Override
   public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
       //...
-      clients.inMemory().withClient("client-credentials")
+        .and().withClient("client-credentials")
            .secret("secret")
            .authorizedGrantTypes("client_credentials")
            .scopes("oauth2")
@@ -143,7 +188,7 @@ spring:
   @Override
   public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
       //...
-      clients.inMemory().withClient("client-auth-code")
+      .and().withClient("client-auth-code")
            .secret("secret")
            .authorizedGrantTypes("authorization_code")
            .scopes("oauth2")
@@ -159,7 +204,7 @@ spring:
   @Override
   public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
       //...
-      clients.inMemory().withClient("client-implicit")
+      .and().withClient("client-implicit")
            .secret("secret")
            .authorizedGrantTypes("implicit")
            .scopes("oauth2")
