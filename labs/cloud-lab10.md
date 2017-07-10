@@ -18,7 +18,6 @@
 ```java
   @Configuration
   public class AuthServerJwtConfig {
-
     @Bean
     public TokenStore tokenStore() {
         return new JwtTokenStore(accessTokenConverter());
@@ -39,7 +38,6 @@
   @EnableAuthorizationServer
   public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
       //...
-
       @Autowired TokenStore tokenStore;      
       @Autowired JwtAccessTokenConverter accessTokenConverter;
 
@@ -55,7 +53,6 @@
 ```java
   @Configuration
   public class ResourceServerJwtConfig {
-
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
@@ -64,7 +61,7 @@
     }
 
     @Bean
-  	@Primary
+    @Primary
     public DefaultTokenServices tokenServices() {
         DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
         defaultTokenServices.setTokenStore(new JwtTokenStore(accessTokenConverter()));
