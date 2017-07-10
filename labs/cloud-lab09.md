@@ -181,7 +181,7 @@ spring:
 ```
 - Execute e teste a aplicação
   - Execute a seguinte requisição HTTP POST
-    - `http://client-credentials:secret@localhost:9999/oauth/token?grant_type=client_credentials`
+    - ```http://client-credentials:secret@localhost:9999/oauth/token?grant_type=client_credentials```
   - Verifique como resultado o OAuth2 `access_token` retornado
 
 ### Teste o fluxo Authorization Code via protocolo OAuth2
