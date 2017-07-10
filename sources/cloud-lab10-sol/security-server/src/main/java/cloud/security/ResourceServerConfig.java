@@ -12,10 +12,10 @@ import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 @EnableResourceServer
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	
-    @Autowired 
-    DefaultTokenServices tokenServices;
+	@Autowired
+	DefaultTokenServices tokenServices;
 	
-    @Override
+	@Override
     public void configure(ResourceServerSecurityConfigurer config) {
         config.tokenServices(tokenServices);
     }

@@ -53,6 +53,8 @@
 ```java
   @Configuration
   public class ResourceServerJwtConfig {
+    @Autowired TokenStore tokenStore;
+
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
@@ -64,7 +66,7 @@
     @Primary
     public DefaultTokenServices tokenServices() {
         DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
-        defaultTokenServices.setTokenStore(new JwtTokenStore(accessTokenConverter()));
+        defaultTokenServices.setTokenStore(tokenStore);
         defaultTokenServices.setSupportRefreshToken(true);
         return defaultTokenServices;
      }    
@@ -183,8 +185,7 @@ eQIDAQAB
 ```java
   @Configuration
   public class ResourceServerJwtConfig {
-      //...   
-      @Bean
+      //...         
       public JwtAccessTokenConverter accessTokenConverter() {
           JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
           Resource resource = new ClassPathResource("public.txt");
