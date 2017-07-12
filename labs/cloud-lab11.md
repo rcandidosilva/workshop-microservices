@@ -165,6 +165,43 @@ security:
 
 ### Configure o repasse do contexto de segurança OAuth2 nas requisições via Feign
 - Utilize os projetos definidos anteriormente
+- Execute e teste a aplicação tentando acessar os REST endpoints que realizam chamadas via Feign para outros serviços. Verifique se os dados solicitados foram todos retornados.
+  - REST `/disciplinas/{id}/dto`
+  - REST `/alunos/{id}/dto`
+- Adicione a seguinte configuração do `ResourceServerConfig` nos projetos do `aluno-service` e `disciplina-service`
+```java
+  @Configuration
+  @EnableResourceServer
+  public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
+	  //...
 
-- Execute e teste a aplicação
-  - Teste novamente os fluxos de autorização OAuth2 e verifique o JWT via chaves assimétricas sendo validado
+    @Bean
+    public OAuth2FeignRequestInterceptor feignRequestInterceptor(
+            OAuth2ClientContext oAuth2ClientContext, OAuth2ProtectedResourceDetails resource) {
+        return new OAuth2FeignRequestInterceptor(oAuth2ClientContext, resource);
+    }
+  }
+```
+- Execute e teste a aplicação novamente
+  - Foi possível acessar os dados dos alunos via REST endpoint `/disciplinas/{id}/dto`?
+  - Foi possível acessar os dados das disciplinas via REST endpoint `/alunos/{id}/dto`?
+- Modifique a configuração do circuit breaker Hystrix na classe `DisciplinaServiceProxy` para utilizar a estratégia `SEMAPHORE`
+```java
+  @Service
+  public class DisciplinaServiceProxy {
+    //...
+
+	  @HystrixCommand(fallbackMethod = "getNomesDisciplinasFallback",
+			commandProperties = {
+					@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE"),
+					@HystrixProperty(name="circuitBreaker.requestVolumeThreshold", value="5"),
+					@HystrixProperty(name="requestCache.enabled", value="false")
+			})
+	  List<String> getNomesDisciplinas() {
+		  Resources<DisciplinaDTO> disciplinas = disciplinaClient.getAllDisciplinas();
+		  return disciplinas.getContent().stream()
+				.map(d -> d.getNome()).collect(Collectors.toList());
+	  }
+  }
+```
+- Execute e teste novamente o acesso ao REST endpoint `/alunos/{id}/dto`. Foi possível acessar os dados de disciplina agora?
