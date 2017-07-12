@@ -144,6 +144,13 @@
 ```
   keytool -list -rfc --keystore mykeys.jks | openssl x509 -inform pem -pubkey
 ```
+- Para instalar a ferramenta `openssl`
+  - Windows
+    - http://gnuwin32.sourceforge.net/packages/openssl.htm
+  - Mac OS
+    - `brew install openssl`
+  - Linux
+    - https://geeksww.com/tutorials/libraries/openssl/installation/installing_openssl_on_ubuntu_linux.php 
 - Crie um arquivo `public.txt` com o conteúdo da chave pública retornada
 ```
 -----BEGIN PUBLIC KEY-----
