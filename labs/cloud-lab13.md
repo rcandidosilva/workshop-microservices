@@ -1,7 +1,7 @@
 # Laboratório 13
 
 ## Objetivos
-- Implementando um API gateway com Netflix Zuul
+- Roteando os serviços com Netflix Zuul
 
 ## Tarefas
 

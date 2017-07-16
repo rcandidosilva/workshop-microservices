@@ -1,7 +1,7 @@
 # Laboratório 14
 
 ## Objetivos
-- Utilizando recursos avançados no Netflix Zuul
+- Implementando recursos avançados no Netflix Zuul
 
 ## Tarefas
 
