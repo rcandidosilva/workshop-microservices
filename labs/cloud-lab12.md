@@ -14,7 +14,7 @@
       <artifactId>spring-boot-starter-security</artifactId>
   </dependency>
 ```
-- Configure as credentials para acesso ao Config Server no arquivo `bootstrap.yml` do projeto `config-server`
+- Configure as credentials para acesso ao Config Server no arquivo `application.yml` do projeto `config-server`
 ```
 security:
   user:
