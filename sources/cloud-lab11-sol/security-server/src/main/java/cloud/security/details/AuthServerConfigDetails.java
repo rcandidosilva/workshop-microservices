@@ -1,4 +1,4 @@
-package cloud.security;
+package cloud.security.details;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -12,9 +12,9 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 
-//@Configuration
-//@EnableAuthorizationServer
-public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
+@Configuration
+@EnableAuthorizationServer
+public class AuthServerConfigDetails extends AuthorizationServerConfigurerAdapter {
 	
     @Autowired
     @Qualifier("authenticationManagerBean")
@@ -25,6 +25,9 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     
     @Autowired
     TokenEnhancer tokenEnhancer;
+    
+    @Autowired
+    AuthClientDetailsService authClientDetailsService;
 
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
@@ -33,31 +36,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-		clients.inMemory()
-			// Resource Owner Password
-			.withClient("client-password")
-				.secret("secret")
-				.authorizedGrantTypes("password")
-				.scopes("oauth2")
-				.autoApprove(true).and()
-			// Client Credentials
-			.withClient("client-credentials")
-	           .secret("secret")
-	           .authorizedGrantTypes("client_credentials")
-	           .scopes("oauth2")
-	           .autoApprove(true).and()
-	        // Authorization Code
-           .withClient("client-auth-code")
-	           .secret("secret")
-	           .authorizedGrantTypes("authorization_code")
-	           .scopes("oauth2")
-	           .autoApprove(true).and()
-	        // Implicit
-           .withClient("client-implicit")
-	           .secret("secret")
-	           .authorizedGrantTypes("implicit")
-	           .scopes("oauth2")
-	           .autoApprove(true);
+		clients.withClientDetails(authClientDetailsService);
 	}
 
 	@Override

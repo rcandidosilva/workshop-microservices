@@ -1,4 +1,4 @@
-package cloud.security;
+package cloud.security.details;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -8,9 +8,12 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-//@Configuration
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+@Configuration
+public class SecurityConfigDetails extends WebSecurityConfigurerAdapter {
 
+	@Autowired
+	UserService userService;
+	
 	@Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -19,10 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication()
-			.withUser("barry").password("t0ps3cr3t").roles("USER").and()
-			.withUser("larry").password("t0ps3cr3t").roles("USER", "MANAGER").and()
-			.withUser("root").password("t0ps3cr3t").roles("USER", "MANAGER", "ADMIN");
+		auth.userDetailsService(userService);
 	}
 	
 	@Override
