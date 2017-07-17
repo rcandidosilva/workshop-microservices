@@ -68,7 +68,7 @@ spring:
 ```
 - Execute e teste a aplicação
   - Foi possível registrar os demais serviços da aplicação no Eureka Server?
-  - Tente acessar o Eureka Dashboard. Será necessário realizar um login para acesso (eurekaServer/eurekaPassword)
+  - Tente acessar o Eureka Dashboard. Será necessário realizar um login para acesso (eurekaUser/eurekaPassword)
     - http://localhost:8761/
 - Modifique a configuração de conexão ao Eureka Server nas propriedades dos demais serviços da aplicação
 ```
