@@ -80,8 +80,8 @@ zuul:
   sensitiveHeaders: Cookie,Set-Cookie
 ```
 - Execute e teste novamente a aplicação
-  - Foi possível realizar o acesso aos serviços agora? 
-    - Não se esqueça de incorporar o OAuth access token nos headers da requisição
+  - Foi possível realizar o acesso aos serviços agora? 
+    - Não se esqueça de incorporar o OAuth access token nos headers da requisição
 
 
 ### Utilize o Ribbon para balanceamento com Zuul
