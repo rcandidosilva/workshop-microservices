@@ -75,6 +75,14 @@ spring:
     - http://localhost:8000/disciplina/disciplinas/1
   - Foi possível realizar o acesso aos serviços? O que aconteceu?
 - Adicione a seguinte configuração no Zuul proxy server
+```
+zuul:
+  sensitiveHeaders: Cookie,Set-Cookie
+```
+- Execute e teste novamente a aplicação
+  - Foi possível realizar o acesso aos serviços agora? 
+    - Não se esqueça de incorporar o OAuth access token nos headers da requisição
+
 
 ### Utilize o Ribbon para balanceamento com Zuul
 - Utilize os projetos definidos anteriormente
@@ -83,7 +91,7 @@ spring:
   <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-starter-ribbon</artifactId>
-	</dependency>
+  </dependency>
 ```
 - Adicione as seguintes configurações nas propriedades do Zuul no Config Server
 ```
