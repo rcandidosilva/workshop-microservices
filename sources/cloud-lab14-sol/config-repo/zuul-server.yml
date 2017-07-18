@@ -1,0 +1,39 @@
+server:
+  port: ${PORT:8000}
+  
+eureka:
+ client:
+   serviceUrl:
+     defaultZone: ${EUREKA_URI:http://eurekaUser:eurekaPassword@localhost:8761/eureka}
+ instance:
+   preferIpAddress: true  
+   
+zuul:
+#  add-host-header: true
+#  ignore-security-headers: false
+  sensitiveHeaders: Cookie,Set-Cookie
+  routes:
+    security-server:
+      path: /security/**
+      serviceId: security-server
+      stripPrefix: false
+    aluno-service:
+      path: /aluno/**
+#      url: http://localhost:8080
+      serviceId: aluno-service
+    disciplina-service:
+      path: /disciplina/**
+#      url: http://localhost:8081
+      serviceId: disciplina-service
+
+#ribbon:
+#  eureka:
+#    enabled: false
+      
+#aluno-service:
+#  ribbon:
+#    listOfServers: localhost:8080,localhost:18080
+    
+#disciplina-service:
+#  ribbon:
+#    listOfServers: localhost:8081,localhost:18081
