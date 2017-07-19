@@ -24,20 +24,24 @@ docker run -d -p 8081:8081 --name nexus sonatype/nexus3
 docker login -u admin -p admin123 localhost:8081
 ```
 - Defina tags para as imagens Docker produzidas anteriormente
-  - `docker tag microservices/config-server localhost:8081/microservices/config-server`
-  - `docker tag microservices/eureka-server localhost:8081/microservices/eureka-server`
-  - `docker tag microservices/security-service localhost:8081/microservices/security-service`
-  - `docker tag microservices/hystrix-dashboard localhost:8081/microservices/hystrix-dashboard`
-  - `docker tag microservices/aluno-service localhost:8081/microservices/aluno-service`
-  - `docker tag microservices/disciplina-service localhost:8081/microservices/disciplina-service`
-  - `docker tag microservices/zuul-server localhost:8081/microservices/zuul-server`
+```
+docker tag microservices/config-server localhost:8081/microservices/config-server
+docker tag microservices/eureka-server localhost:8081/microservices/eureka-server
+docker tag microservices/security-service localhost:8081/microservices/security-service
+docker tag microservices/hystrix-dashboard localhost:8081/microservices/hystrix-dashboard
+docker tag microservices/aluno-service localhost:8081/microservices/aluno-service
+docker tag microservices/disciplina-service localhost:8081/microservices/disciplina-service
+docker tag microservices/zuul-server localhost:8081/microservices/zuul-server
+```
 - Publique as images Docker no repositório Nexus
-  - `docker push localhost:8081/microservices/config-server`
-  - `docker push localhost:8081/microservices/eureka-server`
-  - `docker push localhost:8081/microservices/security-service`
-  - `docker push localhost:8081/microservices/hystrix-dashboard`
-  - `docker push localhost:8081/microservices/aluno-service`
-  - `docker push localhost:8081/microservices/disciplina-service`
-  - `docker push localhost:8081/microservices/zuul-server`
+```
+docker push localhost:8081/microservices/config-server
+docker push localhost:8081/microservices/eureka-server
+docker push localhost:8081/microservices/security-service
+docker push localhost:8081/microservices/hystrix-dashboard
+docker push localhost:8081/microservices/aluno-service
+docker push localhost:8081/microservices/disciplina-service
+docker push localhost:8081/microservices/zuul-server
+```
 - Verifique as imagens publicas no repositório Nexus na interface Web administrativa
   - http://localhost:8081
