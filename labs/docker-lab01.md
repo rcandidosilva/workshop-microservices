@@ -59,7 +59,7 @@ CMD java ${JAVA_OPTS} ${DEBUG_OPTS} -Djava.security.egd=file:/dev/./urandom -jar
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>0.4.13</version>
                 <configuration>
-                    <imageName>${project.groupId}/${project.artifactId}</imageName>
+                    <imageName>microservices/${project.artifactId}</imageName>
                     <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
                     <resources>
                         <resource>
@@ -81,13 +81,13 @@ CMD java ${JAVA_OPTS} ${DEBUG_OPTS} -Djava.security.egd=file:/dev/./urandom -jar
 - Liste e identifique todas as imagens definidas no registro Docker local
   - `docker images`
 - Execute cada imagem Docker de cada microservice definido
-  - `docker run --name config -d -p 8888:8888 cloud.config/config-server`
-  - `docker run --name eureka -d -p 8761:8761 cloud.eureka/eureka-server`
-  - `docker run --name security -d -p 9999:9999 cloud.security/security-service`
-  - `docker run --name hystrix -d -p 7979:7979 cloud.hystrix/hystrix-dashboard`
-  - `docker run --name aluno -d -p 8080:8080 cloud.aluno/aluno-service`
-  - `docker run --name disciplina -d -p 8081:8081 cloud.disciplina/disciplina-service`
-  - `docker run --name zuul -d -p 8000:8000 cloud.zuul/zuul-server`
+  - `docker run -d -p 8888:8888 --name config microservices/config-server`
+  - `docker run -d -p 8761:8761 --name eureka microservices/eureka-server`
+  - `docker run -d -p 9999:9999 --name security microservices/security-service`
+  - `docker run -d -p 7979:7979 --name hystrix microservices/hystrix-dashboard`
+  - `docker run -d -p 8080:8080 --name aluno microservices/aluno-service`
+  - `docker run -d -p 8081:8081 --name disciplina microservices/disciplina-service`
+  - `docker run -d -p 8000:8000 --name zuul microservices/zuul-server`
 - Verifique todas as imagens rodando no ambiente local
   - `docker ps`
 - Execute e teste a aplicação
