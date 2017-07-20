@@ -47,7 +47,34 @@ EXPOSE ${PORT}
 
 CMD java ${JAVA_OPTS} ${DEBUG_OPTS} -Djava.security.egd=file:/dev/./urandom -jar /app.jar
 ```
-- Será necessário definir um novo Spring Profile `docker` alterando o endereçamento de `localhost` para `172.17.0.1` (Docker default gateway)
+- Será necessário configurar um novo Spring Profile `docker` no `bootstrap.yml` dos microservices para se conectar no Config Server via Docker
+```  
+---
+spring:
+  profiles: docker
+  cloud:
+    config:
+      uri: http://172.17.0.1:8888
+      username: configUser
+      password: configPassword  
+
+```
+- Será necessário também ajustar as configurações de conexão com Eureka e Security nas propriedades gerenciadas via Config Server
+```
+eureka:
+ client:
+   serviceUrl:
+     defaultZone: ${EUREKA_URI:http://eurekaUser:eurekaPassword@172.17.0.1:8761/eureka}
+ instance:
+   preferIpAddress: true
+
+...   
+
+security:
+  oauth2:
+    resource:
+      userInfoUri: http://172.17.0.1:9999/users/current  
+```
 - Configure o plugin `docker-maven-plugin` no `pom.xml` de cada projeto
 ```xml
 <project>
@@ -86,7 +113,7 @@ docker images
 ```
 docker run -d -p 8888:8888 --name config microservices/config-server
 docker run -d -p 8761:8761 --name eureka microservices/eureka-server
-docker run -d -p 9999:9999 --name security microservices/security-service
+docker run -d -p 9999:9999 --name security microservices/security-server
 docker run -d -p 7979:7979 --name hystrix microservices/hystrix-dashboard
 docker run -d -p 8080:8080 --name aluno microservices/aluno-service
 docker run -d -p 8081:8081 --name disciplina microservices/disciplina-service
