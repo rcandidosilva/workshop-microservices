@@ -6,3 +6,14 @@ info:
 
 logging:
   level: debug
+
+---
+spring:
+  profiles: docker
+
+eureka:
+ client:
+   serviceUrl:
+     defaultZone: ${EUREKA_URI:http://eurekaUser:eurekaPassword@172.17.0.1:8761/eureka}
+ instance:
+   preferIpAddress: true  
