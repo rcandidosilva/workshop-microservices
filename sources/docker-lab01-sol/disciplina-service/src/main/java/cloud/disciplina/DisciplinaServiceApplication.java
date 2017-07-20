@@ -1,4 +1,6 @@
-package cloud.aluno;
+package cloud.disciplina;
+
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -10,35 +12,30 @@ import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
 @EnableCircuitBreaker
 @EnableFeignClients
 @EnableDiscoveryClient
 @SpringBootApplication
-public class AlunoServiceApplication implements CommandLineRunner {
+public class DisciplinaServiceApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {
-		SpringApplication.run(AlunoServiceApplication.class, args);
+		SpringApplication.run(DisciplinaServiceApplication.class, args);
 	}
 	
     @LoadBalanced @Bean
     RestTemplate restTemplate(){
         return new RestTemplate();
-    }
+    }	
 	
 	@Autowired
-	AlunoRepository repository;
+	DisciplinaRepository repository;
 	
 	@Override
 	public void run(String... args) throws Exception {
-		repository.save(new Aluno(null, "Rodrigo", 111111, "rodrigo@email.com"));
-		repository.save(new Aluno(null, "Maria", 111111, "maria@email.com"));
-		repository.save(new Aluno(null, "João", 111111, "joao@email.com"));
-		repository.save(new Aluno(null, "José", 111111, "jose@email.com"));
-		repository.save(new Aluno(null, "Rafael", 111111, "rafael@email.com"));
+		repository.save(new Disciplina(null, "Microservices", 80, new Date()));
+		repository.save(new Disciplina(null, "Academia Arquiteto", 120, new Date()));
+		repository.save(new Disciplina(null, "Academia Java", 120, new Date()));
+		repository.save(new Disciplina(null, "Academia Web", 100, new Date()));
 	}
-
 }
