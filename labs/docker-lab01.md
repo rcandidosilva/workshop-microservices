@@ -124,7 +124,7 @@ docker run -d -p 8000:8000 --name zuul microservices/zuul-server
 docker ps
 ```
 - Execute e teste a aplicação
-  - Você pode verificar os logs de cada serviço utilizando `docker logs`
+  - Você pode verificar os logs de cada serviço utilizando `docker logs`
 ```
 docker logs -f config
 docker logs -f eureka
