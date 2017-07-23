@@ -9,7 +9,7 @@ ENV JAVA_OPTS ${JAVA_OPTS:-'-Xmx512m'}
 ENV DEBUG_OPTS ${DEBUG_OPTS}
 ENV PORT ${PORT:-8989}
 
-ADD *.jar /app.jar
+ADD /maven/*.jar /app.jar
 
 VOLUME /tmp
 
