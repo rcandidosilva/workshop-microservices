@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: eureka-server
+  cloud:
+    config:
+      uri: http://localhost:8888
+      username: configUser
+      password: configPassword
+      
+---
+spring:
+  profiles: docker
+  cloud:
+    config:
+      uri: http://config-server:8888
+      username: configUser
+      password: configPassword           

@@ -9,9 +9,9 @@ ENV JAVA_OPTS ${JAVA_OPTS:-'-Xmx512m'}
 ENV DEBUG_OPTS ${DEBUG_OPTS}
 ENV PORT ${PORT:-8000}
 
-ADD *.jar /app.jar
-
 VOLUME /tmp
+
+ADD /maven/*.jar /app.jar
 
 RUN sh -c 'touch /app.jar'
 
