@@ -11,7 +11,7 @@ ENV PORT ${PORT:-8000}
 
 VOLUME /tmp
 
-ADD /maven/*.jar /app.jar
+ADD *.jar /app.jar
 
 RUN sh -c 'touch /app.jar'
 
