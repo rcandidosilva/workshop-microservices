@@ -12,6 +12,8 @@
   - https://www.vagrantup.com/downloads.html  
 - Faça a instalação do Minikube
   - https://github.com/kubernetes/minikube
+- Faça a instalação do Kubectl CLI
+  - https://kubernetes.io/docs/tasks/tools/install-kubectl/  
 - Inicie o Minikube Kubernetes cluster
 ```
 minikube start
@@ -22,8 +24,6 @@ minikube dashboard
 ```
 
 ### Execute um primeiro container no Kubernetes cluster
-- Faça a instalação do Kubectl CLI
-  - https://kubernetes.io/docs/tasks/tools/install-kubectl/
 - Crie e inicie um primeiro deployment no cluster
 ```
 kubectl run hello-wildfly --image=jboss/wildfly:10.1.0.Final --port=8080
