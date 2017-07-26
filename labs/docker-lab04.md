@@ -18,7 +18,7 @@ minikube start
 ```
 - Acesse o Minikube Dashboard
 ```
-minikube Dashboard
+minikube dashboard
 ```
 
 ### Execute um primeiro container no Kubernetes cluster
@@ -26,7 +26,7 @@ minikube Dashboard
   - https://kubernetes.io/docs/tasks/tools/install-kubectl/
 - Crie e inicie um primeiro deployment no cluster
 ```
-kubectl run hello-java --image=jboss/wildfly:10.1.0.Final --port=8080
+kubectl run hello-wildfly --image=jboss/wildfly:10.1.0.Final --port=8080
 ```
 - Verifique se o deployment realizado encontra-se em execução
 ```
