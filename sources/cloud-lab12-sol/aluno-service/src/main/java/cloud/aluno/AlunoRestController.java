@@ -1,6 +1,7 @@
 package cloud.aluno;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequestMapping("/alunos")
@@ -20,6 +22,12 @@ public class AlunoRestController {
 	@Autowired
 	DisciplinaServiceProxy disciplinaProxy;
 	
+	@Autowired
+	RestTemplate restTemplate;
+	
+	@Autowired
+	DisciplinaClient disciplinaClient;
+	
 	@PreAuthorize("#oauth2.isUser()")
 	@GetMapping("/nomes")
 	public List<String> getAlunos() {
@@ -27,6 +35,12 @@ public class AlunoRestController {
 				.stream().map(a -> a.getNome()).collect(Collectors.toList());
 	}
 
+	@GetMapping("/alunos/{id}/disciplinas")
+	public DisciplinaDTO getDisciplinasAlunos(@PathVariable Long id) {
+		return disciplinaClient.getDisciplina(id);
+	}
+
+	
 	@GetMapping("/{id}/dto")
 	@SuppressWarnings("all")
 	public AlunoDTO getAluno(@PathVariable Long id) throws Exception {
