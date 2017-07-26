@@ -44,7 +44,11 @@ kubectl expose deployment hello-wildfly --name=hello-wildfly-service --port=8080
 ```
 minikube ip
 ```
-- Por enfim, remove o deployment realizado anteriormente
+- Verifique os componentes definidos no Kubernetes cluster por meio do Minikube Dashboard
+```
+minikube dashboard
+```
+- Por enfim, remova o deployment realizado anteriormente
 ```
 kubectl delete deployment/hello-wildfly
 ```
