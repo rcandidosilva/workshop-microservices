@@ -38,7 +38,7 @@ kubectl describe deployments hello-wildfly
 ```
 - Para acessar esse deploymente externamente ao cluster, será necessário expor a porta de execução
 ```
-kubectl expose deployment hello-wildfly --name=hello-wildfly-service --port=8080 --target-port=8080
+kubectl expose deployment hello-wildfly --name=hello-wildfly-service --port=8080 --target-port=8080 --type=NodePort
 ```
 - Tente acessar agora o ambiente do Wildfly externamente ao cluster. Para acessar será necessário descobrir o IP do cluster
 ```
