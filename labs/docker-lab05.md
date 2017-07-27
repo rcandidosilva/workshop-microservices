@@ -47,4 +47,9 @@ kubectl run aluno-service --image=localhost:5000/microservices/aluno-service --p
 kubectl run disciplina-service --image=localhost:5000/microservices/disciplina-service --port=8081 --expose=true
 kubectl run zuul-server --image=localhost:5000/microservices/zuul-server --port=8000 --expose=true
 ```
+- Será necessário expor publicamente o acesso ao Security Server e ao Zuul Server
+```
+kubectl expose deployment security-server --name=security-external --port=9999 --target-port=9999 --type=NodePort
+kubectl expose deployment zuul-server --name=zuul-external --port=8000 --target-port=8000 --type=NodePort
+```
 - Teste a aplicação de microservices rodando no ambiente do Kubernetes cluster
