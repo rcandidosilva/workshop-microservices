@@ -39,12 +39,12 @@ docker push minikube-ip:5000/microservices/zuul-server
 ### Realize o deployment de cada microservice no ambiente do Kubernetes cluster
 - Faça o deployment de cada microservice no ambiente do cluster
 ```
-kubectl run config-server --image=localhost:5000/config-server --port=8888 --expose=true
-kubectl run eureka-server --image=localhost:5000/eureka-server --port=8761 --expose=true
-kubectl run security-server --image=localhost:5000/security-server --port=9999 --expose=true
-kubectl run hystrix-dashboard --image=localhost:5000/hystrix-dashboard --port=7979 --expose=true
-kubectl run aluno-service --image=localhost:5000/aluno-service --port=8080 --expose=true
-kubectl run disciplina-service --image=localhost:5000/disciplina-service --port=8081 --expose=true
-kubectl run zuul-server --image=localhost:5000/zuul-server --port=8000 --expose=true
+kubectl run config-server --image=localhost:5000/microservices/config-server --port=8888 --expose=true
+kubectl run eureka-server --image=localhost:5000/microservices/eureka-server --port=8761 --expose=true
+kubectl run security-server --image=localhost:5000/microservices/security-server --port=9999 --expose=true
+kubectl run hystrix-dashboard --image=localhost:5000/microservices/hystrix-dashboard --port=7979 --expose=true
+kubectl run aluno-service --image=localhost:5000/microservices/aluno-service --port=8080 --expose=true
+kubectl run disciplina-service --image=localhost:5000/microservices/disciplina-service --port=8081 --expose=true
+kubectl run zuul-server --image=localhost:5000/microservices/zuul-server --port=8000 --expose=true
 ```
 - Teste a aplicação de microservices rodando no ambiente do Kubernetes cluster
