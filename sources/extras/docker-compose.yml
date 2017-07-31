@@ -1,0 +1,101 @@
+version: '2'
+services:
+  config-server:
+    image: microservices/config-server:latest
+    mem_limit: 1073741824 # RAM 1GB
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    expose:
+      - "8888"
+    ports:
+      - "8888:8888"
+    networks:
+      - microservices
+
+  eureka-server:
+    image: microservices/eureka-server:latest
+    mem_limit: 1073741824 # RAM 1GB
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - config-server
+    expose:
+      - "8761"
+    ports:
+      - "8761:8761"
+    networks:
+      - microservices
+    restart: "always"
+
+  security-server:
+    image: microservices/security-server:latest
+    mem_limit: 1073741824 # RAM 1GB
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - config-server
+      - eureka-server
+    expose:
+      - "9999"
+    ports:
+      - "9999:9999"
+    networks:
+      - microservices
+    restart: "always"
+
+  aluno-service:
+    image: microservices/aluno-service:latest
+    mem_limit: 1073741824 # RAM 1GB
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - config-server
+      - eureka-server
+      - security-server
+    expose:
+      - "8080"
+    ports:
+      - "8080:8080"
+    networks:
+      - microservices
+    restart: "always"
+
+  disciplina-service:
+    image: microservices/disciplina-service:latest
+    mem_limit: 1073741824 # RAM 1GB
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - config-server
+      - eureka-server
+      - security-server
+    expose:
+      - "8081"
+    ports:
+      - "8081:8081"
+    networks:
+      - microservices
+    restart: "always"
+
+  zuul-server:
+    image: microservices/zuul-server:latest
+    mem_limit: 1073741824 # RAM 1GB
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - config-server
+      - eureka-server
+      - security-server
+      - aluno-service
+      - disciplina-service
+    expose:
+      - "8000"
+    ports:
+      - "8000:8000"
+    networks:
+      - microservices
+    restart: "always"
+
+networks:
+  microservices:
+    driver: bridge

@@ -1,0 +1,47 @@
+server:
+  port: ${PORT:8081}
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://eurekaUser:eurekaPassword@localhost:8761/eureka}
+  instance:
+    preferIpAddress: true
+
+feign:
+  hystrix:
+    enabled: true
+
+hystrix:
+  command:
+    AlunoClient#getAllAlunos():
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          semaphore:
+            maxConcurrentRequests: 5
+      fallback:
+        isolation:
+          semaphore:
+            maxConcurrentRequests: 5
+      circuitBreaker:
+        requestVolumeThreshold: 5
+
+security:
+  basic:
+    enabled: false
+  user:
+    password: none
+  oauth2:
+    resource:
+      preferTokenInfo: false
+      userInfoUri: http://localhost:9999/users/current
+
+---
+spring:
+  profiles: docker
+
+security:
+  oauth2:
+    resource:
+      userInfoUri: http://security-server:9999/users/current        
