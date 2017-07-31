@@ -6,6 +6,8 @@ management:
     enabled: false
 
 spring:
+  application:
+    name: config-server
   cloud:
     bus:
       enabled: true
