@@ -12,21 +12,21 @@
   - https://www.vagrantup.com/downloads.html  
 - Faça a instalação do Minikube
   - https://github.com/kubernetes/minikube
+- Faça a instalação do Kubectl CLI
+  - https://kubernetes.io/docs/tasks/tools/install-kubectl/  
 - Inicie o Minikube Kubernetes cluster
 ```
 minikube start
 ```
 - Acesse o Minikube Dashboard
 ```
-minikube Dashboard
+minikube dashboard
 ```
 
 ### Execute um primeiro container no Kubernetes cluster
-- Faça a instalação do Kubectl CLI
-  - https://kubernetes.io/docs/tasks/tools/install-kubectl/
 - Crie e inicie um primeiro deployment no cluster
 ```
-kubectl run hello-java --image=jboss/wildfly:10.1.0.Final --port=8080
+kubectl run hello-wildfly --image=jboss/wildfly:10.1.0.Final --port=8080
 ```
 - Verifique se o deployment realizado encontra-se em execução
 ```
@@ -38,7 +38,7 @@ kubectl describe deployments hello-wildfly
 ```
 - Para acessar esse deploymente externamente ao cluster, será necessário expor a porta de execução
 ```
-kubectl expose deployment hello-wildfly --name=hello-wildfly-service --port=8080 --target-port=8080
+kubectl expose deployment hello-wildfly --name=hello-wildfly-service --port=8080 --target-port=8080 --type=NodePort
 ```
 - Tente acessar agora o ambiente do Wildfly externamente ao cluster. Para acessar será necessário descobrir o IP do cluster
 ```
