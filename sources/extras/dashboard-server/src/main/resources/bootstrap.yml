@@ -1,6 +1,6 @@
 spring:
   application:
-    name: zipkin-server
+    name: dashboard-server
   cloud:
     config:
       uri: http://localhost:8888

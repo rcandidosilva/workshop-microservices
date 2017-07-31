@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false">
+	<include resource="org/springframework/boot/logging/logback/base.xml" />
+
+	<springProperty name="host" source="logging.logstash.host"
+		defaultValue="localhost" />
+	<springProperty name="port" source="logging.logstash.port"
+		defaultValue="5000" />
+
+	<springProperty name="appName" source="spring.application.name" />
+
+	<appender name="STASH"
+		class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+		<destination>${host}:${port}</destination>
+		<!-- encoder is required -->
+		<encoder class="net.logstash.logback.encoder.LogstashEncoder">
+			<customFields>{"service_name":"${appName}"}</customFields>
+		</encoder>
+	</appender>
+
+	<root level="INFO">
+		<appender-ref ref="STASH" />
+		<appender-ref ref="CONSOLE"/>
+	</root>
+
+	<logger name="org.springframework" level="INFO" />
+</configuration>
