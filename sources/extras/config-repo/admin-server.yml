@@ -13,15 +13,8 @@ management:
     enabled: false
     
 spring:
-  cloud:
-    dashboard:
-      http:
-        # Basic Credentials
-        username: user
-        password: password
-        
-        # Optional Defaults values
-        maxConnection: 100 
-    connectTimeout: 1000
-    socketTimeout: 2000 
-    requestTimeout: 1000    
+  boot:
+    admin:
+      url: http://localhost:9000
+      username: admin
+      password: t0ps3cr3t  
