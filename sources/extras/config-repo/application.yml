@@ -3,10 +3,13 @@ server:
 
 info:
   id: ${spring.application.name}
-
+ 
 logging:
-  level: debug
-  
+  level: info
+  logstash:
+    host: localhost
+    port: 5000
+
 eureka:
   client:
     serviceUrl:
@@ -20,6 +23,12 @@ spring:
   rabbitmq:
     host: rabbitmq
     port: 5672
+
+logging:
+  level: info
+  logstash:
+    host: logstash
+    port: 5000
 
 eureka:
  client:
