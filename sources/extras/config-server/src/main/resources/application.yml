@@ -25,3 +25,11 @@ security:
     name: configUser
     password: configPassword
     role: SYSTEM
+    
+---
+spring:
+  profiles: docker
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+  
