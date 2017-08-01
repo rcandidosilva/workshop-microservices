@@ -95,7 +95,7 @@ services:
     networks:
       - microservices
     restart: "always"
-    
+
   hystrix-dashboard:
     image: microservices/hystrix-dashboard:latest
     mem_limit: 1073741824 # RAM 1GB
@@ -110,8 +110,8 @@ services:
       - "7979:7979"
     networks:
       - microservices
-    restart: "always"    
-    
+    restart: "always"
+
   turbine-stream:
     image: microservices/turbine-stream:latest
     mem_limit: 1073741824 # RAM 1GB
@@ -126,8 +126,8 @@ services:
       - "8989:8989"
     networks:
       - microservices
-    restart: "always"     
-    
+    restart: "always"
+
   admin-server:
     image: microservices/admin-server:latest
     mem_limit: 1073741824 # RAM 1GB
@@ -143,7 +143,7 @@ services:
     networks:
       - microservices
     restart: "always"
-    
+
   zipkin-server:
     image: microservices/zipkin-server:latest
     mem_limit: 1073741824 # RAM 1GB
@@ -158,8 +158,8 @@ services:
       - "9411:9411"
     networks:
       - microservices
-    restart: "always"   
-    
+    restart: "always"
+
   dashboard-server:
     image: microservices/dashboard-server:latest
     mem_limit: 1073741824 # RAM 1GB
@@ -174,8 +174,8 @@ services:
       - "9001:9001"
     networks:
       - microservices
-    restart: "always"         
-    
+    restart: "always"
+
   rabbitmq:
     image: "rabbitmq:3-management"
     hostname: "rabbitmq"
@@ -186,7 +186,7 @@ services:
       - "15672:15672"
       - "5672:5672"
     networks:
-      - microservices         
+      - microservices
 
   elasticsearch:
     image: elasticsearch
@@ -209,12 +209,12 @@ services:
     command: logstash -e 'input {
                             tcp {
                               port => 5000
-                              codec => json_lines 
+                              codec => json_lines
                             }
                           }
                           output {
                             elasticsearch { hosts => "elasticsearch:9200" }
-                            stdout { codec => rubydebug } 
+                            stdout { codec => rubydebug }
                           }'
     ports:
       - "5000:5000"
