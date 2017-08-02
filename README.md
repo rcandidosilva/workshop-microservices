@@ -37,3 +37,9 @@ Ao final deste treinamento, é esperado que você:
 Compreenda a definição de uma arquitetura de micro-serviços, e entenda os benefícios e problemas enfrentados na adoção da mesma;
 Implemente APIs RESTful utilizando Spring Boot, com suporte a persistência de dados, segurança, e boas práticas de programação;
 Implemente micro-serviços com Spring Cloud e com o suporte dos projetos Netflix OSS. 
+
+## Slides
+- https://goo.gl/ho4BcU
+- https://goo.gl/edjNLX
+- https://goo.gl/nvY58X
+- https://goo.gl/y6Abmj
