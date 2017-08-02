@@ -1,7 +1,7 @@
 # Workshop Microservices
 
 ## Público-alvo
-Treinamento volta para arquitetos de software, líderes de equipe, desenvolvedores em geral... 
+Treinamento voltado para arquitetos de software, líderes de equipe, desenvolvedores em geral... 
 
 ## Objetivo
 A arquitetura de micro-serviços já vêm em constante ascensão há um tempo. Aprenda o que são, como é o panorama atual e as práticas e metodologias disponíveis para entrar ou crescer na área mais ágil e dinâmica da programação.
