@@ -1,7 +1,7 @@
 # Workshop Microservices
 
 ## Público-alvo
-Treinamento voltado para arquitetos de software, líderes de equipe, desenvolvedores em geral... 
+Treinamento voltado para arquitetos de software, líderes de equipe, desenvolvedores em geral...
 
 ## Objetivo
 A arquitetura de micro-serviços já vêm em constante ascensão há um tempo. Aprenda o que são, como é o panorama atual e as práticas e metodologias disponíveis para entrar ou crescer na área mais ágil e dinâmica da programação.
@@ -15,10 +15,10 @@ A arquitetura de micro-serviços já vêm em constante ascensão há um tempo. A
   - Estratégias de particionamento
   - Práticas de deployment e administração
 - Construindo APIs RESTful com Spring Boot
-  - Overview 
+  - Overview
   - REST, RESTful, HATEOAS
   - Spring MVC
-  - Spring Data 
+  - Spring Data
   - Spring Data REST
   - Spring Profiles
 - Micro-serviços com Spring Cloud e Netflix OSS
@@ -26,7 +26,7 @@ A arquitetura de micro-serviços já vêm em constante ascensão há um tempo. A
   - Spring Cloud Config
   - Eureka - Descoberta de serviços
   - Ribbon - Balanceamento de carga
-  - Feign - REST client 
+  - Feign - REST client
   - Hystrix - Circuit Breakers
   - Security - OAuth2 e JWT
   - Zuul - API Gateway
@@ -36,10 +36,9 @@ A arquitetura de micro-serviços já vêm em constante ascensão há um tempo. A
 Ao final deste treinamento, é esperado que você:
 Compreenda a definição de uma arquitetura de micro-serviços, e entenda os benefícios e problemas enfrentados na adoção da mesma;
 Implemente APIs RESTful utilizando Spring Boot, com suporte a persistência de dados, segurança, e boas práticas de programação;
-Implemente micro-serviços com Spring Cloud e com o suporte dos projetos Netflix OSS. 
+Implemente micro-serviços com Spring Cloud e com o suporte dos projetos Netflix OSS.
 
 ## Slides
 - https://goo.gl/ho4BcU
 - https://goo.gl/edjNLX
 - https://goo.gl/nvY58X
-- https://goo.gl/y6Abmj
