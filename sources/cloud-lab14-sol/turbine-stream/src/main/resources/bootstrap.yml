@@ -1,8 +1,0 @@
-spring:
-  application:
-    name: turbine-stream
-  cloud:
-    config:
-      uri: http://localhost:8888
-      username: configUser
-      password: configPassword        

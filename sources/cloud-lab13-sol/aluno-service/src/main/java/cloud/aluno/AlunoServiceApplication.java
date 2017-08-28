@@ -10,6 +10,9 @@ import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 @EnableCircuitBreaker
 @EnableFeignClients
@@ -37,4 +40,5 @@ public class AlunoServiceApplication implements CommandLineRunner {
 		repository.save(new Aluno(null, "José", 111111, "jose@email.com"));
 		repository.save(new Aluno(null, "Rafael", 111111, "rafael@email.com"));
 	}
+
 }

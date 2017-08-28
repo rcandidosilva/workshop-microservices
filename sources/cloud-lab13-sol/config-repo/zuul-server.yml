@@ -9,14 +9,8 @@ eureka:
    preferIpAddress: true  
    
 zuul:
-#  add-host-header: true
-#  ignore-security-headers: false
   sensitiveHeaders: Cookie,Set-Cookie
   routes:
-    security-server:
-      path: /security/**
-      serviceId: security-server
-      stripPrefix: false
     aluno-service:
       path: /aluno/**
 #      url: http://localhost:8080
