@@ -1,78 +1,61 @@
 # Laboratório 6
 
 ## Objetivos
-- Persistindo dados com Spring Data JPA
+- Habilitando segurança com Spring Boot
 
 ## Tarefas
-### Persista dados em um RDBMS com Spring Data JPA
-- Utilize o projeto criado no exercício anterior, ou crie um novo projeto Spring Boot
-- Configure a dependência do Spring Data JPA 
+### Habilite segurança no projeto Spring Boot
+- Utilize o projeto criado no exercício anterior
+- Configure a dependência do Spring Security
 ```xml
   <dependency>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-data-jpa</artifactId>
+      <artifactId>spring-boot-starter-security</artifactId>
   </dependency>
 ```
-- Implemente os mapeamentos JPA na classe `Aluno`
+- Configure as informações de usuário e senha no `application.properties`
+```
+security.user.name=root
+security.user.password=t0ps3cr3t
+```
+- Execute e teste a aplicação
+
+### Configure diferentes usuários e roles para acessar a aplicação
+- Utilize o projeto definido anteriormente
+- Defina uma nova configuração de segurança para habilitar uma lista de usuários disponíveis para autenticação
+  - Utilize como modelo de configuração o exemplo abaixo:
 ```java
-@Entity
-class Aluno {
-  @Id @GeneratedValue(strategy = GenerationType.AUTO)
-  Long id;
-  String nome;
-  Integer matricula;
-  String email;
-  Date dataNascimento;
-  // getters/setters
+@Configuration
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+            auth.inMemoryAuthentication()
+                .withUser("barry").password("t0ps3cr3t").roles("USER");
+    }
 }
 ```
-- Defina o repositório `AlunoRepository` extendendo do `JpaRepository`
-- Injete o `AlunoRepository` no REST controller do aluno
-- Modifique os métodos do REST controller para persistir e/ou recuperar os dados do aluno
-- Adicione a dependência do banco de dados H2 
-```xml
-  <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
-      <scope>runtime</scope>
-  </dependency>
-```
-- Ative o Web console de administração do H2, e a URL para conexão adicionando as seguintes propriedades no `application.properties`
-```
-spring.h2.console.enabled=true
-spring.datasource.url=jdbc:h2:mem:alunodb
-```
-- Execute e teste a aplicação
+- Execute e teste a aplicação acessando-a com diferentes usuários
 
-### Implemente consultas customizadas no repositório JPA
-- Utilize o projeto definido anteriormente
-- Defina uma consulta utilizando o mecanismo de consultas dinâmicas (definidas pelo nome do método) para retornar os alunos que contém um determinado nome
-- Implemente um novo endpoint REST para executar a nova consulta por nome definida
-- Defina uma nova consulta utilizando `@Query` para retornar os alunos cujo mês de nascimento é igual ao mês corrente
-- Implemente um novo endpoint REST para executar a nova consulta por mês de nascimento definida
-- Execute e teste a aplicação 
-
-### Configure e utilize o ProjectLombok
-- Utilize o projeto definido anteriormente
-- Instale o plug-in do ProjectLombok na IDE
-  - https://projectlombok.org/setup/eclipse
-- Configure a dependência do ProjectLombok
-
-```xml
-  <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok</artifactId>
-      <version>1.16.16</version>
-  </dependency>  
-```
-- Modifique a implementação da entidade `Aluno` para utilizar ProjectLombok
-  - DICA: Utilize as anotações `@Data`, `@NoArgsConstructor`, `@AllArgsConstructor`, `@Builder`, `@EqualsAndHashcode`, `@ToString`
-- Execute e teste a aplicação
-
-### Implemente uma classe de teste para o repositório JPA
+### Utilize diferentes privilégios na autorização dos endpoints da aplicação
 - Utilize o projeto defindo anteriormente
-- Implemente uma classe de teste para o `AlunoRepository`
-- Utilize a configuração `@DataJpaTest` para facilitar a implementação do unit test
-- Injete o repositório e o `TestEntityManager` para poder realizar as chamadas e as asserções do teste
-- Implemente um teste unitário para cada método utilizado pelo repositório na aplicação
-- Execute a classe de teste com sucesso
+- Adicione algumas restrições de segurança via configuração centralizada
+  - Utilize como modelo de configuração o exemplo abaixo:
+```java
+@Configuration
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+  @Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http.authorizeRequests()
+			.antMatchers("/foo/**").hasAnyRole("USER")
+			.antMatchers("/bar/**").hasAnyRole("MANAGER")
+			.anyRequest().fullyAuthenticated()
+			.and().httpBasic().and().csrf().disable();
+	}
+}
+```
+- Habilite a configuração para uso de anotações de segurança nos métodos da aplicação
+```java
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
+```
+- Defina algumas restrições de segurança utilizando as anotações `@Secured` e `@PreAuthorize`
+- Execute e teste a aplicação

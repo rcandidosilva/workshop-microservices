@@ -1,94 +1,55 @@
 # Laboratório 5
 
 ## Objetivos
-- Implementando RESTful com Spring Boot
+- Expondo os repositórios com Spring Data REST
 
 ## Tarefas
-### Implemente uma API RESTful API para controlar alunos
-- Crie um novo projeto Spring Boot
-- Implemente um classe para representar o objeto `Aluno`
-```java
-class Aluno {
-  Long id;
-  String nome;
-  Integer matricula;
-  String email;
-  // getters/setters
-}
-```
-- Implemente um `@RestController` com os endpoints RESTful para gerenciar as ações de `listar`, `criar`, `atualizar` e `excluir`
-- Execute e teste a aplicação
-  - DICA: Utilize um cliente REST para poder simular as chamadas aos endpoints RESTful (Postman: https://www.getpostman.com)
-
-### Manipule a negociação de conteúdo com REST
-- Utilize o projeto definido anteriormente
-- Realize a configuração para negociação de conteúdo JSON e/ou XML (conforme slide)
-- Revise a implementação dos endpoints RESTful para configurar o suporte à serialização de retorno JSON e XML
-```java
-@RequestMapping(path = "/service",
-                method = RequestMethod.GET, 
-                produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-```
-- Adicione o suporte a renderização (parser) XML no bean de `Aluno`
-```java
-@XmlRootElement
-public class Aluno {
-  ...
-}
-```
-- Execute e teste a aplicação negociando o conteúdo desejado
-
-### Configure o comportamento HATEOAS na API REST
-- Utilize o projeto definido anteriormente
-- Configure as dependências do Spring HATEOAS
+### Exponha as funções do repositório como endpoints REST
+- Utilize o projeto criado no exercício sobre Spring Data JPA, ou crie um novo projeto
+- Configure a dependência do Spring Data JPA, se necessário
 ```xml
   <dependency>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-hateoas</artifactId>
+      <artifactId>spring-boot-starter-data-jpa</artifactId>
   </dependency>
 ```
-- Modifique a implementação do objeto `Aluno` para tornar-se um `ResourceSupport`
-- Modifique a implementação dos endpoints RESTful para adicionar os hyperlinks HATEOAS
-- Execute e teste a aplicação
-
-### Implemente uma classe de teste para @RestController
-- Utilize o projeto defindo anteriormente
-- Implemente uma classe de teste para a API RESTful de alunos
-- Utilize a configuração `@WebMvcTest` para facilitar a implementação do unit test
-- Injete o objeto MockMvc para simular as requisições HTTP send realizadas no controller
-- Execute a classe de teste com sucesso
-
-### Documente API com Swagger
-- Utilize o projeto definido anteriormente
-- Configure as dependências do Swagger Code e UI
+- Configure a dependência do Spring Data REST
 ```xml
   <dependency>
-      <groupId>io.springfox</groupId>
-      <artifactId>springfox-swagger2</artifactId>
-      <version>2.6.1</version>
-  </dependency>
-  
-  <dependency>
-      <groupId>io.springfox</groupId>
-      <artifactId>springfox-swagger-ui</artifactId>
-      <version>2.6.1</version>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-rest</artifactId>
   </dependency>
 ```
-- Habilite a configuração do Swagger na aplicação Spring Boot
+- Implemente uma nova entidade para definir as informações da `Disciplina`
 ```java
-@Configuration
-@EnableSwagger2
-public class SwaggerConfig {                                    
-    @Bean
-    public Docket api() { 
-        return new Docket(DocumentationType.SWAGGER_2)  
-          .select()                                  
-          .apis(RequestHandlerSelectors.any())              
-          .paths(PathSelectors.any())                          
-          .build();                                           
-    }
+@Entity
+class Disciplina {
+  @Id @GeneratedValue(strategy = GenerationType.AUTO)
+  Long id;
+  String nome;
+  Integer cargaHoraria;
+  Date dataInicio;
+  // getters/setters
 }
 ```
-- Documente algums endpoints RESTful que foram implementados utilizando as Swagger annotations
-  - `@ApiOperation`, `@ApiResponse`, `@ApiParam`, etc
-- Execute a aplicação e verifique a documentação publicada
+- Implemente o repositório `DisciplinaRepository` extends do `JpaRepository`
+- Adicione a anotação `@RepositoryRestResource` configurando um novo REST path, se desejado
+- Execute e teste a aplicação
+
+### Implemente consultas customizadas no repositório
+- Utilize o projeto definido anteriormente
+- Defina uma nova consulta para retornar as disciplinas com a data de início maior que a data atual
+- Configure a anotação `@RestResource` para expor e customizar a publicação do REST endpoint de consulta
+- Execute e teste a aplicação
+
+### Habilite o HAL browser na aplicação
+- Utilize o projeto defindo anteriormente
+- Configure a dependência do HAL browser na aplicação
+```xml
+  <dependency>
+      <groupId>org.springframework.data</groupId>
+      <artifactId>spring-data-rest-hal-browser</artifactId>
+  </dependency>
+```
+- Execute e teste a aplicação
+  - http://localhost:8080
