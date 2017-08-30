@@ -26,3 +26,14 @@ hystrix:
             maxConcurrentRequests: 5
       circuitBreaker:
         requestVolumeThreshold: 5
+        
+security:
+  sessions: stateless
+  basic:
+    enabled: false
+  user:
+    password: none    
+  oauth2:
+    resource:
+      preferTokenInfo: false
+      userInfoUri: http://localhost:9999/users/current        

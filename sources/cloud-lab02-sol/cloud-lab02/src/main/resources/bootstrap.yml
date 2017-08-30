@@ -1,6 +1,0 @@
-spring:
-  application:
-    name: cloud-lab02
-  cloud:
-    config:
-      uri: http://localhost:8888

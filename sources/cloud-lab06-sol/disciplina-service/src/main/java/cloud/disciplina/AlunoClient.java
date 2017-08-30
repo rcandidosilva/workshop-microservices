@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-@FeignClient("aluno-service")
+@FeignClient(name = "aluno-service", fallback = AlunoClientFallback.class)
 public interface AlunoClient {
 
 	@RequestMapping(value = "/alunos", method = RequestMethod.GET)

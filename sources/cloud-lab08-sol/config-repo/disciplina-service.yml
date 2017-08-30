@@ -4,7 +4,7 @@ server:
 eureka:
   client:
     serviceUrl:
-      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+      defaultZone: ${EUREKA_URI:http://eurekaUser:eurekaPassword@localhost:8761/eureka}
   instance:
     preferIpAddress: true
     
@@ -26,3 +26,13 @@ hystrix:
             maxConcurrentRequests: 5
       circuitBreaker:
         requestVolumeThreshold: 5
+        
+security:
+  basic:
+    enabled: false
+  user:
+    password: none    
+  oauth2:
+    resource:
+      preferTokenInfo: false
+      userInfoUri: http://localhost:9999/users/current        

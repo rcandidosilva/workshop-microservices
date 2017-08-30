@@ -4,12 +4,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.hateoas.Resources;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequestMapping("/disciplinas")
@@ -19,7 +18,7 @@ public class DisciplinaRestController {
 	DisciplinaRepository repository;
 	
 	@Autowired
-	RestTemplate restTemplate;
+	AlunoClient alunoClient;
 	
 	@GetMapping("/nomes")
 	public List<String> getDisciplinas() {
@@ -31,9 +30,9 @@ public class DisciplinaRestController {
 	@SuppressWarnings("all")
 	public DisciplinaDTO getDisciplina(@PathVariable Long id) throws Exception {
 		
-		ResponseEntity<List> alunos = restTemplate.getForEntity(
-				"http://aluno-service/alunos/nomes",
-				List.class);
+		Resources<AlunoDTO> alunos = alunoClient.getAllAlunos();
+		List<String> alunosNomes = alunos.getContent().stream()
+				.map(a -> a.getNome()).collect(Collectors.toList());
 		
 		Disciplina disciplina = repository.findOne(id);
 	
@@ -42,7 +41,7 @@ public class DisciplinaRestController {
 				.nome(disciplina.getNome())
 				.cargaHoraria(disciplina.getCargaHoraria())
 				.dataInicio(disciplina.getDataInicio())
-				.alunosMatriculados((List<String>) alunos.getBody())
+				.alunosMatriculados(alunosNomes)
 				.build();
 	}		
 	

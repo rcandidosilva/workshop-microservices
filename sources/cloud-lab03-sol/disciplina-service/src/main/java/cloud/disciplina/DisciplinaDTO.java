@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DisciplinaDTO {
 
+	Long id;
 	String nome;
 	Integer cargaHoraria;
 	Date dataInicio;

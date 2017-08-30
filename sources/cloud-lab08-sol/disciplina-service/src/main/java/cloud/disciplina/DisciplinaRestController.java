@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resources;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ public class DisciplinaRestController {
 	@Autowired
 	AlunoClient alunoClient;
 	
+	@PreAuthorize("hasRole('MANAGER')")
 	@GetMapping("/nomes")
 	public List<String> getDisciplinas() {
 		return repository.findAll()

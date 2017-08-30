@@ -19,13 +19,15 @@ public class DisciplinaServiceProxy {
 	
 	@HystrixCommand(fallbackMethod = "getNomesDisciplinasFallback", 
 			commandProperties = {
-					@HystrixProperty(name="execution.isolation.strategy", value="THREAD"),
+//					@HystrixProperty(name="execution.isolation.strategy", value="THREAD"),
+					@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE"),
 					@HystrixProperty(name="circuitBreaker.requestVolumeThreshold", value="5"),
-					@HystrixProperty(name="requestCache.enabled", value="false"),
-			},threadPoolProperties = {
-					@HystrixProperty(name="coreSize", value="5"),
-					@HystrixProperty(name="maximumSize", value="5")
+					@HystrixProperty(name="requestCache.enabled", value="false")
 			})
+//			},threadPoolProperties = {
+//					@HystrixProperty(name="coreSize", value="5"),
+//					@HystrixProperty(name="maximumSize", value="5")
+//			})
 	List<String> getNomesDisciplinas() {
 		Resources<DisciplinaDTO> disciplinas = disciplinaClient.getAllDisciplinas();
 		return disciplinas.getContent().stream()

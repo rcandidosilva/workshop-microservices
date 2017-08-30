@@ -8,9 +8,13 @@ eureka:
   instance:
     preferIpAddress: true
 
+management:
+  security:
+    enabled: false
+
 logging:
   level:
-    cloud.aluno.DisciplinaClient: DEBUG   
+    cloud.aluno.DisciplinaClient: DEBUG      
    
 feign:
   compression:
