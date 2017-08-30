@@ -1,13 +1,13 @@
 # Laboratório 08
 
 ## Objetivos
-- Monitorando os circuitos com Hystrix Dashboard e Turbine
+- Roteando os serviços com Netflix Zuul
 
 ## Tarefas
 
-### Monitore um circuit breaker com Hystrix Dashboard
+### Defina um API gateway server com Zuul
 - Utilize os projetos definidos no exercício anterior
-- Crie um novo projeto Spring Boot para representar o Hystrix Dashboard
+- Crie um novo projeto Spring Boot para representar o API gateway com Zuul `zuul-server`
 - Configure o suporte da plataforma Spring Cloud no `pom.xml`
 ```xml
     <dependencyManagement>
@@ -22,146 +22,233 @@
         </dependencies>
     </dependencyManagement>
 ```
-- Adicione a dependência `spring-cloud-starter-hystrix-dashboard` no seu projeto
+- Adicione as seguintes dependências no projeto
+  - `spring-boot-starter-web`
+  - `spring-boot-starter-actuator`
+  - `spring-cloud-starter-config`
+- Adicione também a dependência `spring-cloud-starter-zuul` no seu projeto
 ```xml
-    <dependency>
-        <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-starter-hystrix-dashboard</artifactId>
-    </dependency>
+  <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-zuul</artifactId>
+  </dependency>
 ```
-- Adicione a anotação `@EnableHystrixDashboard` na classe `Application`
+- Configure o serviço do Zuul adicionando a anotação `@EnableZuulProxy` na aplicação
 ```java
-@EnableHystrixDashboard
-@SpringBootApplication
-public class Application {
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-    }
-}
+  @EnableZuulProxy
+  @SpringBootApplication
+  public class ZuulServerApplication {
+
+	    public static void main(String[] args) {
+		      SpringApplication.run(ZuulServerApplication.class, args);
+      }
+  }
 ```
-- Adicione a configuração do novo serviço Hystrix Dashboard no Config Server
+- Adicione a configuração do Zuul no Config Server definindos as rotas utilizando URLs
 ```
 server:
-  port: ${PORT:7979}
+  port: ${PORT:8000}
 
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
-  instance:
-    preferIpAddress: true
+zuul:
+    routes:
+      aluno-service:
+        path: /aluno/**
+        url: http://localhost:8080
+      disciplina-service:
+        path: /disciplina/**
+        url: http://localhost:8081  
 ```
 - Não se esqueça de configurar o `bootstrap.yml` na aplicação para se conectar com o Config Server
 ```
 spring:
   application:
-    name: hystrix-dashboard
+    name: zuul-server
   cloud:
     config:
-      uri: http://localhost:8888  
-```
-- Adicione também a dependência do `spring-cloud-starter-config` no projeto
-- Execute e teste a aplicação
-  - http://localhost:7979/hystrix
-  - Para monitorar circuitos de algum serviço, é necessário adicionar a seguinte URL na tela de configuração
-    - http://localhost:8080/hystrix.stream (`aluno-service`)
-    - http://localhost:8081/hystrix.stream (`disciplina-service`)
-  - É necessário realizar alguns acessos aos circuitos para ativar o monitoramento
-
-### Monitore todos os circuit breakers via Turbine
-- Utilize os projetos definidos anteriormente
-- Adicione a dependência `spring-cloud-starter-turbine` no projeto do `hystrix-dashboard`
-```xml
-    <dependency>
-        <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-starter-turbine</artifactId>
-    </dependency>
-```
-- Adicione a anotação `@EnableTurbine` na classe `Application`
-```java
-@EnableTurbine
-@SpringBootApplication
-public class Application {
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-    }
-}
-```
-- Configure o cluster Turbine para monitoramento nas propriedades da aplicação
-```
-turbine:
-  appConfig: aluno-service,disciplina-service
-  clusterNameExpression: "'default'"    
+      uri: http://localhost:8888
+      username: configUser
+      password: configPassword
 ```
 - Execute e teste a aplicação
-  - http://localhost:7979/hystrix
-  - Utilize a seguinte URL na configuração do dashboard para monitorar todos os circuitos dos serviços no cluster
-    - http://localhost:7979/turbine.stream
+  - Tente acessar os serviços do `aluno-service` e `disciplina-service` via Zuul proxy server
+    - http://localhost:8000/aluno/alunos/1
+    - http://localhost:8000/disciplina/disciplinas/1
+  - Foi possível realizar o acesso aos serviços? O que aconteceu?
+- Adicione a seguinte configuração no Zuul proxy server
+```
+zuul:
+  sensitiveHeaders: Cookie,Set-Cookie
+```
+- Execute e teste novamente a aplicação
+  - Foi possível realizar o acesso aos serviços agora?
+    - Não se esqueça de incorporar o OAuth access token nos headers da requisição
 
-### Otimize o monitoramento dos circuit breakers com Turbine Stream
+### Utilize o Eureka para descoberta dos serviços com Zuul
 - Utilize os projetos definidos anteriormente
-- Crie um novo projeto Spring Boot para representar o Turbine Stream
-  - Apenas adicione a dependência do `spring-cloud-starter-config`
-    - Não adicione nenhuma outra dependência (ex: `spring-cloud-starter-eureka`)
-- Adicione a dependência `spring-cloud-starter-turbine-stream` neste novo projeto
-```xml
-    <dependency>
-        <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-starter-turbine-stream</artifactId>
-    </dependency>
-```
-- Adicione também a dependência `spring-cloud-starter-stream-rabbit` neste projeto
-```xml
-    <dependency>
-        <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-starter-stream-rabbit</artifactId>
-    </dependency>
-```
-- Adicione a anotação `@EnableTurbineStream` na classe `Application`
-```java
-@EnableTurbineStream
-@SpringBootApplication
-public class Application {
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-    }
-}
-```
-- Adicione a configuração do serviço Turbine Stream no Config Server
-```
-server:
-  port: ${PORT:8989}
-```
-- Não se esqueça de configurar o `bootstrap.yml` na aplicação para se conectar com o Config Server
-```
-spring:
-  application:
-    name: turbine-stream
-  cloud:
-    config:
-      uri: http://localhost:8888  
-```
-- Nos projetos dos serviços clientes, será necessário adicionar as dependências do `spring-cloud-netflix-hystrix-stream` e `spring-cloud-starter-stream-rabbit`
+- Adicione a dependência do Netflix Ribbon no projeto `zuul-server`
 ```xml
   <dependency>
       <groupId>org.springframework.cloud</groupId>
-      <artifactId>spring-cloud-netflix-hystrix-stream</artifactId>
-  </dependency>
-  <dependency>
-      <groupId>org.springframework.cloud</groupId>
-      <artifactId>spring-cloud-starter-stream-rabbit</artifactId>
+      <artifactId>spring-cloud-starter-eureka</artifactId>
   </dependency>
 ```
-- Será necessário utilizar o `RabbitMQ` para rodar este exemplo. Inicie o serviço do middleware, ou realize uma nova instalação, caso não o tenha instalado
-  - Windows
-    - https://www.rabbitmq.com/install-windows.html
-  - Linux
-    - `apt-get install rabbitmq-server`
-    - `yum install rabbitmq-server`
-  - Mac OS
-    - `brew install rabbitmq`
+- Ative a utilização do Eureka habilitando a seguinte configuração nas propriedades do Zuul no Config Server
+```
+ribbon:
+  eureka:
+    enabled: true
+```
+- Ajuste as configurações de roteamento do Zuul nas propriedades
+```
+zuul:
+  routes:
+    aluno-service:
+      path: /aluno/**
+      serviceId: aluno-service
+    disciplina-service:
+      path: /disciplina/**
+      serviceId: disciplina-service
+```
 - Execute e teste a aplicação
-  - http://localhost:7979/hystrix
-  - Para verificar o stream funcionando será necessário configurar a URL do Turbine Stream no Hystrix DashBoard
-    - http://localhost:8989
-  - Verifique também as mensagens sendo enviadas e processadas na fila do `RabbitMQ`
+  - Execute duas instâncias do `aluno-service` e também do `disciplina-service` utilizando portas diferentes da configuradas via Ribbon
+    - `mvn spring-boot:run -DPORT=[port]`
+  - Acesse os REST endpoints roteados e verifique a descoberta dos serviços sendo realizada
+    - http://localhost:8000/aluno/alunos/1
+    - http://localhost:8000/disciplina/disciplinas/1  
+
+### [OPCIONAL]: Implemente um Hystrix fallback padrão via ZuulFallbackProvider
+- Utilize os projetos definidos anteriormente
+- Implemente uma classe `DefaultFallbackProvider` para definir um Hystrix fallback padrão
+```java
+  public class DefaultFallbackProvider implements ZuulFallbackProvider {
+
+	    @Override
+	    public String getRoute() {
+		      return "*";
+	    }
+
+	    @Override
+	    public ClientHttpResponse fallbackResponse() {
+		      return new ClientHttpResponse() {
+			      @Override
+			      public HttpStatus getStatusCode() throws IOException {
+				        return HttpStatus.OK;
+			      }
+
+			      @Override
+			      public int getRawStatusCode() throws IOException {
+				        return 200;
+			      }
+
+			      @Override
+			      public String getStatusText() throws IOException {
+				        return "OK";
+			      }
+
+			      @Override
+			      public void close() {}
+
+			      @Override
+			      public InputStream getBody() throws IOException {
+				         return new ByteArrayInputStream("fallback".getBytes());
+			      }
+
+			      @Override
+			      public HttpHeaders getHeaders() {
+				         HttpHeaders headers = new HttpHeaders();
+				         headers.setContentType(MediaType.APPLICATION_JSON);
+				         return headers;
+			      }
+		      };
+	    }
+  }
+```
+- Configure o `DefaultFallbackProvider` na classe do `ZuulServerApplication`
+```java
+  @EnableZuulProxy
+  @SpringBootApplication
+  public class ZuulServerApplication {
+      //...
+	    @Bean
+	    public DefaultFallbackProvider defaultFallbackProvider() {
+		      return new DefaultFallbackProvider();
+	    }
+	}
+```
+- Execute e teste a aplicação
+
+### [OPCIONAL]: Implemente filtros no Zuul Server
+- Utilize os projetos definidos anteriormente
+- Implemente um classe `LoggingRequestFilter` para filtrar e logar as requisições recebidas
+```java
+  public class LoggingRequestFilter extends ZuulFilter {
+
+      private static Logger log = LoggerFactory.getLogger(LoggingRequestFilter.class);
+
+      @Override
+      public String filterType() {
+          return "pre";
+      }
+
+      @Override
+      public int filterOrder() {
+          return 1;
+      }
+
+      @Override
+      public boolean shouldFilter() {
+          return true;
+      }
+
+      @Override
+      public Object run() {
+          RequestContext ctx = RequestContext.getCurrentContext();
+          HttpServletRequest request = ctx.getRequest();
+          log.info(String.format("%s request to %s", request.getMethod(), request.getRequestURL().toString()));
+          return null;
+      }
+  }
+```
+- Implemente também um classe `AddResponseHeaderFilter` para adicionar um header customizado na resposta
+```java
+  public class AddResponseHeaderFilter extends ZuulFilter {
+
+	    public String filterType() {
+		      return "post";
+	    }
+
+	    public int filterOrder() {
+		      return 999;
+	    }
+
+	    public boolean shouldFilter() {
+		      return true;
+	    }
+
+	    public Object run() {
+		      RequestContext context = RequestContext.getCurrentContext();
+		      HttpServletResponse servletResponse = context.getResponse();
+		      servletResponse.addHeader("X-Foo", UUID.randomUUID().toString());
+		      return null;
+	    }
+  }
+```
+- Configure os filtros implementados na classe do `ZuulServerApplication`
+```java
+  @EnableZuulProxy
+  @SpringBootApplication
+  public class ZuulServerApplication {
+      //...
+	    @Bean
+	    public LoggingRequestFilter loggingRequestFilter() {
+		      return new LoggingRequestFilter();
+	    }
+
+	    @Bean
+	    public AddResponseHeaderFilter addResponseHeaderFilter() {
+		      return new AddResponseHeaderFilter();
+	    }
+  }
+```
+- Execute e teste a aplicação
+  - Verifique os filtros sendo executados

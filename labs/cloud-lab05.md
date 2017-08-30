@@ -1,118 +1,223 @@
 # Laboratório 05
 
 ## Objetivos
-- Implementando balanceamento de carga e tolerância à falhas com Netflix Ribbon
+- Implementando circuit breakers com Netflix Hystrix
 
 ## Tarefas
 
-### Implemente Ribbon client (sem o Eureka server)
+### Implemente circuit breaker via @HystrixCommand
 - Utilize os projetos definidos no exercício anterior
-- Adicione a dependência `spring-cloud-starter-ribbon` no projeto do `aluno-service`
+- Adicione a dependência `spring-cloud-starter-hystrix` no projeto do `aluno-service`
 ```xml
   <dependency>
       <groupId>org.springframework.cloud</groupId>
-      <artifactId>spring-cloud-starter-ribbon</artifactId>
+      <artifactId>spring-cloud-starter-hystrix</artifactId>
   </dependency>
 ```
-- Adicione a configuração para o Ribbon client acessar o `disciplina-service` nas propriedades do serviço de `Aluno`
-  - DICA: Defina um novo profile `ribbon-only` para usar esta configuração
-```
-...
----
-spring:
-  profiles: ribbon-only
-
-server:
-  port: ${PORT:8080}
-
-disciplina-service:
-  ribbon:
-    eureka:
-      enabled: false
-    listOfServers: localhost:8081,localhost:18081,localhost:28081
-    ServerListRefreshInterval: 15000
-```
-- Para desabilitar totalmente o Eureka Server no `aluno-service`, será necessário comentar a anotação `@EnabledDiscoveryClient` na aplicação
-- Defina uma classe para configuração do Ribbon client a ser utilizado
+- Ative a configuração do Hystrix utilizando a anotação `@EnableCircuitBreaker` na aplicação
 ```java
-  public class RibbonConfiguration {
-
-      @Autowired IClientConfig ribbonClientConfig;
-
-      @Bean
-      public IPing ribbonPing(IClientConfig config) {
-          return new PingUrl();
-      }
-
-      @Bean
-      public IRule ribbonRule(IClientConfig config) {
-          return new AvailabilityFilteringRule();
+  @@EnableCircuitBreaker
+  @SpringBootApplication
+  public class Application {
+      public static void main(String[] args) {
+          SpringApplication.run(Application.class, args);
       }
   }
 ```
-- Adicione a configuração do `@RibbonClient` no REST controller da aplicação, ou no local aonde será utilizado o serviço destino
+- Implemente uma classe `DisciplinaServiceProxy` para controlar as chamadas do `aluno-service` -> `disciplina-service`
 ```java
-@RestController
-@RibbonClient(name = "disciplina-service", configuration = RibbonConfiguration.class)
-public class AlunoRestController {
-  // ...
-}
-```
-
-- Configure um bean `RestTemplate` com a anotação `@LoadBalanced` na aplicação
-```java
-  @LoadBalanced @Bean
-  RestTemplate restTemplate(){
-      return new RestTemplate();
+  @Service
+  public class DisciplinaServiceProxy {
+      // TODO
   }
 ```
-- Implemente um objeto DTO para representar as informações do `Aluno` e das disciplinas matriculadas
+- Injete a interface Feign `DisciplinaClient` via `@Autowired` na classe proxy
+- Implemente um método para recuperar os nomes das disciplinas via `disciplina-service` utilizando a interface Feign `DisciplinaClient`
+- Implemente um fallback método para recuperar nomes das disciplinas caso o `disciplina-service` esteja indisponível
+- Utilize a anotação `@HystrixCommand` para configurar um circuit breaker na chamada do método de recuperação dos nomes das disciplinas
 ```java
-class AlunoDTO {
-  String nome;
-  String email;
-  Integer matricula;
-  List<String> disciplinas;
-  // getters/setters
-}
-```
-- Implemente um REST endpoint para consultar e retornar o DTO do aluno com as disciplinas
-- Para acessar o serviço de disciplinas, utilize o `RestTemplate` configurado anteriormente
-```java
-    @Autowired RestTemplate
-    //...
-    restTemplate.getForEntity("http://disciplina-service/disciplinas/nomes",
-        List.class);
-```
-- Execute e teste a aplicação com apenas uma instância do `disciplina-service`
-- Experimente subir mais de uma instância do `disciplina-service` e teste a aplicação
-  - DICA: Para subir mais de uma instância utilize a variável de ambiente `-Dserver.port`
-    - `spring-boot:run -Dserver.port=18081`
-- Execute novamente a aplicação e observe qual a(s) instância(s) que são localizadas durante a execução
-  - DICA: Ative o `spring.jpa.show-sql` para facilitar a identificação de qual instância está sendo executada
-- Experimente derrubar uma instância do `disciplina-service` durante a execução e teste o mecanismo de tolerância à falhas
-  - A configuração Ribbon client conseguiu identificar e recuperar essa falha?
-
-### Implemente Ribbon client (com o Eureka server)
-- Utilize os projetos definidos no exercício anterior
-- Adicione a dependência `spring-cloud-starter-ribbon` no projeto do `disciplina-service`
-```xml
-  <dependency>
-      <groupId>org.springframework.cloud</groupId>
-      <artifactId>spring-cloud-starter-ribbon</artifactId>
-  </dependency>
-```
-- Configure um bean `RestTemplate` com a anotação `@LoadBalanced` na aplicação, caso não esteja configurado
-```java
-  @LoadBalanced @Bean
-  RestTemplate restTemplate(){
-      return new RestTemplate();
+  @HystrixCommand(fallbackMethod = "getNomesDisciplinasFallback")
+  public List<String> getNomesDisciplinas() {
+      // ...
   }
 ```
-- Verifique se os projetos `disciplina-service` e `aluno-service` estão registrando-se corretamente no Eureka Server
-  - DICA: Habilite novamente o `@EnableDiscoveryClient` no `aluno-service`, caso tenha desabilitado no exercício anterior
-- Modifique a implementação do REST endpoint para retornar o `DisciplinaDTO` para buscar os alunos via `RestTemplate`
-  - Neste caso, não deve-se utilizar a configuração `ribbon.listOfServers` nas propriedades do serviço de `Disciplina`
-  - Essa lista deverá ser retornada dinâmicamente do registro no Eureka Server
+- Configure as seguintes propriedades para o Hystrix Command utilizando anotação `@HystrixProperty`
+  - `execution.isolation.strategy` = THREAD
+  - `circuitBreaker.requestVolumeThreshold` = 5
+  - `requestCache.enabled` = false
+- Configure também as seguintes propriedades para o comportamento do Hystrix thread pool
+  - `coreSize` = 5
+  - `maximumSize` = 5
+```java
+@HystrixCommand(fallbackMethod = "getNomesDisciplinasFallback",
+  commandProperties = {
+      @HystrixProperty(name="execution.isolation.strategy", value="THREAD"),
+      @HystrixProperty(name="circuitBreaker.requestVolumeThreshold", value="5"),
+      @HystrixProperty(name="requestCache.enabled", value="false"),
+  },threadPoolProperties = {
+      @HystrixProperty(name="coreSize", value="5"),
+      @HystrixProperty(name="maximumSize", value="5")
+  })
+```
+- Injete o objeto `DisciplinaServiceProxy` no REST controller, e utilize para acessar os nomes das disciplinas
 - Execute e teste a aplicação
-  - Realize os mesmos testes de execução com múltiplas instâncias e tolerância à falhas realizado no exercício anterior
+  - Tente realizar mais de 5 chamadas consecutivas ao circuito definido
+  - Verifique se o circuito foi aberto acessando o `/health` status do serviço
+    - http://localhost:8080/health
+    - Caso não apareça as informações, tente desabilitar a proteção de segurança via `management.security.enabled` = false     
+
+
+### Implemente um circuit breaker via Feign Hystrix fallback
+- Utilize os projetos definidos anteriormente
+- Adicione a dependência `spring-cloud-starter-hystrix` no projeto da `disciplina-service`
+```xml
+  <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-hystrix</artifactId>
+  </dependency>
+```
+- Ative a configuração do Hystrix utilizando a anotação `@EnableCircuitBreaker` na aplicação
+```java
+  @@EnableCircuitBreaker
+  @SpringBootApplication
+  public class Application {
+      public static void main(String[] args) {
+          SpringApplication.run(Application.class, args);
+      }
+  }
+```
+- Implemente uma classe `AlunoClientFallback` fornecendo uma implementação de fallback para cada método definido na interface Feign `AlunoClient`
+```java
+  @Component
+  public class AlunoClientFallback implements AlunoClient {
+      // TODO
+  }
+```
+- Configure a implementação deste fallback na interface Feign do `AlunoClient`
+```java
+  @FeignClient(name = "aluno-service", fallback = AlunoClientFallback.class)
+  public interface AlunoClient {
+      // ...
+  }
+```
+- Configure a propriedade `feign.hystrix.enabled` nas configurações da `disciplina-service`
+```
+feign:
+  hystrix:
+    enabled: true
+```
+- Configure as seguintes propriedades para o Hystrix Command nas propriedades do Config Server
+  - `execution.isolation.strategy` = SEMAPHORE
+  - `execution.isolation.semaphore.maxConcurrentRequests` = 5
+  - `fallback.isolation.semaphore.maxConcurrentRequests` = 5
+  - `circuitBreaker.requestVolumeThreshold` = 5
+```
+hystrix:
+  command:
+    AlunoClient#getAllAlunos():
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          semaphore:
+            maxConcurrentRequests: 5
+      fallback:
+        isolation:
+          semaphore:
+            maxConcurrentRequests: 5
+      circuitBreaker:
+        requestVolumeThreshold: 5
+```
+- Execute e teste a aplicação
+
+### Monitore um circuit breaker com Hystrix Dashboard
+- Utilize os projetos definidos no exercício anterior
+- Crie um novo projeto Spring Boot para representar o Hystrix Dashboard
+- Configure o suporte da plataforma Spring Cloud no `pom.xml`
+```xml
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>Dalston.SR1</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+```
+- Adicione a dependência `spring-cloud-starter-hystrix-dashboard` no seu projeto
+```xml
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-hystrix-dashboard</artifactId>
+    </dependency>
+```
+- Adicione a anotação `@EnableHystrixDashboard` na classe `Application`
+```java
+@EnableHystrixDashboard
+@SpringBootApplication
+public class Application {
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+}
+```
+- Adicione a configuração do novo serviço Hystrix Dashboard no Config Server
+```
+server:
+  port: ${PORT:7979}
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+  instance:
+    preferIpAddress: true
+```
+- Não se esqueça de configurar o `bootstrap.yml` na aplicação para se conectar com o Config Server
+```
+spring:
+  application:
+    name: hystrix-dashboard
+  cloud:
+    config:
+      uri: http://localhost:8888  
+```
+- Adicione também a dependência do `spring-cloud-starter-config` no projeto
+- Execute e teste a aplicação
+  - http://localhost:7979/hystrix
+  - Para monitorar circuitos de algum serviço, é necessário adicionar a seguinte URL na tela de configuração
+    - http://localhost:8080/hystrix.stream (`aluno-service`)
+    - http://localhost:8081/hystrix.stream (`disciplina-service`)
+  - É necessário realizar alguns acessos aos circuitos para ativar o monitoramento
+
+### [OPCIONAL]: Monitore todos os circuit breakers via Turbine
+- Utilize os projetos definidos anteriormente
+- Adicione a dependência `spring-cloud-starter-turbine` no projeto do `hystrix-dashboard`
+```xml
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-turbine</artifactId>
+    </dependency>
+```
+- Adicione a anotação `@EnableTurbine` na classe `Application`
+```java
+@EnableTurbine
+@SpringBootApplication
+public class Application {
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+}
+```
+- Configure o cluster Turbine para monitoramento nas propriedades da aplicação
+```
+turbine:
+  appConfig: aluno-service,disciplina-service
+  clusterNameExpression: "'default'"    
+```
+- Execute e teste a aplicação
+  - http://localhost:7979/hystrix
+  - Utilize a seguinte URL na configuração do dashboard para monitorar todos os circuitos dos serviços no cluster
+    - http://localhost:7979/turbine.stream

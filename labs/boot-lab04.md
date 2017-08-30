@@ -69,7 +69,7 @@ spring.datasource.url=jdbc:h2:mem:alunodb
   - DICA: Utilize as anotações `@Data`, `@NoArgsConstructor`, `@AllArgsConstructor`, `@Builder`, `@EqualsAndHashcode`, `@ToString`
 - Execute e teste a aplicação
 
-### Implemente uma classe de teste para o repositório JPA
+### [OPCIONAL]: Implemente uma classe de teste para o repositório JPA
 - Utilize o projeto defindo anteriormente
 - Implemente uma classe de teste para o `AlunoRepository`
 - Utilize a configuração `@DataJpaTest` para facilitar a implementação do unit test

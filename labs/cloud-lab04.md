@@ -1,75 +1,94 @@
 # Laboratório 04
 
 ## Objetivos
-- Ativando o suporte à replicação com Netflix Eureka
+- Implementando clientes REST com Netflix Feign
 
 ## Tarefas
 
-### Configure replicação no Eureka Server
+### Implemente clientes REST com Feign
 - Utilize os projetos definidos no exercício anterior
-- Adicione as configurações de suporte à replicação para réplica `peer1 ` e réplica `peer2` na configuração do Eureka Server
+- Adicione a dependência `spring-cloud-starter-feign` nos projetos do `aluno-service` e `disciplina-service`
+```xml
+  <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-feign</artifactId>
+  </dependency>
 ```
-...
----
-spring:
-  profiles: peer1
-
-server:
-  port: 8762
-
-eureka:
-  instance:
-    hostname: peer1
-  client:
-    serviceUrl:
-      defaultZone: http://peer2:8763/eureka/  
-
----
-spring:
-  profiles: peer2
-
-server:
-  port: 8763
-
-eureka:
-  instance:
-    hostname: peer2
-  client:
-    serviceUrl:
-      defaultZone: http://peer1:8762/eureka/  
+- Ative a configuração do Feign utilizando a anotação `@EnableFeignClients` nas aplicações
+```java
+  @EnableFeignClients
+  @SpringBootApplication
+  public class Application {
+      public static void main(String[] args) {
+          SpringApplication.run(Application.class, args);
+      }
+  }
 ```
-- Configure os hostnames `peer1` e `peer2` no registro DNS do sistema operacional
-```
-127.0.0.1       peer1
-127.0.0.1       peer2
-```
-- Realize essa configuração de acordo com cada sistema operacional
-  - Windows
-    - `C:\windows\system32\drivers\etc\hosts`
-  - Linux
-    - `/etc/hosts`
-  - Mac OS
-    - `/etc/hosts`
-- Execute as duas réplicas Eureka e verifique a conexão sendo realizada via console
-  - Não se esqueça de rodar cada réplica com seu profile específico definido (`peer1`, `peer2`)
-    - `mvn spring-boot:run -Dspring.profiles.active=[profile]`
+- Implemente uma Feign interface para recuperar as disciplinas no projeto do `aluno-service`
+```java
+  @FeignClient("disciplina-service")
+  public interface DisciplinaClient {
 
-### Registre o(s) Eureka Client(s) em uma instância diferente do Eureka Server
+      @RequestMapping(value = "/disciplinas", method = RequestMethod.GET)
+      Resources<DisciplinaDTO> getAllDisciplinas();
+
+      @RequestMapping(value = "/disciplinas/{id}/dto", method = RequestMethod.GET)
+      DisciplinaDTO getDisciplina(@PathVariable("id") Long id);
+  }
+```
+- Refatore o REST endpoint para retornar o `AlunoDTO` com as disciplinas utilizando o client Feign definido
+- Implemente uma interface Feign para recuperar os alunos no projeto `disciplina-service`
+```java
+  @FeignClient("aluno-service")
+  public interface AlunoClient {
+
+      @RequestMapping(value = "/alunos", method = RequestMethod.GET)
+      Resources<AlunoDTO> getAllAlunos();
+
+      @RequestMapping(value = "/alunos/{id}/dto", method = RequestMethod.GET)
+      AlunoDTO getAluno(@PathVariable("id") Long id);
+  }
+```
+- Refatore o REST endpoint para retornar a `DisciplinaDTO` com os alunos utilizando o client Feign definido
+- Execute e teste a aplicação
+
+### Customize as configurações do Feign na aplicação
 - Utilize os projetos definidos anteriormente
-- Analise a configuração definida pelos projetos para conexão com o Eureka Server
+- Defina uma classe de customização de configurações Feign `FeignConfiguration`
+```java
+  @Configuration
+  public class FeignConfiguration {  
+      // ...
+  }
 ```
-spring:
-  application:
-    name: [service]
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
-  instance:
-    preferIpAddress: true
+- Configure um nível de log `FULL` como padrão para os Feign clients
+```java
+  @Bean
+  Logger.Level feignLoggerLevel() {
+      return Logger.Level.FULL;
+  }
 ```
-- Execute a aplicação utilizando a variável de ambiente `EUREKA_URI` para informar a réplica do Eureka Server à ser registrado
-  - `spring-boot:run -DEUREKA_URI=http://peer1:8762/eureka`
-  - `spring-boot:run -DEUREKA_URI=http://peer2:8763/eureka`
-- Verifique se a aplicação foi registrada corretamente na réplica definida e se a mesma foi replicada para a outra instância do cluster Eureka definido
+- Habilite também um nível de log específico somente para o client Feign `DisciplinaClient`
+```
+logging:
+  level:
+    cloud.aluno.DisciplinaClient: DEBUG
+```
+- Configure um novo comportamento para timeout de conexões das requisições
+```java
+  int FIVE_SECONDS = 5000; // milliseconds
+  @Bean
+  public Request.Options options() {
+      return new Request.Options(FIVE_SECONDS, FIVE_SECONDS);
+  }
+```
+- Habilite também a compressão da requisição e resposta à ser realizada
+```
+feign:
+  compression:
+    request:
+      enabled: true
+    response:
+      enabled: true  
+```
+- Execute e teste a aplicação
