@@ -33,31 +33,11 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-		clients.inMemory()
-			// Resource Owner Password
-			.withClient("client-password")
-				.secret("secret")
-				.authorizedGrantTypes("password")
-				.scopes("oauth2")
-				.autoApprove(true).and()
-			// Client Credentials
-			.withClient("client-credentials")
-	           .secret("secret")
-	           .authorizedGrantTypes("client_credentials")
-	           .scopes("oauth2")
-	           .autoApprove(true).and()
-	        // Authorization Code
-           .withClient("client-auth-code")
-	           .secret("secret")
-	           .authorizedGrantTypes("authorization_code")
-	           .scopes("oauth2")
-	           .autoApprove(true).and()
-	        // Implicit
-           .withClient("client-implicit")
-	           .secret("secret")
-	           .authorizedGrantTypes("implicit")
-	           .scopes("oauth2")
-	           .autoApprove(true);
+		clients.inMemory().withClient("client")
+           .secret("secret")
+           .authorizedGrantTypes("password", "client_credentials", "authorization_code", "implicit")
+           .scopes("oauth2")
+           .autoApprove(true) ;
 	}
 
 	@Override
