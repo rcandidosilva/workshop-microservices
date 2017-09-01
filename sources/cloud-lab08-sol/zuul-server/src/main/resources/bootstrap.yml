@@ -3,6 +3,4 @@ spring:
     name: zuul-server
   cloud:
     config:
-      uri: http://localhost:8888
-      username: configUser
-      password: configPassword        
+      uri: http://localhost:8888    
