@@ -126,7 +126,7 @@ server:
 eureka:
   client:
     serviceUrl:
-      defaultZone: ${EUREKA_URI:http://localhost:9999/eureka}
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
   instance:
     preferIpAddress: true
 
@@ -164,7 +164,7 @@ spring:
     - `http://client:secret@localhost:9999/oauth/token?grant_type=password&username=barry&password=t0ps3cr3t`
     - Verifique como resultado o OAuth2 `access_token` retornado via username / password
   - Execute a seguinte requisição HTTP POST
-    - `http://client-credentials:secret@localhost:9999/oauth/token?grant_type=client_credentials`
+    - `http://client:secret@localhost:9999/oauth/token?grant_type=client_credentials`
     - Verifique como resultado o OAuth2 `access_token` retornado via client credentials
 
 ### Adicione o suporte JWT no serviço de segurança
