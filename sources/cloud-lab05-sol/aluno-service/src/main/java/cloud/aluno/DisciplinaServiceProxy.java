@@ -27,7 +27,10 @@ public class DisciplinaServiceProxy {
 					@HystrixProperty(name="maximumSize", value="5")
 			})
 	List<String> getNomesDisciplinas() {
-		Resources<DisciplinaDTO> disciplinas = disciplinaClient.getAllDisciplinas();
+		
+		Resources<DisciplinaDTO> disciplinas = 
+				disciplinaClient.getAllDisciplinas();
+		
 		return disciplinas.getContent().stream()
 				.map(d -> d.getNome()).collect(Collectors.toList());
 	}
