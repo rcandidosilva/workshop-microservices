@@ -66,8 +66,6 @@ spring:
   cloud:
     config:
       uri: http://localhost:8888
-      username: configUser
-      password: configPassword
 ```
 - Execute e teste a aplicação
   - Tente acessar os serviços do `aluno-service` e `disciplina-service` via Zuul proxy server
